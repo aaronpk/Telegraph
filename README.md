@@ -31,7 +31,7 @@ Content-type: application/json
 }
 ```
 
-#### Success 
+#### Success
 
 If the initial validation succeeds, Telegraph will queue the webmention for sending and return a success response, including a URL you can check for status updates. This URL will be returned even if you also provide a callback URL. The URL will be available in both the `Location` header as well as in the JSON response.
 
@@ -46,7 +46,7 @@ Location: https://telegraph.p3k.io/webmention/xxxxxxxx
 }
 ```
 
-### Callback Events 
+### Callback Events
 After Telegraph processes your request, you will receive a post to the callback URL. The initial callback you receive will be one of the following status codes:
 
 * `not_supported` - no webmention or pingback endpoint found
@@ -65,3 +65,6 @@ A callback from Telegraph will include the following post body parameters:
 * `target` - the URL you linked to
 * `code` - one of the status codes above, e.g. `webmention_queued`
 
+## Credits
+
+Telegraph photo: https://www.flickr.com/photos/nostri-imago/3407786186
