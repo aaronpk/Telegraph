@@ -4,9 +4,177 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5cc37d4bc843c6cbd92dc660ef9e71d8",
-    "content-hash": "07f934dcf7d5e224f6c980c51525aa81",
+    "hash": "5630557b773b8342de2ebfcfbe23f013",
+    "content-hash": "88dfc4a35925d318e92d4881b37d70a0",
     "packages": [
+        {
+            "name": "barnabywalters/mf-cleaner",
+            "version": "v0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
+                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
+                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php": ">=5.3",
+                "phpunit/phpunit": "*"
+            },
+            "suggest": {
+                "mf2/mf2": "To parse microformats2 structures from (X)HTML"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/BarnabyWalters/Mf2/Functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barnaby Walters",
+                    "email": "barnaby@waterpigs.co.uk"
+                }
+            ],
+            "description": "Cleans up microformats2 array structures",
+            "time": "2014-10-06 23:11:15"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
+                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2015-07-22 18:31:08"
+        },
+        {
+            "name": "indieauth/client",
+            "version": "0.1.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indieweb/indieauth-client-php.git",
+                "reference": "6504ed0d4714084e9955f639d6e5cf4e976f9038"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/6504ed0d4714084e9955f639d6e5cf4e976f9038",
+                "reference": "6504ed0d4714084e9955f639d6e5cf4e976f9038",
+                "shasum": ""
+            },
+            "require": {
+                "barnabywalters/mf-cleaner": "0.*",
+                "indieweb/link-rel-parser": "0.1.1",
+                "mf2/mf2": "0.2.*",
+                "php": ">5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "IndieAuth": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Parecki",
+                    "homepage": "http://aaronparecki.com"
+                }
+            ],
+            "description": "IndieAuth Client Library",
+            "time": "2015-08-30 22:29:40"
+        },
+        {
+            "name": "indieweb/link-rel-parser",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indieweb/link-rel-parser-php.git",
+                "reference": "9e0e635fd301a8b1da7bc181f651f029c531dbb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indieweb/link-rel-parser-php/zipball/9e0e635fd301a8b1da7bc181f651f029c531dbb6",
+                "reference": "9e0e635fd301a8b1da7bc181f651f029c531dbb6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/IndieWeb/link_rel_parser.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Parecki",
+                    "homepage": "http://aaronparecki.com"
+                },
+                {
+                    "name": "Tantek Çelik",
+                    "homepage": "http://tantek.com"
+                }
+            ],
+            "description": "Parse rel values from HTTP headers",
+            "homepage": "https://github.com/indieweb/link-rel-parser-php",
+            "keywords": [
+                "http",
+                "indieweb",
+                "microformats2"
+            ],
+            "time": "2013-12-23 00:14:58"
+        },
         {
             "name": "indieweb/mention-client",
             "version": "1.0.0",

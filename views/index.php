@@ -153,7 +153,7 @@ $menu = [
     <?php endforeach; ?>
     <div class="right menu">
       <div class="item">
-        <a class="ui button">Log in</a>
+        <a class="ui button" href="/login">Log in</a>
       </div>
     </div>
   </div>
@@ -164,7 +164,7 @@ $menu = [
   <?php foreach($menu as $href=>$name): ?>
     <a class="item" href="<?= $href ?>"><?= $name ?></a>
   <?php endforeach; ?>
-  <a class="item">Login</a>
+  <a class="item" href="/login">Login</a>
 </div>
 
 
@@ -191,7 +191,7 @@ $menu = [
         Telegraph
       </h1>
       <h2>Easily send Webmentions from your website</h2>
-      <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
+      <a class="ui huge primary button" href="/login">Get Started <i class="right arrow icon"></i></a>
     </div>
 
   </div>
@@ -201,7 +201,7 @@ $menu = [
       <div class="row">
         <div class="eight wide column">
           <h3 class="ui header">We send webmentions for you</h3>
-          <p>Let Telegraph send webmentions for you. With a simple API, Telegraph will handle sending webmentions to other websites. Let Telegraph handle webmention discovery, and retrying on temporary failures. Telegraph will notify your site when a webmention was successfully sent.</p>
+          <p>Let Telegraph send webmentions for you. With a simple API, Telegraph will handle sending webmentions to other websites. Let us handle webmention discovery, and retrying on temporary failures. Telegraph will notify your site when a webmention was successfully sent.</p>
           <h3 class="ui header">Send webmentions automatically</h3>
           <p>You can even let Telegraph subscribe to your feed, and it will send webmentions whenever you publish a new post.</p>
         </div>

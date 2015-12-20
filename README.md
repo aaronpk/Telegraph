@@ -68,3 +68,5 @@ A callback from Telegraph will include the following post body parameters:
 ## Credits
 
 Telegraph photo: https://www.flickr.com/photos/nostri-imago/3407786186
+
+Telegraph icon: https://thenounproject.com/search/?q=telegraph&i=22058
