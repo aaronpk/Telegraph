@@ -6,18 +6,24 @@
     "indieauth/client": "0.1.*",
     "firebase/php-jwt": "~3.0",
     "league/route": "~1.2",
-    "league/plates": "~3.1"
+    "league/plates": "~3.1",
+    "j4mie/idiorm": "1.5.*"
   },
   "require-dev": {
 		"phpunit/phpunit": "*"
 	},
   "autoload": {
     "files": [
-      "config.php",
       "lib/helpers.php",
+      "lib/HTTP.php",
       "controllers/Controller.php",
       "controllers/Auth.php",
       "controllers/API.php"
+    ]
+  },
+  "autoload-dev": {
+    "files": [
+      "lib/HTTPTest.php"
     ]
   }
 }

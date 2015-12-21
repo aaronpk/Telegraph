@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<phpunit
+  bootstrap="tests/bootstrap.php"
+  beStrictAboutTestsThatDoNotTestAnything="true">
+  <php>
+    <env name="ENV" value="test"/>
+  </php>
+  <testsuites>
+    <testsuite name="comments">
+      <directory suffix="Test.php">tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

@@ -29,7 +29,7 @@ class Controller {
     }
 
     $response->setContent(view('dashboard', [
-      'title' => 'Dashboard'
+      'title' => 'Telegraph Dashboard'
     ]));
     return $response;
   }

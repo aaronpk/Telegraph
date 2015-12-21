@@ -15,8 +15,11 @@ The Telegraph API will validate the parameters and then queue the webmention for
 The API will first make an HTTP request to the source URL, and look for a link to the target on the page. This happens synchronously so you will get this error reply immediately.
 
 #### Errors
+* `authentication_required` - the token parameter was missing
+* `invalid_token` - the token was invalid or expired
 * `missing_parameters` - one or more of the three parameters were not in the request
 * `invalid_parameter` - one or more of the parameters were invalid, e.g. the target was not a valid URL
+* `source_not_html` - the source document could not be parsed as HTML (only in extreme cases, most of the time it just accepts whatever)
 * `no_link_found` - the link to the target URL was not found on the source document
 
 An error response in this case will be returned with an HTTP 400 status code an a JSON body:
@@ -63,7 +66,7 @@ If the webmention endpoint provides status updates, either through a status URL 
 A callback from Telegraph will include the following post body parameters:
 * `source` - the URL of your post
 * `target` - the URL you linked to
-* `code` - one of the status codes above, e.g. `webmention_queued`
+* `status` - one of the status codes above, e.g. `webmention_queued`
 
 ## Credits
 
