@@ -20,9 +20,9 @@ class HTTPTest {
   }
 
   private static function _read_file($url) {
-    $filename = dirname(__FILE__).'/../tests/data/'.preg_replace('/https?:\/\//', '', $url);
+    $filename = dirname(__FILE__).'/../../tests/data/'.preg_replace('/https?:\/\//', '', $url);
     if(!file_exists($filename)) {
-      $filename = dirname(__FILE__).'/../tests/data/404.response.txt';
+      $filename = dirname(__FILE__).'/../../tests/data/404.response.txt';
     }
     $response = file_get_contents($filename);
 

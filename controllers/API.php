@@ -125,7 +125,7 @@ class API {
     $w->callback = $callback;
     $w->save();
 
-    
+    q()->queue('Telegraph\Webmention', 'send', [$w->id]);
 
     $statusURL = Config::$base . 'webmention/' . $w->token;
 
