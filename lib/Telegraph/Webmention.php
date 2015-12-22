@@ -57,6 +57,13 @@ class Webmention {
 
     if(in_array($response['code'], [200,201,202])) {
       $status = 'webmention_accepted';
+
+      // Check if the endpoint returned a status URL
+      if(array_key_exists('Location', $response['headers'])) {
+        $webmention->webmention_status_url = \Mf2\resolveUrl($endpoint, $response['headers']['Location']);
+        $webmention->save();
+      }
+
     } else {
       $status = 'webmention_error';
     }

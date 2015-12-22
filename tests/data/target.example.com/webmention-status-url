@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Wed, 09 Dec 2015 03:29:14 GMT
+Content-Type: text/html; charset=utf-8
+Connection: keep-alive
+
+<html>
+  <head>
+    <title>Test</title>
+    <link rel="webmention" href="http://webmention.example.com/success-with-status">
+  </head>
+  <body class="h-entry">
+    <p class="e-content">This has a webmention endpoint that will return a status URL</p>
+  </body>
+</html>

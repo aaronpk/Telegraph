@@ -1,0 +1,8 @@
+HTTP/1.1 201 Created
+Server: Apache
+Date: Wed, 09 Dec 2015 03:29:14 GMT
+Content-Type: text/plain; charset=utf-8
+Connection: keep-alive
+Location: /webmention/1000
+
+Webmention was accepted

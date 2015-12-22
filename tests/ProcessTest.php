@@ -72,6 +72,8 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
     ]);
     $status = $this->webmentionStatus($webmention->id);
     $this->assertEquals($status->status, 'pingback_accepted');
+    $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
+    $this->assertEquals('http://pingback.example.com/success', $webmention->pingback_endpoint);
   }
 
   public function testPingbackFailed() {
@@ -96,8 +98,45 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($status->status, 'webmention_accepted');
   }
 
-  public function testWebmentionFailed() {
+  public function testWebmentionSucceeds() {
+    $this->_createExampleAccount();
+    $webmention = $this->webmention([
+      'token' => 'a',
+      'source' => 'http://source.example.com/webmention-success',
+      'target' => 'http://target.example.com/webmention-success'
+    ]);
+    $status = $this->webmentionStatus($webmention->id);
+    $this->assertEquals($status->status, 'webmention_accepted');
+    $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
+    $this->assertEquals('http://webmention.example.com/success', $webmention->webmention_endpoint);
+  }
 
+  public function testSavesWebmentionStatusURL() {
+    $this->_createExampleAccount();
+    $webmention = $this->webmention([
+      'token' => 'a',
+      'source' => 'http://source.example.com/webmention-status-url',
+      'target' => 'http://target.example.com/webmention-status-url'
+    ]);
+    $status = $this->webmentionStatus($webmention->id);
+    $this->assertEquals($status->status, 'webmention_accepted');
+    $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
+    $this->assertEquals('http://webmention.example.com/success-with-status', $webmention->webmention_endpoint);
+    // Make sure the status URL returned is an absolute URL
+    $this->assertEquals('http://webmention.example.com/webmention/1000', $webmention->webmention_status_url);
+  }
+
+  public function testWebmentionFailed() {
+    $this->_createExampleAccount();
+    $webmention = $this->webmention([
+      'token' => 'a',
+      'source' => 'http://source.example.com/webmention-failed',
+      'target' => 'http://target.example.com/webmention-failed'
+    ]);
+    $status = $this->webmentionStatus($webmention->id);
+    $this->assertEquals($status->status, 'webmention_error');
+    $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
+    $this->assertEquals('http://webmention.example.com/error', $webmention->webmention_endpoint);
   }
 
 }
