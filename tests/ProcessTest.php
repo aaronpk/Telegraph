@@ -4,11 +4,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProcessTest extends PHPUnit_Framework_TestCase {
 
-  private $client;
+  private $http;
+  private $api;
 
   public function setUp() {
-    $this->client = new API();
-    $this->client->http = new Telegraph\HTTPTest();
+    $this->http = new Telegraph\HTTPTest();
+    $this->api = new API();
+    $this->api->http = $this->http;
     ORM::for_table('users')->raw_query('TRUNCATE users')->delete_many();
     ORM::for_table('roles')->raw_query('TRUNCATE roles')->delete_many();
     ORM::for_table('sites')->raw_query('TRUNCATE sites')->delete_many();
@@ -37,15 +39,15 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
   private function webmention($params) {
     $request = new Request($params);
     $response = new Response();
-    $response = $this->client->webmention($request, $response);
+    $response = $this->api->webmention($request, $response);
     $webmention = ORM::for_table('webmentions')->where(['source' => $params['source'], 'target' => $params['target']])->find_one();
     $client = new IndieWeb\MentionClientTest();
     $client::$dataDir = dirname(__FILE__) . '/data/';
     if(!is_object($webmention)) {
       throw new Exception("No webmention was queued for this test");
     }
-    Telegraph\Webmention::send($webmention->id, $client);
-    return $webmention;
+    $callback = Telegraph\Webmention::send($webmention->id, $client, $this->http);
+    return [$webmention, $callback];
   }
 
   private static function webmentionStatus($id) {
@@ -54,7 +56,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testNoEndpoint() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/no-endpoint',
       'target' => 'http://target.example.com/no-endpoint'
@@ -65,7 +67,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testPingbackSuccess() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/pingback-success',
       'target' => 'http://target.example.com/pingback-success'
@@ -78,7 +80,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testPingbackFailed() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/pingback-failed',
       'target' => 'http://target.example.com/pingback-failed'
@@ -89,7 +91,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testWebmentionTakesPriorityOverPingback() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/webmention-and-pingback',
       'target' => 'http://target.example.com/webmention-success'
@@ -100,7 +102,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testWebmentionSucceeds() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/webmention-success',
       'target' => 'http://target.example.com/webmention-success'
@@ -113,7 +115,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testSavesWebmentionStatusURL() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/webmention-status-url',
       'target' => 'http://target.example.com/webmention-status-url'
@@ -128,7 +130,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
 
   public function testWebmentionFailed() {
     $this->_createExampleAccount();
-    $webmention = $this->webmention([
+    list($webmention, $callback) = $this->webmention([
       'token' => 'a',
       'source' => 'http://source.example.com/webmention-failed',
       'target' => 'http://target.example.com/webmention-failed'
@@ -137,6 +139,21 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($status->status, 'webmention_error');
     $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
     $this->assertEquals('http://webmention.example.com/error', $webmention->webmention_endpoint);
+  }
+
+  public function testWebmentionStatusCallback() {
+    $this->_createExampleAccount();
+    list($webmention, $callback) = $this->webmention([
+      'token' => 'a',
+      'source' => 'http://source.example.com/webmention-success',
+      'target' => 'http://target.example.com/webmention-success',
+      'callback' => 'http://source.example.com/callback'
+    ]);
+    $status = $this->webmentionStatus($webmention->id);
+    $this->assertEquals($status->status, 'webmention_accepted');
+    $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
+    $this->assertEquals('http://webmention.example.com/success', $webmention->webmention_endpoint);
+    $this->assertEquals('Callback was successful', trim($callback['body']));
   }
 
 }

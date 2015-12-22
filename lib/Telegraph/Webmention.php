@@ -5,9 +5,11 @@ use IndieWeb\MentionClient;
 
 class Webmention {
 
-  private static function saveStatus($webmentionID, $http_code, $code, $raw=null) {
+  private static $http = false;
+
+  private static function updateStatus($webmention, $http_code, $code, $raw=null) {
     $status = ORM::for_table('webmention_status')->create();
-    $status->webmention_id = $webmentionID;
+    $status->webmention_id = $webmention->id;
     $status->created_at = date('Y-m-d H:i:s');
     if($http_code)
       $status->http_code = $http_code;
@@ -15,9 +17,18 @@ class Webmention {
     if($raw)
       $status->raw_response = $raw;
     $status->save();
+
+    // Post to the callback URL if one is set
+    if($webmention->callback) {
+      return self::$http->post($webmention->callback, [
+        'source' => $webmention->source,
+        'target' => $webmention->target,
+        'status' => $code
+      ]);
+    }
   }
 
-  public static function send($id, $client=false) {
+  public static function send($id, $client=false, $http=false) {
     $webmention = ORM::for_table('webmentions')->where('id', $id)->find_one();
     if(!$webmention) {
       echo 'Webmention '.$id.' was not found'."\n";
@@ -26,6 +37,11 @@ class Webmention {
 
     if(!$client)
       $client = new MentionClient();
+
+    if(!$http)
+      $http = new Telegraph\HTTP();
+
+    self::$http = $http;
 
     // Discover the webmention or pingback endpoint
     $endpoint = $client->discoverWebmentionEndpoint($webmention->target);
@@ -36,16 +52,14 @@ class Webmention {
 
       // If no pingback endpoint was found, we can't do anything else
       if(!$pingbackEndpoint) {
-        self::saveStatus($id, null, 'not_supported');
-        return;
+        return self::updateStatus($webmention, null, 'not_supported');
       }
 
       $webmention->pingback_endpoint = $pingbackEndpoint;
       $webmention->save();
 
       $success = $client->sendPingbackToEndpoint($pingbackEndpoint, $webmention->source, $webmention->target);
-      self::saveStatus($id, null, ($success ? 'pingback_accepted' : 'pingback_error'));
-      return;
+      return self::updateStatus($webmention, null, ($success ? 'pingback_accepted' : 'pingback_error'));
     }
 
     // There is a webmention endpoint, send the webmention now
@@ -68,7 +82,7 @@ class Webmention {
       $status = 'webmention_error';
     }
 
-    self::saveStatus($webmention->id, $response['code'], $status, $response['body']);
+    return self::updateStatus($webmention, $response['code'], $status, $response['body']);
   }
 
 }
