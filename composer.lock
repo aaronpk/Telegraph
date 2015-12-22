@@ -177,16 +177,16 @@
         },
         {
             "name": "indieweb/mention-client",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/mention-client-php.git",
-                "reference": "4f07d535716f5b2eec05e33e9b3d6e33843a3b9a"
+                "reference": "0bc331432e0490cc739b8a99d808889555c8d587"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/4f07d535716f5b2eec05e33e9b3d6e33843a3b9a",
-                "reference": "4f07d535716f5b2eec05e33e9b3d6e33843a3b9a",
+                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/0bc331432e0490cc739b8a99d808889555c8d587",
+                "reference": "0bc331432e0490cc739b8a99d808889555c8d587",
                 "shasum": ""
             },
             "require": {
@@ -215,7 +215,7 @@
             ],
             "description": "Client library for sending webmention and pingback notifications",
             "homepage": "https://github.com/indieweb/mention-client-php",
-            "time": "2015-12-09 19:10:25"
+            "time": "2015-12-22 02:48:43"
         },
         {
             "name": "j4mie/idiorm",

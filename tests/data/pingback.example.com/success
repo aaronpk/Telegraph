@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Wed, 09 Dec 2015 03:29:14 GMT
+Content-Type: text/xml; charset=utf-8
+Connection: keep-alive
+
+<?xml version="1.0" ?>
+<methodResponse>
+  <params>
+    <param>
+      <value>
+        <string>pingback was successful</string>
+      </value>
+    </param>
+  </params>
+</methodResponse>
