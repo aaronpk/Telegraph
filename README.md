@@ -53,10 +53,9 @@ Location: https://telegraph.p3k.io/webmention/xxxxxxxx
 After Telegraph processes your request, you will receive a post to the callback URL. The initial callback you receive will be one of the following status codes:
 
 * `not_supported` - no webmention or pingback endpoint found
-* `webmention_queued` - webmention was queued for processing
-* `webmention_success` - webmention was successfully processed (for webmention endpoints which process synchronously)
+* `webmention_accepted` - the webmention request was accepted
 * `webmention_error` - the webmention endpoint returned an error code
-* `pingback_success` - pingback was received (pingback does not differentiate between when a request is queued or processed immediately)
+* `pingback_accepted` - pingback was accepted (pingback does not differentiate between when a request is queued or processed immediately)
 * `pingback_error` - the pingback endpoint returned an error code
 
 Typically, webmention endpoints defer processing until later, so normally the first callback received will indicate that the webmention was queued. This callback will normally be sent relatively quickly after you make the initial request, typically within a few seconds.

@@ -71,7 +71,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/pingback-success'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'pingback_success');
+    $this->assertEquals($status->status, 'pingback_accepted');
   }
 
   public function testPingbackFailed() {
@@ -83,6 +83,21 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
     ]);
     $status = $this->webmentionStatus($webmention->id);
     $this->assertEquals($status->status, 'pingback_error');
+  }
+
+  public function testWebmentionTakesPriorityOverPingback() {
+    $this->_createExampleAccount();
+    $webmention = $this->webmention([
+      'token' => 'a',
+      'source' => 'http://source.example.com/webmention-and-pingback',
+      'target' => 'http://target.example.com/webmention-success'
+    ]);
+    $status = $this->webmentionStatus($webmention->id);
+    $this->assertEquals($status->status, 'webmention_accepted');
+  }
+
+  public function testWebmentionFailed() {
+
   }
 
 }
