@@ -15,6 +15,7 @@ $router->addRoute('POST', '/webmention', 'API::webmention');
 $router->addRoute('GET', '/webmention/{code}', 'API::webmention_status');
 
 $router->addRoute('GET', '/login', 'Auth::login');
+$router->addRoute('GET', '/logout', 'Auth::logout');
 $router->addRoute('POST', '/login/start', 'Auth::login_start');
 $router->addRoute('GET', '/login/callback', 'Auth::login_callback');
 

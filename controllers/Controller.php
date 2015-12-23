@@ -6,7 +6,7 @@ class Controller {
 
   private function _is_logged_in(&$request, &$response) {
     session_start();
-    if(!array_key_exists('me', $_SESSION)) {
+    if(!array_key_exists('user_id', $_SESSION)) {
       session_destroy();
       $response->setStatusCode(302);
       $response->headers->set('Location', '/login?return_to='.$request->getPathInfo());

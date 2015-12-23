@@ -13,6 +13,17 @@ class Auth {
     return $response;
   }
 
+  public function logout(Request $request, Response $response) {
+    session_start();
+    if(array_key_exists('user_id', $_SESSION)) {
+      $_SESSION['user_id'] = null;
+      session_destroy();
+    }
+    $response->setStatusCode(302);
+    $response->headers->set('Location', '/login');
+    return $response;
+  }
+
   public function login_start(Request $request, Response $response) {
 
     if(!$request->get('url') || !($me = IndieAuth\Client::normalizeMeURL($request->get('url')))) {
@@ -102,9 +113,35 @@ class Auth {
     }
 
     // Create or load the user
+    $user = ORM::for_table('users')->where('url', $token['auth']['me'])->find_one();
+    if(!$user) {
+      $user = ORM::for_table('users')->create();
+      $user->url = $token['auth']['me'];
+      $user->created_at = date('Y-m-d H:i:s');
+      $user->last_login = date('Y-m-d H:i:s');
+      $user->save();
+
+      // Create a site for them with the default role
+      $site = ORM::for_table('sites')->create();
+      $site->name = 'My Website';
+      $site->created_by = $user->id;
+      $site->created_at = date('Y-m-d H:i:s');
+      $site->save();
+
+      $role = ORM::for_table('roles')->create();
+      $role->site_id = $site->id;
+      $role->user_id = $user->id;
+      $role->role = 'owner';
+      $role->token = random_string(32);
+      $role->save();
+
+    } else {
+      $user->last_login = date('Y-m-d H:i:s');
+      $user->save();
+    }
 
     session_start();
-    $_SESSION['me'] = $token['auth']['me'];
+    $_SESSION['user_id'] = $user->id;
     $response->setStatusCode(302);
     $response->headers->set('Location', ($state->return_to ?: '/dashboard'));
     return $response;

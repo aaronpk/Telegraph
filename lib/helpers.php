@@ -24,3 +24,13 @@ function q() {
   }
   return $caterpillar;
 }
+
+function random_string($len) {
+  $charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  $str = '';
+  $c = strlen($charset)-1;
+  for($i=0; $i<$len; $i++) {
+    $str .= $charset[mt_rand(0, $c)];
+  }
+  return $str;
+}
