@@ -34,3 +34,12 @@ function random_string($len) {
   }
   return $str;
 }
+
+function display_url($url) {
+  return preg_replace(['/^https?:\/\//','/\/$/'], '', $url);
+}
+
+function session($k, $default=null) {
+  if(!isset($_SESSION)) return $default;
+  return array_key_exists($k, $_SESSION) ? $_SESSION[$k] : $default;
+}
