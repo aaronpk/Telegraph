@@ -140,6 +140,8 @@ class Auth {
       $user->save();
     }
 
+    q()->queue('Telegraph\ProfileFetcher', 'fetch', [$user->id]);
+
     session_start();
     $_SESSION['user_id'] = $user->id;
     $response->setStatusCode(302);

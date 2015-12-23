@@ -3,6 +3,7 @@
     "php": ">=5.5",
     "mf2/mf2": "0.2.*",
     "indieweb/mention-client": "1.*",
+    "indieweb/representative-h-card": "0.1.*",
     "indieauth/client": "0.1.*",
     "firebase/php-jwt": "~3.0",
     "league/route": "~1.2",

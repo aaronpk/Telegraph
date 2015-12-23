@@ -42,12 +42,22 @@ class Controller {
       }
     }
 
-    $site = ORM::for_table('sites')->where_id_is($role->site_id);
+    $site = ORM::for_table('sites')->where_id_is($role->site_id)->find_one();
+
+    $webmentions = [];
+    foreach(ORM::for_table('webmentions')->where('site_id', $site->id)->find_many() as $m) {
+      $webmentions[] = [
+        'webmention' => $m,
+        'statuses' => ORM::for_table('webmention_status')->where('webmention_id', $m->id)->order_by_desc('created_at')->find_many()
+      ];
+    }
 
     $response->setContent(view('dashboard', [
       'title' => 'Telegraph Dashboard',
       'user' => $this->_user(),
-      'accounts' => $this->_accounts()
+      'accounts' => $this->_accounts(),
+      'site' => $site,
+      'webmentions' => $webmentions
     ]));
     return $response;
   }

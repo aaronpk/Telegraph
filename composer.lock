@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b33b0001cd49507ca593b5ac7a1c7f62",
-    "content-hash": "d16bb0e3e3c4ada5c5eb9cb1eb603d15",
+    "hash": "f093ab92ae4ced25546dcff30639c5d9",
+    "content-hash": "61bdf94447ac95a334eb26e591a7b4e3",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -216,6 +216,51 @@
             "description": "Client library for sending webmention and pingback notifications",
             "homepage": "https://github.com/indieweb/mention-client-php",
             "time": "2015-12-22 23:40:11"
+        },
+        {
+            "name": "indieweb/representative-h-card",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indieweb/representative-h-card-php.git",
+                "reference": "b70b01bd0dd7f2a940602137335dbf46ab6e2e38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indieweb/representative-h-card-php/zipball/b70b01bd0dd7f2a940602137335dbf46ab6e2e38",
+                "reference": "b70b01bd0dd7f2a940602137335dbf46ab6e2e38",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "mf2/mf2": "0.2.*",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/mf2/representative-h-card.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Parecki",
+                    "homepage": "http://aaronparecki.com"
+                }
+            ],
+            "keywords": [
+                "h-card",
+                "indieweb",
+                "mf2",
+                "microformats"
+            ],
+            "time": "2015-12-23 18:11:19"
         },
         {
             "name": "j4mie/idiorm",
