@@ -89,8 +89,32 @@ class Controller {
     return $response;
   }
 
-  public function webmention_details(Request $request, Response $response) {
+  public function webmention_details(Request $request, Response $response, $args) {
+    if(!$this->_is_logged_in($request, $response)) {
+      return $response;
+    }
 
+    // Look up the webmention by its token
+    $webmention = ORM::for_table('webmentions')->where('token', $args['code'])->find_one();
+
+    if(!$webmention) {
+      $response->setContent(view('not-found'));
+      return $response;
+    }
+
+    $site = ORM::for_table('sites')->where_id_is($webmention->site_id)->find_one();
+
+    $statuses = ORM::for_table('webmention_status')->where('webmention_id', $webmention->id)->order_by_desc('created_at')->find_many();
+
+    $response->setContent(view('webmention-details', [
+      'title' => 'Webmention Details',
+      'user' => $this->_user(),
+      'accounts' => $this->_accounts(),
+      'site' => $site,
+      'webmention' => $webmention,
+      'statuses' => $statuses
+    ]));
+    return $response;
   }
 
   private function _user() {

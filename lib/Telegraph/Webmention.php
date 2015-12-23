@@ -86,6 +86,9 @@ class Webmention {
       if(array_key_exists('Location', $response['headers'])) {
         $webmention->webmention_status_url = \Mf2\resolveUrl($endpoint, $response['headers']['Location']);
         // TODO: queue a job to poll the endpoint for updates and deliver to the callback URL
+      } else {
+        // No status URL was returned, so we can't follow up with this later. Mark as complete.
+        $webmention->complete = 1;
       }
 
     } else {
