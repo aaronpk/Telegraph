@@ -28,20 +28,21 @@ class Controller {
       return $response;
     }
 
-    // If there is an account in the query string, set the session variable and redirect back to the dashboard
-    if($request->get('account') || !session('account')) {
-      // Check that the user has permission to access this account
+    // Default to load their first site, but let the query string override it
+    $role = ORM::for_table('roles')->join('sites', 'roles.site_id = sites.id')
+      ->where('user_id', session('user_id'))->order_by_asc('sites.created_at')->find_one();
+
+    if($request->get('account')) {
       $role = ORM::for_table('roles')->where('user_id', session('user_id'))->where('site_id', $request->get('account'))->find_one();
+      // Check that the user has permission to access this account
       if(!$role) {
-        $role = ORM::for_table('roles')->join('sites', 'roles.site_id = sites.id')
-          ->where('user_id', session('user_id'))->order_by_asc('sites.created_at')->find_one();
+        $response->setStatusCode(302);
+        $response->headers->set('Location', '/dashboard');
+        return $response;
       }
-      $_SESSION['account'] = $role->site_id;
-      $response->setStatusCode(302);
-      $response->headers->set('Location', '/dashboard');
-      return $response;
     }
 
+    $site = ORM::for_table('sites')->where_id_is($role->site_id);
 
     $response->setContent(view('dashboard', [
       'title' => 'Telegraph Dashboard',
