@@ -13,6 +13,7 @@ $router->addRoute('GET', '/api', 'Controller::api');
 
 $router->addRoute('POST', '/webmention', 'API::webmention');
 $router->addRoute('GET', '/webmention/{code}', 'API::webmention_status');
+$router->addRoute('GET', '/webmention/{code}/details', 'Controller::webmention_details');
 
 $router->addRoute('GET', '/login', 'Auth::login');
 $router->addRoute('GET', '/logout', 'Auth::logout');

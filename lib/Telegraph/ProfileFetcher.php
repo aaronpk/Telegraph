@@ -9,7 +9,7 @@ class ProfileFetcher {
     $user = ORM::for_table('users')->where_id_is($id)->find_one();
     echo "Looking for representative h-card for ".$user->url."\n";
     $data = HTTP::get($user->url);
-    $parsed = Mf2\parse($data['body']);
+    $parsed = Mf2\parse($data['body'], $user->url);
     $representative = Mf2\HCard\representative($parsed, $user->url);
     if($representative) {
       echo "Found it!\n";

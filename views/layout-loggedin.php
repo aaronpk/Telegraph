@@ -3,7 +3,7 @@
 <div class="ui fixed inverted menu">
   <div class="ui container">
     <a href="/" class="header item">
-      <img class="logo" src="/assets/telegraph-logo-256.png">
+      <img class="logo" src="/assets/telegraph-icon-white.png">
       Telegraph
     </a>
     <a href="/dashboard" class="item">Dashboard</a>

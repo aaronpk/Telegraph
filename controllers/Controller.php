@@ -44,11 +44,38 @@ class Controller {
 
     $site = ORM::for_table('sites')->where_id_is($role->site_id)->find_one();
 
+    $query = ORM::for_table('webmentions')->where('site_id', $site->id)
+      ->order_by_desc('created_at')
+      ->limit(20)
+      ->find_many();
+
     $webmentions = [];
-    foreach(ORM::for_table('webmentions')->where('site_id', $site->id)->find_many() as $m) {
+    foreach($query as $m) {
+      $statuses = ORM::for_table('webmention_status')->where('webmention_id', $m->id)->order_by_desc('created_at')->find_many();
+      if(count($statuses) == 0) {
+        $icon = 'wait';
+        $status = 'pending';
+      } else {
+        $status = $statuses[0]->status;
+        switch($status) {
+          case 'success':
+          case 'accepted':
+            $icon = 'checkmark';
+            break;
+          case 'not_supported':
+          case 'error':
+            $icon = 'warning';
+            break;
+          default:
+            $icon = '';
+        }
+      }
+
       $webmentions[] = [
         'webmention' => $m,
-        'statuses' => ORM::for_table('webmention_status')->where('webmention_id', $m->id)->order_by_desc('created_at')->find_many()
+        'statuses' => $statuses,
+        'status' => $status,
+        'icon' => $icon
       ];
     }
 
@@ -60,6 +87,10 @@ class Controller {
       'webmentions' => $webmentions
     ]));
     return $response;
+  }
+
+  public function webmention_details(Request $request, Response $response) {
+
   }
 
   private function _user() {
