@@ -73,7 +73,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/pingback-success'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'pingback_accepted');
+    $this->assertEquals('accepted', $status->status);
     $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
     $this->assertEquals('http://pingback.example.com/success', $webmention->pingback_endpoint);
   }
@@ -86,7 +86,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/pingback-failed'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'pingback_error');
+    $this->assertEquals('error', $status->status);
   }
 
   public function testWebmentionTakesPriorityOverPingback() {
@@ -97,7 +97,10 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/webmention-success'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'webmention_accepted');
+    $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
+    $this->assertNotNull($webmention->webmention_endpoint);
+    $this->assertNull($webmention->pingback_endpoint);
+    $this->assertEquals('accepted', $status->status);
   }
 
   public function testWebmentionSucceeds() {
@@ -108,7 +111,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/webmention-success'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'webmention_accepted');
+    $this->assertEquals('accepted', $status->status);
     $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
     $this->assertEquals('http://webmention.example.com/success', $webmention->webmention_endpoint);
   }
@@ -121,7 +124,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/webmention-status-url'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'webmention_accepted');
+    $this->assertEquals('accepted', $status->status);
     $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
     $this->assertEquals('http://webmention.example.com/success-with-status', $webmention->webmention_endpoint);
     // Make sure the status URL returned is an absolute URL
@@ -136,7 +139,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'target' => 'http://target.example.com/webmention-failed'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'webmention_error');
+    $this->assertEquals('error', $status->status);
     $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
     $this->assertEquals('http://webmention.example.com/error', $webmention->webmention_endpoint);
   }
@@ -150,7 +153,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
       'callback' => 'http://source.example.com/callback'
     ]);
     $status = $this->webmentionStatus($webmention->id);
-    $this->assertEquals($status->status, 'webmention_accepted');
+    $this->assertEquals('accepted', $status->status);
     $webmention = ORM::for_table('webmentions')->where('id',$webmention->id)->find_one();
     $this->assertEquals('http://webmention.example.com/success', $webmention->webmention_endpoint);
     $this->assertEquals('Callback was successful', trim($callback['body']));

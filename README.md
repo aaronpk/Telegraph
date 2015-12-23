@@ -44,28 +44,84 @@ Content-type: application/json
 Location: https://telegraph.p3k.io/webmention/xxxxxxxx
 
 {
-  "result": "queued",
-  "status": "https://telegraph.p3k.io/webmention/xxxxxxxx"
+  "status": "queued",
+  "location": "https://telegraph.p3k.io/webmention/xxxxxxxx"
 }
 ```
 
-### Callback Events
-After Telegraph processes your request, you will receive a post to the callback URL. The initial callback you receive will be one of the following status codes:
+### Status API
 
-* `not_supported` - no webmention or pingback endpoint found
-* `webmention_accepted` - the webmention request was accepted
-* `webmention_error` - the webmention endpoint returned an error code
-* `pingback_accepted` - pingback was accepted (pingback does not differentiate between when a request is queued or processed immediately)
-* `pingback_error` - the pingback endpoint returned an error code
+You can poll the status URL returned after queuing a webmention for more information on the progress of sending the webmention. The response will look like the following:
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "status": "queued",
+  "summary": "The webmention is still in the processing queue.",
+  "location": "https://telegraph.p3k.io/webmention/xxxxxxxx"
+}
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "status": "no_link_found",
+  "summary": "No link was found from source to target"
+}
+```
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "status": "success",
+  "type": "webmention",
+  "endpoint":
+  "summary": "The webmention request was accepted.",
+  "location": "https://telegraph.p3k.io/webmention/xxxxxxxx"
+}
+```
+
+The possible fields that are returned are as follows:
+
+* `status` - One of the status codes listed below
+* `type` - optional - "webmention" or "pingback", depending on what was discovered at the target
+* `endpoint` - optional - The webmention or pingback endpoint that was discovered
+* `http_code` - optional - The HTTP code that the webmention or pingback endpoint returned
+* `summary` - optional - A human-readable summary of the status
+* `location` - optional - If present, you can continue checking this URL for status updates. If not present, no further information will be available about this request.
+
+Other possible status codes are listed below.
+
+* `accepted` - the webmention or pingback request was accepted (pingback does not differentiate between when a request is queued or processed immediately)
+* `success` - the webmention status endpoint indicated the webmention was successful after processing it
+* `not_supported` - no webmention or pingback endpoint was found at the target
+* `no_link_found` - no link was found from source to target
+
+Other status codes may be returned depending on the receiver's status endpoint. You should only assume a webmention was successfully sent if the status is `success` or `accepted`. If the response does not contain a `location` parameter you should not continue polling the endpoint.
+
+
+### Callback Events
+After Telegraph processes your request, you will receive a post to the callback URL. The initial callback you receive will be one of the status codes returned by the status API.
 
 Typically, webmention endpoints defer processing until later, so normally the first callback received will indicate that the webmention was queued. This callback will normally be sent relatively quickly after you make the initial request, typically within a few seconds.
 
 If the webmention endpoint provides status updates, either through a status URL or web hook, then Telegraph will deliver follow-up notifications when it gets updated information.
 
 A callback from Telegraph will include the following post body parameters:
+
 * `source` - the URL of your post
 * `target` - the URL you linked to
-* `status` - one of the status codes above, e.g. `webmention_queued`
+* `type` - "pingback" or "webmention" depending on what was discovered at the target
+* `status` - one of the status codes above, e.g. `accepted`
+* `location` - if further updates will be available, the status URL where you can check again in the future
+
+
 
 ## Credits
 

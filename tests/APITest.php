@@ -22,6 +22,12 @@ class APITest extends PHPUnit_Framework_TestCase {
     return $this->client->webmention($request, $response);
   }
 
+  private function status($code) {
+    $request = new Request();
+    $response = new Response();
+    return $this->client->webmention_status($request, $response, ['code'=>$code]);
+  }
+
   private function _createExampleAccount() {
     $user = ORM::for_table('users')->create();
     $user->url = 'http://example.com';
@@ -127,16 +133,31 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(201, $response->getStatusCode());
     $data = json_decode($response->getContent());
     $this->assertEquals(false, property_exists($data, 'error'));
-    $this->assertEquals('queued', $data->result);
-    $this->assertEquals(true, property_exists($data, 'status'));
+    $this->assertEquals('queued', $data->status);
+    $this->assertEquals(true, property_exists($data, 'location'));
 
-    preg_match('/\/webmention\/(.+)/', $data->status, $match);
+    preg_match('/\/webmention\/(.+)/', $data->location, $match);
     $this->assertNotNull($match);
 
     # Verify it queued the mention in the database
     $d = ORM::for_table('webmentions')->where(['source' => 'http://source.example.com/basictest', 'target' => 'http://target.example.com'])->find_one();
     $this->assertNotNull($d);
     $this->assertEquals($match[1], $d->token);
+
+    # Check the status endpoint to make sure it says it's still queued
+    $response = $this->status($d->token);
+    $this->assertEquals(200, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('queued', $data->status);
+  }
+
+  public function testStatusNotFound() {
+    $this->_createExampleAccount();
+
+    $response = $this->status('foo');
+    $this->assertEquals(404, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('not_found', $data->status);
   }
 
 }

@@ -10,8 +10,8 @@ class HTTP {
     $response = curl_exec($ch);
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     return array(
-      'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
-      'headers' => self::_parse_headers(trim(substr($response, 0, $header_size))),
+      'code' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+      'headers' => self::parse_headers(trim(substr($response, 0, $header_size))),
       'body' => substr($response, $header_size)
     );
   }
@@ -28,8 +28,8 @@ class HTTP {
     self::_debug($response);
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     return array(
-      'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
-      'headers' => self::_parse_headers(trim(substr($response, 0, $header_size))),
+      'code' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+      'headers' => self::parse_headers(trim(substr($response, 0, $header_size))),
       'body' => substr($response, $header_size)
     );
   }
@@ -42,8 +42,8 @@ class HTTP {
     if (self::$_proxy) curl_setopt($ch, CURLOPT_PROXY, self::$_proxy);
     $response = curl_exec($ch);
     return array(
-      'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
-      'headers' => self::_parse_headers(trim($response)),
+      'code' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+      'headers' => self::parse_headers(trim($response)),
     );
   }
 

@@ -130,11 +130,70 @@ class API {
     $statusURL = Config::$base . 'webmention/' . $w->token;
 
     return $this->respond($response, 201, [
-      'result' => 'queued',
-      'status' => $statusURL
+      'status' => 'queued',
+      'location' => $statusURL
     ], [
       'Location' => $statusURL
     ]);
+  }
+
+  public function webmention_status(Request $request, Response $response, $args) {
+
+    $webmention = ORM::for_table('webmentions')->where('token', $args['code'])->find_one();
+
+    if(!$webmention) {
+      return $this->respond($response, 404, [
+        'status' => 'not_found',
+      ]);
+    }
+
+    $status = ORM::for_table('webmention_status')->where('webmention_id', $webmention->id)->order_by_desc('created_at')->find_one();
+
+    $statusURL = Config::$base . 'webmention/' . $webmention->token;
+
+    if(!$status) {
+      $code = 'queued';
+    } else {
+      $code = $status->status;
+    }
+
+    $data = [
+      'status' => $code,
+    ];
+
+    if($webmention->webmention_endpoint) {
+      $data['type'] = 'webmention';
+      $data['endpoint'] = $webmention->webmention_endpoint;
+    }
+    if($webmention->pingback_endpoint) {
+      $data['type'] = 'pingback';
+      $data['endpoint'] = $webmention->pingback_endpoint;
+    }
+
+    switch($code) {
+      case 'queued':
+        $summary = 'The webmention is still in the processing queue';
+        break;
+      case 'not_supported':
+        $summary = 'No webmention or pingback endpoint were found at the target';
+        break;
+      case 'accepted':
+        $summary = 'The '.$data['type'].' request was accepted';
+        break;
+      default:
+        $summary = false;
+    }
+
+    if($status && $status->http_code)
+      $data['http_code'] = (int)$status->http_code;
+
+    if($summary)
+      $data['summary'] = $summary;
+
+    if($webmention->complete == 0)
+      $data['location'] = $statusURL;
+
+    return $this->respond($response, 200, $data);
   }
 
 }

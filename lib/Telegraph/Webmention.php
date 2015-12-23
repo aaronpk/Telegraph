@@ -20,11 +20,19 @@ class Webmention {
 
     // Post to the callback URL if one is set
     if($webmention->callback) {
-      return self::$http->post($webmention->callback, [
+      $payload = [
         'source' => $webmention->source,
         'target' => $webmention->target,
         'status' => $code
-      ]);
+      ];
+      if($webmention->webmention_endpoint) {
+        $payload['type'] = 'webmention';
+      }
+      if($webmention->pingback_endpoint) {
+        $payload['type'] = 'pingback';
+      }
+
+      return self::$http->post($webmention->callback, $payload);
     }
   }
 
@@ -39,7 +47,7 @@ class Webmention {
       $client = new MentionClient();
 
     if(!$http)
-      $http = new Telegraph\HTTP();
+      $http = new HTTP();
 
     self::$http = $http;
 
@@ -59,7 +67,7 @@ class Webmention {
       $webmention->save();
 
       $success = $client->sendPingbackToEndpoint($pingbackEndpoint, $webmention->source, $webmention->target);
-      return self::updateStatus($webmention, null, ($success ? 'pingback_accepted' : 'pingback_error'));
+      return self::updateStatus($webmention, null, ($success ? 'accepted' : 'error'));
     }
 
     // There is a webmention endpoint, send the webmention now
@@ -70,17 +78,22 @@ class Webmention {
     $response = $client->sendWebmentionToEndpoint($endpoint, $webmention->source, $webmention->target);
 
     if(in_array($response['code'], [200,201,202])) {
-      $status = 'webmention_accepted';
+      $status = 'accepted';
+
+      $webmention->complete = $response['code'] == 200 ? 1 : 0;
 
       // Check if the endpoint returned a status URL
       if(array_key_exists('Location', $response['headers'])) {
         $webmention->webmention_status_url = \Mf2\resolveUrl($endpoint, $response['headers']['Location']);
-        $webmention->save();
+        // TODO: queue a job to poll the endpoint for updates and deliver to the callback URL
       }
 
     } else {
-      $status = 'webmention_error';
+      $webmention->complete = 1;
+      $status = 'error';
     }
+
+    $webmention->save();
 
     return self::updateStatus($webmention, $response['code'], $status, $response['body']);
   }
