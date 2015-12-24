@@ -15,7 +15,7 @@ class Controller {
     if(!session('user_id')) {
       session_destroy();
       $response->setStatusCode(302);
-      $response->headers->set('Location', '/login?return_to='.$request->getPathInfo());
+      $response->headers->set('Location', '/login?return_to='.$request->getRequestURI());
       return false;
     } else {
       return true;
