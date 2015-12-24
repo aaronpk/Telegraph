@@ -2,4 +2,4 @@
 chdir('..');
 include('vendor/autoload.php');
 
-q()->run_workers(2);
+q()->run_workers(4);

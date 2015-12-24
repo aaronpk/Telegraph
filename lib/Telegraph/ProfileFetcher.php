@@ -21,6 +21,8 @@ class ProfileFetcher {
         $user->photo = $representative['properties']['photo'][0];
       }
       $user->save();
+    } else {
+      echo "Couldn't find one\n";
     }
   }
 
