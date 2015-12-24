@@ -11,7 +11,8 @@
     "j4mie/idiorm": "1.5.*",
     "p3k/caterpillar": "0.1.*",
     "predis/predis": "1.*",
-    "michelf/php-markdown": "1.6.*"
+    "michelf/php-markdown": "1.6.*",
+    "camspiers/json-pretty": "1.0.*"
   },
   "require-dev": {
 		"phpunit/phpunit": "*"

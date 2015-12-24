@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fe88436a4cf4b629d33a4969c34cefa5",
-    "content-hash": "40f23b807dfa9bbd43f7542fa5c41faa",
+    "hash": "a8d37c97d0b911b03141113fb4cd1322",
+    "content-hash": "5b9ec8fe80d7a02cfbb56463f40efb9c",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -46,6 +46,42 @@
             ],
             "description": "Cleans up microformats2 array structures",
             "time": "2014-10-06 23:11:15"
+        },
+        {
+            "name": "camspiers/json-pretty",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/camspiers/json-pretty.git",
+                "reference": "73c0bd55ca966f31f79d690a4b0aabaf98ad5d94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/camspiers/json-pretty/zipball/73c0bd55ca966f31f79d690a4b0aabaf98ad5d94",
+                "reference": "73c0bd55ca966f31f79d690a4b0aabaf98ad5d94",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Camspiers": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cam Spiers",
+                    "email": "cameron@heyday.co.nz"
+                }
+            ],
+            "description": "Provides support for json pretty printing",
+            "time": "2015-09-17 16:05:48"
         },
         {
             "name": "firebase/php-jwt",
@@ -177,16 +213,16 @@
         },
         {
             "name": "indieweb/mention-client",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/mention-client-php.git",
-                "reference": "28115f604eb0c0d88a4b46a11771823af27e9e58"
+                "reference": "0f2cd135c8fb2b848b10915950b1756a8a1e8614"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/28115f604eb0c0d88a4b46a11771823af27e9e58",
-                "reference": "28115f604eb0c0d88a4b46a11771823af27e9e58",
+                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/0f2cd135c8fb2b848b10915950b1756a8a1e8614",
+                "reference": "0f2cd135c8fb2b848b10915950b1756a8a1e8614",
                 "shasum": ""
             },
             "require": {
@@ -215,7 +251,7 @@
             ],
             "description": "Client library for sending webmention and pingback notifications",
             "homepage": "https://github.com/indieweb/mention-client-php",
-            "time": "2015-12-22 23:40:11"
+            "time": "2015-12-24 20:00:09"
         },
         {
             "name": "indieweb/representative-h-card",

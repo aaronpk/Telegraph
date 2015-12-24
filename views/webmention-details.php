@@ -73,7 +73,7 @@
 
     <h2>Logs</h2>
 
-    <table class="ui very compact table single line">
+    <table class="ui very compact table">
       <thead>
         <tr>
           <th>Date</th>
@@ -90,7 +90,15 @@
         </tr>
         <tr>
           <td colspan="3">
-            <pre style="font-size: 10px;"><?= $this->e($status->raw_response) ?></pre>
+            <pre style="font-size: 10px;"><?
+              $json = @json_decode($status->raw_response);
+              if($json) {
+                $pretty = new Camspiers\JsonPretty\JsonPretty;
+                echo $this->e($pretty->prettify($json, null, "  "));
+              } else {
+                echo $this->e($status->raw_response);
+              }
+            ?></pre>
           </td>
         </tr>
       <? endforeach; ?>
