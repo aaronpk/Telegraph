@@ -36,7 +36,7 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="globe icon"></i>
-            <input type="url" name="url" placeholder="Your Web Address" value="http://aaronparecki.com">
+            <input type="url" name="url" placeholder="Your Web Address">
           </div>
         </div>
         <input type="hidden" name="return_to" value="<?= $return_to ?>">
