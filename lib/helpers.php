@@ -25,6 +25,13 @@ function q() {
   return $caterpillar;
 }
 
+function redis() {
+  static $client = false;
+  if(!$client)
+    $client = new Predis\Client('tcp://127.0.0.1:6379');
+  return $client;
+}
+
 function random_string($len) {
   $charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   $str = '';

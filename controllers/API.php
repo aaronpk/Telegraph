@@ -15,6 +15,7 @@ class API {
     foreach($headers as $k=>$v) {
       $response->headers->set($k, $v);
     }
+    $response->headers->set('Content-Type', 'application/json');
     $response->setContent(json_encode($params));
     return $response;
   }

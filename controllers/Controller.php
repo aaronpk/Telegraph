@@ -47,6 +47,22 @@ class Controller {
     return $response;
   }
 
+  private static function _icon_for_status($status) {
+    switch($status) {
+      case 'success':
+      case 'accepted':
+        return 'green checkmark';
+      case 'not_supported':
+        return 'yellow x';
+      case 'error':
+        return 'red x';
+      case 'pending':
+        return 'orange wait';
+      default:
+        return '';
+    }
+  }
+
   public function dashboard(Request $request, Response $response) {
     if(!$this->_is_logged_in($request, $response)) {
       return $response;
@@ -67,23 +83,11 @@ class Controller {
     foreach($query as $m) {
       $statuses = ORM::for_table('webmention_status')->where('webmention_id', $m->id)->order_by_desc('created_at')->find_many();
       if(count($statuses) == 0) {
-        $icon = 'wait';
         $status = 'pending';
       } else {
         $status = $statuses[0]->status;
-        switch($status) {
-          case 'success':
-          case 'accepted':
-            $icon = 'checkmark';
-            break;
-          case 'not_supported':
-          case 'error':
-            $icon = 'warning';
-            break;
-          default:
-            $icon = '';
-        }
       }
+      $icon = self::_icon_for_status($status);
 
       $webmentions[] = [
         'webmention' => $m,
@@ -98,6 +102,7 @@ class Controller {
       'user' => $this->_user(),
       'accounts' => $this->_accounts(),
       'site' => $site,
+      'role' => $role,
       'webmentions' => $webmentions
     ]));
     return $response;
@@ -120,13 +125,22 @@ class Controller {
 
     $statuses = ORM::for_table('webmention_status')->where('webmention_id', $webmention->id)->order_by_desc('created_at')->find_many();
 
+    if(count($statuses) == 0) {
+      $status = 'pending';
+    } else {
+      $status = $statuses[0]->status;
+    }
+    $icon = self::_icon_for_status($status);
+
     $response->setContent(view('webmention-details', [
       'title' => 'Webmention Details',
       'user' => $this->_user(),
       'accounts' => $this->_accounts(),
       'site' => $site,
       'webmention' => $webmention,
-      'statuses' => $statuses
+      'statuses' => $statuses,
+      'icon' => $icon,
+      'status' => $status
     ]));
     return $response;
   }
@@ -169,6 +183,42 @@ class Controller {
     $response->headers->set('Content-Type', 'application/json');
     $response->setContent(json_encode([
       'links' => array_values($links)
+    ]));
+    return $response;
+  }
+
+  public function discover_endpoint(Request $request, Response $response) {
+    if(!$this->_is_logged_in($request, $response)) {
+      return $response;
+    }
+
+    $targetURL = $request->get('target');
+
+    // Cache the discovered result
+    $cacheKey = 'telegraph:discover_endpoint:'.$targetURL;
+    if($request->get('ignore_cache') == 'true' || (!$status = redis()->get($cacheKey))) {
+      $client = new IndieWeb\MentionClient();
+      $endpoint = $client->discoverWebmentionEndpoint($targetURL);
+      if($endpoint) {
+        $status = 'webmention';
+      } else {
+        $endpoint = $client->discoverPingbackEndpoint($targetURL);
+        if($endpoint) {
+          $status = 'pingback';
+        } else {
+          $status = 'none';
+        }
+      }
+      $cached = false;
+      redis()->setex($cacheKey, 600, $status);
+    } else {
+      $cached = true;
+    }
+
+    $response->headers->set('Content-Type', 'application/json');
+    $response->setContent(json_encode([
+      'status' => $status,
+      'cached' => $cached
     ]));
     return $response;
   }

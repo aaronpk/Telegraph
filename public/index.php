@@ -13,6 +13,7 @@ $router->addRoute('GET', '/api', 'Controller::api');
 $router->addRoute('GET', '/webmention/{code}/details', 'Controller::webmention_details');
 $router->addRoute('GET', '/dashboard/send', 'Controller::dashboard_send');
 $router->addRoute('POST', '/dashboard/get_outgoing_links.json', 'Controller::get_outgoing_links');
+$router->addRoute('POST', '/dashboard/discover_endpoint.json', 'Controller::discover_endpoint');
 
 $router->addRoute('POST', '/webmention', 'API::webmention');
 $router->addRoute('GET', '/webmention/{code}', 'API::webmention_status');

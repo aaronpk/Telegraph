@@ -6,6 +6,13 @@
 
   <table class="ui table single line"><tbody>
     <tr>
+      <td><b>Status</b></td>
+      <td>
+        <i class="circular inverted <?= $icon ?> icon"></i>
+        <?= ucfirst($status) ?>
+      </td>
+    </tr>
+    <tr>
       <td><b>Date</b></td>
       <td><?= date('M j, g:ia', strtotime($webmention->created_at)) ?></td>
     </tr>
