@@ -15,9 +15,11 @@
         <? foreach($accounts as $account): ?>
           <a class="item" href="/dashboard?account=<?= $account->id ?>"><?= $this->e($account->name) ?></a>
         <? endforeach; ?>
+        <!--
         <div class="divider"></div>
         <a class="item" href="/new-site"><i class="plus icon"></i> New Site</a>
         <a class="item" href="/profile"><i class="user icon"></i> Profile</a>
+        -->
         <div class="divider"></div>
         <a class="item" href="/logout"><i class="sign out icon"></i> Log Out</a>
       </div>

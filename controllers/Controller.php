@@ -4,7 +4,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Controller {
 
-  private function _is_logged_in(&$request, &$response) {
+  public $http;
+
+  public function __construct() {
+    $this->http = new Telegraph\HTTP();
+  }
+
+  private function _is_logged_in(Request $request, Response $response) {
     session_start();
     if(!session('user_id')) {
       session_destroy();
@@ -14,6 +20,24 @@ class Controller {
     } else {
       return true;
     }
+  }
+
+  private function _get_role(Request $request) {
+    // Default to load their first site, but let the query string override it
+    $role = ORM::for_table('roles')->join('sites', 'roles.site_id = sites.id')
+      ->where('user_id', session('user_id'))->order_by_asc('sites.created_at')->find_one();
+
+    if($request->get('account')) {
+      $role = ORM::for_table('roles')->where('user_id', session('user_id'))->where('site_id', $request->get('account'))->find_one();
+      // Check that the user has permission to access this account
+      if(!$role) {
+        $response->setStatusCode(302);
+        $response->headers->set('Location', '/dashboard');
+        return false;
+      }
+    }
+
+    return $role;
   }
 
   public function index(Request $request, Response $response) {
@@ -28,18 +52,8 @@ class Controller {
       return $response;
     }
 
-    // Default to load their first site, but let the query string override it
-    $role = ORM::for_table('roles')->join('sites', 'roles.site_id = sites.id')
-      ->where('user_id', session('user_id'))->order_by_asc('sites.created_at')->find_one();
-
-    if($request->get('account')) {
-      $role = ORM::for_table('roles')->where('user_id', session('user_id'))->where('site_id', $request->get('account'))->find_one();
-      // Check that the user has permission to access this account
-      if(!$role) {
-        $response->setStatusCode(302);
-        $response->headers->set('Location', '/dashboard');
-        return $response;
-      }
+    if(!$role=$this->_get_role($request, $response)) {
+      return $response;
     }
 
     $site = ORM::for_table('sites')->where_id_is($role->site_id)->find_one();
@@ -113,6 +127,48 @@ class Controller {
       'site' => $site,
       'webmention' => $webmention,
       'statuses' => $statuses
+    ]));
+    return $response;
+  }
+
+  public function dashboard_send(Request $request, Response $response) {
+    if(!$this->_is_logged_in($request, $response)) {
+      return $response;
+    }
+
+    if(!$role=$this->_get_role($request, $response)) {
+      return $response;
+    }
+
+    $site = ORM::for_table('sites')->where_id_is($role->site_id)->find_one();
+
+    $response->setContent(view('webmention-send', [
+      'title' => 'Webmention Details',
+      'user' => $this->_user(),
+      'accounts' => $this->_accounts(),
+      'site' => $site,
+      'role' => $role,
+      'url' => $request->get('url')
+    ]));
+    return $response;
+  }
+
+  public function get_outgoing_links(Request $request, Response $response) {
+    if(!$this->_is_logged_in($request, $response)) {
+      return $response;
+    }
+
+    $sourceURL = $request->get('url');
+
+    $client = new IndieWeb\MentionClient();
+    $source = $this->http->get($sourceURL);
+    $parsed = \Mf2\parse($source['body'], $sourceURL);
+
+    $links = $client->findOutgoingLinks($parsed);
+
+    $response->headers->set('Content-Type', 'application/json');
+    $response->setContent(json_encode([
+      'links' => array_values($links)
     ]));
     return $response;
   }

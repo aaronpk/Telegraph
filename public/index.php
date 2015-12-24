@@ -10,10 +10,12 @@ $templates = new League\Plates\Engine(dirname(__FILE__).'/../views');
 $router->addRoute('GET', '/', 'Controller::index');
 $router->addRoute('GET', '/dashboard', 'Controller::dashboard');
 $router->addRoute('GET', '/api', 'Controller::api');
+$router->addRoute('GET', '/webmention/{code}/details', 'Controller::webmention_details');
+$router->addRoute('GET', '/dashboard/send', 'Controller::dashboard_send');
+$router->addRoute('POST', '/dashboard/get_outgoing_links.json', 'Controller::get_outgoing_links');
 
 $router->addRoute('POST', '/webmention', 'API::webmention');
 $router->addRoute('GET', '/webmention/{code}', 'API::webmention_status');
-$router->addRoute('GET', '/webmention/{code}/details', 'Controller::webmention_details');
 
 $router->addRoute('GET', '/login', 'Auth::login');
 $router->addRoute('GET', '/logout', 'Auth::logout');

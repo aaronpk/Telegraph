@@ -2,8 +2,15 @@
 
 <div class="ui main text container" style="margin-top: 80px;">
 
+  <form action="/dashboard/send" method="get">
+    <div class="ui fluid action input">
+      <input type="url" name="url" placeholder="enter a URL" value="https://aaronparecki.com/articles/2015/10/05/1/fun-with-qr-codes">
+      <button class="ui button">Send Webmentions</button>
+    </div>
+    <input type="hidden" name="account" value="<?= $site->id ?>">
+  </form>
 
-  <table class="ui striped table single line">
+  <table class="ui striped single line table">
     <thead>
       <th>Status</th>
       <th>Date</th>
