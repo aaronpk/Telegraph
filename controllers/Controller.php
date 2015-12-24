@@ -47,6 +47,27 @@ class Controller {
     return $response;
   }
 
+  public function api(Request $request, Response $response) {
+    session_start();
+    if(session('user_id')) {
+      $role = $this->_get_role($request, $response);
+      $site = ORM::for_table('sites')->where_id_is($role->site_id)->find_one();
+    } else {
+      $role = false;
+      $site = false;
+    }
+
+    $response->setContent(view('api', [
+      'title' => 'Telegraph API Documentation',
+      'user' => $this->_user(),
+      'accounts' => $this->_accounts(),
+      'site' => $site,
+      'role' => $role,
+      'return_to' => $request->getRequestURI()
+    ]));
+    return $response;
+  }
+
   private static function _icon_for_status($status) {
     switch($status) {
       case 'success':

@@ -1,6 +1,6 @@
 <?php $this->layout('layout-loggedin', ['title' => $title, 'accounts' => $accounts, 'user' => $user]); ?>
 
-<div class="ui main text container" style="margin-top: 80px;">
+<div class="ui main text container" style="margin-top: 80px; margin-bottom: 40px;">
 
   <div class="ui top attached tabular menu">
     <a class="item active" data-tab="send-from-source">Find Links</a>
@@ -28,6 +28,7 @@
     </form>
   </div>
 
+  <? if(count($webmentions)): ?>
   <table class="ui striped single line table">
     <thead>
       <th>Status</th>
@@ -57,6 +58,18 @@
     <?php endforeach; ?>
     </tbody>
   </table>
+  <? else: ?>
+    <div class="ui message">It looks like you haven't sent any webmentions yet! Try entering one of your post URLs above and send some.</div>
+  <? endif; ?>
+
+  <form class="ui form">
+    <div class="field">
+      <label>API Key</label>
+      <input type="text" readonly="" value="<?= $role->token ?>">
+    </div>
+    <p>Use this key when sending webmentions using the <a href="/api">API</a>.</p>
+  </form>
+
 </div>
 
 <script>

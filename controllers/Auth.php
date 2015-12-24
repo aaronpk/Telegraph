@@ -6,16 +6,22 @@ use \Firebase\JWT\JWT;
 class Auth {
 
   public function login(Request $request, Response $response) {
-    $response->setContent(view('login', [
-      'title' => 'Sign In to Telegraph',
-      'return_to' => $request->get('return_to')
-    ]));
+    session_start();
+    if(session('user_id')) {
+      $response->setStatusCode(302);
+      $response->headers->set('Location', '/dashboard');
+    } else {
+      $response->setContent(view('login', [
+        'title' => 'Sign In to Telegraph',
+        'return_to' => $request->get('return_to')
+      ]));
+    }
     return $response;
   }
 
   public function logout(Request $request, Response $response) {
     session_start();
-    if(array_key_exists('user_id', $_SESSION)) {
+    if(session('user_id')) {
       $_SESSION['user_id'] = null;
       session_destroy();
     }

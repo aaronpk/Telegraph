@@ -105,9 +105,18 @@
     .ui.secondary.inverted.pointing.menu, .ui.secondary.pointing.menu {
       border: 0;
     }
+
+    pre.code {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px #ddd solid;
+      background-color: rgba(248,246,255,1);
+      font-size: 0.9em;
+    }
+
   </style>
 
-  <script src="/assets/jquery.js"></script>
+  <script src="/assets/jquery-1.11.3.min.js"></script>
   <script src="/semantic-ui/semantic.min.js"></script>
   <script>
   $(document)
@@ -140,7 +149,6 @@
 <?php
 $menu = [
   '/' => 'Home',
-  '/dashboard' => 'Dashboard',
   '/api' => 'API',
 ];
 ?>
@@ -193,20 +201,65 @@ $menu = [
       <h2>Easily send Webmentions from your website</h2>
       <a class="ui huge primary button" href="/login">Get Started <i class="right arrow icon"></i></a>
     </div>
+  </div>
 
+
+  <div class="ui vertical stripe segment">
+    <div class="ui text container">
+      <h3 class="ui header">We send webmentions for you</h3>
+      <p>Instead of doing the hard work of sending webmentions yourself, we have a simple API that will handle endpoint discovery, gracefully handle failures and retries, and will let you know whether a webmention was successfully sent. All you have to do is tell us the page you want to send the webmention to and we'll take it from there.</p>
+      <a class="ui large button" href="/api">Read More</a>
+      <!--
+      <h4 class="ui horizontal header divider">
+        Case Studies
+      </h4>
+      <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
+      <p>Yes I know you probably disregarded the earlier boasts as non-sequitor filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
+      <a class="ui large button">I'm Still Quite Interested</a>
+      -->
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="seven wide column">
+          <img src="/assets/dashboard-screenshot.jpg" class="ui large bordered rounded image">
+        </div>
+        <div class="eight wide column">
+          <h3 class="ui header">Webmentions at a glance</h3>
+          <p>Sign in to quickly send webmentions from the Dashboard, and see the status of your previously sent webmentions.</p>
+          <p>The status of each webmention can be viewed individually, so you can tell whether it worked or how it failed.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="ui vertical stripe segment">
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
-          <h3 class="ui header">We send webmentions for you</h3>
-          <p>Let Telegraph send webmentions for you. With a simple API, Telegraph will handle sending webmentions to other websites. Let us handle webmention discovery, and retrying on temporary failures. Telegraph will notify your site when a webmention was successfully sent.</p>
+          <h3 class="ui header">Send Webmentions with a Simple API</h3>
+          <p>Let Telegraph send webmentions for you. With a simple API, Telegraph will handle sending webmentions to other websites. Let us handle webmention endpoint discovery and handling failures.</p>
+          <h3 class="ui header">Get updates on webmention delivery</h3>
+          <p>With a simple web hook, Telegraph will notify your site when a webmention was successfully sent or if an error occurred.</p>
+          <!--
           <h3 class="ui header">Send webmentions automatically</h3>
           <p>You can even let Telegraph subscribe to your feed, and it will send webmentions whenever you publish a new post.</p>
+          -->
         </div>
-        <div class="six wide right floated column">
-          <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
+        <div class="seven wide right floated column">
+          <pre class="code"><code>
+POST /webmention HTTP/1.1
+Content-type: application/json
+
+{
+  "source": "http://source.example.com/post/100",
+  "target": "http://target.example.net/",
+  "callback": "http://yoursite.example.org/webmention-status"
+  "token": "xxxx"
+}
+          </code></pre>
         </div>
       </div>
       <div class="row">
@@ -236,52 +289,9 @@ $menu = [
   </div>
   -->
 
-  <div class="ui vertical stripe segment">
-    <div class="ui text container">
-      <h3 class="ui header">Send Webmentions with a Simple API</h3>
-      <p>Instead of doing the hard work of sending webmentions yourself, we have a simple API that will handle endpoint discovery, gracefully handle failures and retries, and will let you know whether a webmention was successfully sent. All you have to do is tell us where to send the webmention and we'll take it from there.</p>
-      <a class="ui large button" href="/api">Read More</a>
-      <!--
-      <h4 class="ui horizontal header divider">
-        Case Studies
-      </h4>
-      <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
-      <p>Yes I know you probably disregarded the earlier boasts as non-sequitor filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
-      <a class="ui large button">I'm Still Quite Interested</a>
-      -->
-    </div>
-  </div>
 
+  <? $this->insert('footer-block') ?>
 
-  <div class="ui inverted vertical footer segment">
-    <div class="ui container">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="three wide column">
-          <h4 class="ui inverted header">Telegraph</h4>
-          <div class="ui inverted link list">
-            <a href="https://github.com/aaronpk/Telegraph" class="item">Open Source</a>
-            <a href="https://github.com/aaronpk/Telegraph/issues" class="item">Issues</a>
-            <a href="http://webmention.net" class="item">About Webmention</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">The p3k Suite</h4>
-          <div class="ui inverted link list">
-            <a href="https://monocle.p3k.io" class="item">Monocle</a>
-            <a href="https://quill.p3k.io" class="item">Quill</a>
-            <a href="https://teacup.p3k.io" class="item">Teacup</a>
-            <a href="https://switchboard.p3k.io" class="item">Switchboard</a>
-            <a href="https://atlas.p3k.io" class="item">Atlas</a>
-            <a href="https://compass.p3k.io" class="item">Compass</a>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header">IndieWebCamp</h4>
-          <p>You might also be interested in...</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 </body>

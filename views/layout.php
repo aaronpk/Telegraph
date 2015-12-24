@@ -6,17 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <title><?= $this->e($title) ?></title>
-  <link href="/assets/styles.css" rel="stylesheet">
   <link href="/semantic-ui/semantic.min.css" rel="stylesheet">
+  <link href="/assets/styles.css" rel="stylesheet">
   <script src="/assets/jquery-1.11.3.min.js"></script>
   <script src="/semantic-ui/semantic.js"></script>
 </head>
 <body>
 
 <?= $this->section('content') ?>
-
-<footer>
-</footer>
 
 </body>
 </html>

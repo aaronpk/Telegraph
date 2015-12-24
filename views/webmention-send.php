@@ -1,8 +1,10 @@
 <?php $this->layout('layout-loggedin', ['title' => $title, 'accounts' => $accounts, 'user' => $user]); ?>
 
-<div class="ui main text container" style="margin-top: 80px;">
+<div class="ui main text container" style="margin-top: 80px; margin-bottom: 40px;">
 
   <h2>Send Webmentions</h2>
+
+  Source URL: <a href="<?= $url ?>" target="_blank"><?= $url ?></a>
 
   <table class="ui very basic fixed single line unstackable table" id="send-table">
     <thead>
@@ -23,6 +25,12 @@ $(function(){
   $.post('/dashboard/get_outgoing_links.json', {
     url: source_url
   }, function(data) {
+    if(data.links.length == 0) {
+      $("#send-table tbody tr:first td").html('<div class="ui message">No links were found from the given URL. Make sure your post is marked up with <a href="http://indiewebcamp.com/h-entry">h-entry</a> and contains some links.</div>');
+      $("#send-table").removeClass("fixed").removeClass("single").removeClass("line");
+      return;
+    }
+
     $("#send-table tbody").html('<tr><td colspan="2"></td></tr>');
     for(var i in data.links) {
       $("#send-table tr:last").after('<tr data-url="'+data.links[i]+'">'
@@ -34,6 +42,7 @@ $(function(){
           +'</td>'
         +'</tr>');
     }
+
     $("#send-table tbody tr:first").remove();
 
     // Enable popup on any values that overflowed the container
@@ -101,7 +110,7 @@ function bind_send_buttons() {
 .popup {
   word-wrap: break-word;
 }
-#send-table tr {
+#send-table tbody tr {
   height: 83px;
 }
 </style>

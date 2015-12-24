@@ -1,6 +1,6 @@
 <?php $this->layout('layout-loggedin', ['title' => $title, 'accounts' => $accounts, 'user' => $user]); ?>
 
-<div class="ui main text container" style="margin-top: 80px;">
+<div class="ui main text container" style="margin-top: 80px; margin-bottom: 40px;">
 
   <h2>Webmention Request</h2>
 
