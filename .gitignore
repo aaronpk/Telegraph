@@ -1,4 +1,5 @@
 .DS_Store
 vendor/
 config.php
+config.test.php
 scripts/logs/
