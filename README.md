@@ -9,10 +9,13 @@ See https://telegraph.p3k.io/api
 ## Developing
 
 * Fork and clone this repo.
-* Install MySQL if it's not already installed.
-* Copy `config.template.php` to `config.test.php` and fill in the appropriate
-  values for your local environment.
-* Install the dependences, create a local database, and run the tests:
+* Install MySQL, composer, beanstalk, and phpunit if they're not already
+  installed, e.g. `brew install mysql composer beanstalk phpunit`.
+* Start MySQL and `beanstalkd`.
+* Copy `config.template.php` to `config.test.php`. Update the appropriate values
+  for your local environment if necessary.
+* Run these commands to install the dependencies, create a local database, and
+  run the tests:
     
     ```sh
     $ composer install
