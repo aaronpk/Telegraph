@@ -120,6 +120,7 @@ class APITest extends PHPUnit_Framework_TestCase {
     foreach ([['token'=>'a','source'=>'notaurl','target'=>'alsonotaurl'],
               ['token'=>'a','source'=>'http://source.example','target'=>'alsonotaurl'],
               ['token'=>'a','source'=>'notaurl','target'=>'http://target.example'],
+              ['token'=>'a','source'=>'http://source.example','target'=>'mailto:user@example.com'],
               ['token'=>'a','source'=>'http://source.example','target'=>'http://target.example','callback'=>'notaurl']
              ] as $params) {
       $response = $this->webmention($params);
