@@ -54,22 +54,14 @@ class API {
 
     $urlregex = '/^https?:\/\/[^ ]+\.[^ ]+$/';
 
-    # Verify source and target are URLs
-    if(!preg_match($urlregex, $source) || !preg_match($urlregex, $target)) {
+    # Verify source, target, and callback are URLs
+    $callback = $request->get('callback');
+    if(!preg_match($urlregex, $source) || !preg_match($urlregex, $target) ||
+       ($callback && !preg_match($urlregex, $callback))) {
       return $this->respond($response, 400, [
         'error' => 'invalid_parameter',
-        'error_description' => 'The source or target parameters were invalid'
+        'error_description' => 'The source, target, or callback parameters were invalid'
       ]);
-    }
-
-    # If a callback was provided, verify it is a URL
-    if($callback=$request->get('callback')) {
-      if(!preg_match($urlregex, $source) || !preg_match($urlregex, $target)) {
-        return $this->respond($response, 400, [
-          'error' => 'invalid_parameter',
-          'error_description' => 'The callback parameter was invalid'
-        ]);
-      }
     }
 
     # Verify the token is valid
