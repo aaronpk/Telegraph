@@ -13,12 +13,14 @@ Post to `https://telegraph.p3k.io/webmention`
 
 * `token` - your API key obtained after signing up
 * `source` - the URL of your post
-* `target` - the URL you linked to
+* `target` OR `target_domain` - the URL or domain you linked to, respectively
 * `callback` - (optional) - a URL that will receive a web hook when new information about this webmention is available
 
 The Telegraph API will validate the parameters and then queue the webmention for sending. If there was a problem with the request, you will get an error response immediately.
 
 The API will first make an HTTP request to the source URL, and look for a link to the target on the page. This happens synchronously so you will get this error reply immediately.
+
+If you pass `target_domain` instead of `target`, Telegraph will find and enqueue webmentions for all links to that domain.
 
 #### Errors
 * `authentication_required` - the token parameter was missing
@@ -52,6 +54,21 @@ Location: https://telegraph.p3k.io/webmention/xxxxxxxx
 {
   "status": "queued",
   "location": "https://telegraph.p3k.io/webmention/xxxxxxxx"
+}
+```
+
+If you use `target_domain` instead of `target`, the `location` field will be a list containing the status URLs for each webmention that was queued. The `Location` header will be omitted.
+
+```
+HTTP/1.1 201 Created
+Content-type: application/json
+
+{
+  "status": "queued",
+  "location": [
+    "https://telegraph.p3k.io/webmention/xxxxxxxx",
+    "https://telegraph.p3k.io/webmention/yyyyyyyy"
+  ]
 }
 ```
 
