@@ -46,6 +46,22 @@ class APITest extends PHPUnit_Framework_TestCase {
     $role->save();
   }
 
+  private function _assertQueued($source, $target, $status_url) {
+    preg_match('/\/webmention\/(.+)/', $status_url, $match);
+    $this->assertNotNull($match);
+
+    # Verify it queued the mention in the database
+    $d = ORM::for_table('webmentions')->where(['source' => $source, 'target' => $target])->find_one();
+    $this->assertNotNull($d);
+    $this->assertEquals($match[1], $d->token);
+
+    # Check the status endpoint to make sure it says it's still queued
+    $response = $this->status($d->token);
+    $this->assertEquals(200, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('queued', $data->status);
+  }
+
   public function testAuthentication() {
     $response = $this->webmention([]);
     $this->assertEquals(401, $response->getStatusCode());
@@ -82,6 +98,20 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(400, $response->getStatusCode());
     $data = json_decode($response->getContent());
     $this->assertEquals('missing_parameters', $data->error);
+
+    $response = $this->webmention(['token'=>'a','target_domain'=>'foo']);
+    $this->assertEquals(400, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('missing_parameters', $data->error);
+  }
+
+  public function testTargetAndTargetDomain() {
+    $this->_createExampleAccount();
+
+    $response = $this->webmention(['token'=>'a','source'=>'foo','target'=>'foo','target_domain'=>'foo']);
+    $this->assertEquals(400, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('invalid_parameter', $data->error);
   }
 
   public function testInvalidURLs() {
@@ -122,7 +152,7 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(false, property_exists($data, 'error'));
   }
 
-  public function testQueuesWebmention() {
+  public function testTargetQueuesWebmention() {
     $this->_createExampleAccount();
 
     $response = $this->webmention(['token'=>'a','source'=>'http://source.example.com/basictest','target'=>'http://target.example.com']);
@@ -130,21 +160,35 @@ class APITest extends PHPUnit_Framework_TestCase {
     $data = json_decode($response->getContent());
     $this->assertEquals(false, property_exists($data, 'error'));
     $this->assertEquals('queued', $data->status);
-    $this->assertEquals(true, property_exists($data, 'location'));
+    $this->_assertQueued('http://source.example.com/basictest', 'http://target.example.com', $data->location);
+  }
 
-    preg_match('/\/webmention\/(.+)/', $data->location, $match);
-    $this->assertNotNull($match);
+  public function testTargetDomainQueuesOneWebmention() {
+    $this->_createExampleAccount();
 
-    # Verify it queued the mention in the database
-    $d = ORM::for_table('webmentions')->where(['source' => 'http://source.example.com/basictest', 'target' => 'http://target.example.com'])->find_one();
-    $this->assertNotNull($d);
-    $this->assertEquals($match[1], $d->token);
+    $response = $this->webmention(['token'=>'a','source'=>'http://source.example.com/basictest','target_domain'=>'target.example.com']);
+    $body = $response->getContent();
+    $this->assertEquals(201, $response->getStatusCode(), $body);
+    $data = json_decode($body);
+    $this->assertEquals(false, property_exists($data, 'error'), $body);
+    $this->assertEquals('queued', $data->status, $body);
+    $this->assertEquals(true, property_exists($data, 'location'), $body);
+    $this->assertEquals(1, count($data->location), $body);
+    $this->_assertQueued('http://source.example.com/basictest', 'http://target.example.com', $data->location[0]);
+  }
 
-    # Check the status endpoint to make sure it says it's still queued
-    $response = $this->status($d->token);
-    $this->assertEquals(200, $response->getStatusCode());
-    $data = json_decode($response->getContent());
-    $this->assertEquals('queued', $data->status);
+  public function testTargetDomainQueuesMultipleWebmentions() {
+    $this->_createExampleAccount();
+
+    $response = $this->webmention(['token'=>'a','source'=>'http://source.example.com/basictest','target_domain'=>'example.com']);
+    $body = $response->getContent();
+    $this->assertEquals(201, $response->getStatusCode(), $body);
+    $data = json_decode($body);
+    $this->assertEquals(false, property_exists($data, 'error'), $body);
+    $this->assertEquals('queued', $data->status, $body);
+    $this->assertEquals(2, count($data->location), $body);
+    $this->_assertQueued('http://source.example.com/basictest', 'http://target.example.com', $data->location[0]);
+    $this->_assertQueued('http://source.example.com/basictest', 'http://target2.example.com', $data->location[1]);
   }
 
   public function testStatusNotFound() {
