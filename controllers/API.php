@@ -44,19 +44,28 @@ class API {
       ]);
     }
 
-    # Require source and target parameters
-    if((!$source=$request->get('source')) || (!$target=$request->get('target'))) {
+    # Require source and target or target_domain parameters
+    $target = $target_domain = null;
+    if((!$source=$request->get('source')) || ((!$target=$request->get('target')) && (!$target_domain=$request->get('target_domain')))) {
       return $this->respond($response, 400, [
         'error' => 'missing_parameters',
-        'error_description' => 'The source or target parameters were missing'
+        'error_description' => 'The source or target or target_domain parameters were missing'
+      ]);
+    }
+    if($target && $target_domain) {
+      return $this->respond($response, 400, [
+        'error' => 'invalid_parameter',
+        'error_description' => 'Can\'t provide both target and target_domain together'
       ]);
     }
 
     $urlregex = '/^https?:\/\/[^ ]+\.[^ ]+$/';
+    $domainregex = '/^[^ ]+$/';
 
     # Verify source, target, and callback are URLs
     $callback = $request->get('callback');
-    if(!preg_match($urlregex, $source) || !preg_match($urlregex, $target) ||
+    if(!preg_match($urlregex, $source) ||
+       (!preg_match($urlregex, $target) && !preg_match($domainregex, $target_domain)) ||
        ($callback && !preg_match($urlregex, $callback))) {
       return $this->respond($response, 400, [
         'error' => 'invalid_parameter',
@@ -90,44 +99,59 @@ class API {
 
     $xpath = new DOMXPath($doc);
 
-    $found = false;
+    $found = [];
     foreach($xpath->query('//a[@href]') as $href) {
-      if($href->getAttribute('href') == $target) {
-        $found = true;
-        continue;
+      $url = $href->getAttribute('href');
+      $domain = parse_url($url, PHP_URL_HOST);
+      if($url == $target || $domain == $target_domain ||
+         # subdomain check
+         ($target_domain and substr_compare($domain, '.' . $target_domain, -(strlen($target_domain) + 1)) == 0)) {
+        $found[$url] = null;
       }
     }
 
     if(!$found) {
       return $this->respond($response, 400, [
         'error' => 'no_link_found',
-        'error_description' => 'The source document does not have a link to the target URL'
+        'error_description' => 'The source document does not have a link to the target URL or domain'
       ]);
     }
 
     # Everything checked out, so write the webmention to the log and queue a job to start sending
+    # TODO: database transaction?
 
-    $w = ORM::for_table('webmentions')->create();
-    $w->site_id = $role->site_id;
-    $w->created_by = $role->user_id;
-    $w->created_at = date('Y-m-d H:i:s');
-    $w->token = self::generateStatusToken();
-    $w->source = $source;
-    $w->target = $target;
-    $w->vouch = $request->get('vouch');
-    $w->callback = $callback;
-    $w->save();
+    $statusURLs = [];
+    foreach($found as $url=>$_) {
+      $w = ORM::for_table('webmentions')->create();
+      $w->site_id = $role->site_id;
+      $w->created_by = $role->user_id;
+      $w->created_at = date('Y-m-d H:i:s');
+      $w->token = self::generateStatusToken();
+      $w->source = $source;
+      $w->target = $url;
+      $w->vouch = $request->get('vouch');
+      $w->callback = $callback;
+      $w->save();
 
-    q()->queue('Telegraph\Webmention', 'send', [$w->id]);
+      q()->queue('Telegraph\Webmention', 'send', [$w->id]);
 
-    $statusURL = Config::$base . 'webmention/' . $w->token;
+      $statusURLs[] = Config::$base . 'webmention/' . $w->token;
+    }
 
-    return $this->respond($response, 201, [
-      'status' => 'queued',
-      'location' => $statusURL
-    ], [
-      'Location' => $statusURL
-    ]);
+    if ($target) {
+      $body = [
+        'status' => 'queued',
+        'location' => $statusURLs[0]
+      ];
+      $headers = ['Location' => $statusURLs[0]];
+    } else {
+      $body = [
+        'status' => 'queued',
+        'location' => $statusURLs
+      ];
+      $headers = [];
+    }
+    return $this->respond($response, 201, $body, $headers);
   }
 
   public function webmention_status(Request $request, Response $response, $args) {
