@@ -214,6 +214,16 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->_assertNotQueued('http://source.example.com/multipletest', 'http://source.example.com/relativelink');
   }
 
+  public function testTargetDomainSubdomainCheck() {
+    $this->_createExampleAccount();
+
+    $response = $this->webmention(['token'=>'a','source'=>'http://source.example.com/multipletest','target_domain'=>'ample.com']);
+    $body = $response->getContent();
+    $this->assertEquals(400, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('no_link_found', $data->error);
+  }
+
   public function testStatusNotFound() {
     $this->_createExampleAccount();
 
