@@ -25,7 +25,7 @@
     </h2>
 
     <?php if(isset($error)): ?>
-      <div class="ui warning message">
+      <div class="ui warning message" style="word-wrap: break-word;">
         <div class="header"><?= $error ?></div>
         <?= $error_description ?>
       </div>
@@ -39,7 +39,7 @@
             <input type="url" name="url" placeholder="Your Web Address">
           </div>
         </div>
-        <input type="hidden" name="return_to" value="<?= $return_to ?>">
+        <input type="hidden" name="return_to" value="<?= isset($return_to) ? $return_to : '' ?>">
         <button class="ui fluid large teal submit button">Login</button>
       </div>
 
