@@ -103,7 +103,7 @@ class API {
     foreach($xpath->query('//a[@href]') as $href) {
       $url = $href->getAttribute('href');
       $domain = parse_url($url, PHP_URL_HOST);
-      if($url == $target || $domain == $target_domain || str_ends_with($domain, $target_domain)) {
+      if($url == $target || $domain == $target_domain || str_ends_with($domain, '.' . $target_domain)) {
         $found[$url] = null;
       }
     }
