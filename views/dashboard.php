@@ -52,7 +52,7 @@
         </td>
         <td>
           source=<a href="<?= $this->e($mention['webmention']->source) ?>"><?= $this->e($mention['webmention']->source) ?></a><br>
-          target=<a href="<?= $this->e($mention['webmention']->source) ?>"><?= $this->e($mention['webmention']->target) ?></a>
+          target=<a href="<?= $this->e($mention['webmention']->target) ?>"><?= $this->e($mention['webmention']->target) ?></a>
         </td>
       </tr>
     <?php endforeach; ?>
