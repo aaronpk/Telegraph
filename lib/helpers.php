@@ -42,6 +42,12 @@ function random_string($len) {
   return $str;
 }
 
+// Returns true if $needle is the end of the $haystack
+function str_ends_with($haystack, $needle) {
+  if($needle == '' || $haystack == '') return false;
+  return strpos(strrev($haystack), strrev($needle)) === 0;
+}
+
 function display_url($url) {
   return preg_replace(['/^https?:\/\//','/\/$/'], '', $url);
 }
