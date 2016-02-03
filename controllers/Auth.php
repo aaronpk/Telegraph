@@ -156,7 +156,7 @@ class Auth {
   }
 
   private static function _buildRedirectURI() {
-    return 'http' . (Config::$ssl ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/login/callback';
+    return Config::$base . 'login/callback';
   }
 
 }
