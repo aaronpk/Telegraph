@@ -105,7 +105,7 @@ class API {
       $domain = parse_url($url, PHP_URL_HOST);
       if($url == $target || $domain == $target_domain ||
          # subdomain check
-         ($target_domain and substr_compare($domain, '.' . $target_domain, -(strlen($target_domain) + 1)) == 0)) {
+         ($target_domain and $domain and substr_compare($domain, '.' . $target_domain, -(strlen($target_domain) + 1)) == 0)) {
         $found[$url] = null;
       }
     }

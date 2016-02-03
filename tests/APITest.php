@@ -52,14 +52,19 @@ class APITest extends PHPUnit_Framework_TestCase {
 
     # Verify it queued the mention in the database
     $d = ORM::for_table('webmentions')->where(['source' => $source, 'target' => $target])->find_one();
-    $this->assertNotNull($d);
+    $this->assertNotFalse($d);
     $this->assertEquals($match[1], $d->token);
-
     # Check the status endpoint to make sure it says it's still queued
     $response = $this->status($d->token);
     $this->assertEquals(200, $response->getStatusCode());
     $data = json_decode($response->getContent());
     $this->assertEquals('queued', $data->status);
+  }
+
+  private function _assertNotQueued($source, $target) {
+    # Verify it did not queue a mention in the database
+    $d = ORM::for_table('webmentions')->where(['source' => $source, 'target' => $target])->find_one();
+    $this->assertFalse($d);
   }
 
   public function testAuthentication() {
@@ -190,6 +195,23 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(2, count($data->location), $body);
     $this->_assertQueued('http://source.example.com/basictest', 'http://target.example.com', $data->location[0]);
     $this->_assertQueued('http://source.example.com/basictest', 'http://target2.example.com', $data->location[1]);
+  }
+
+  public function testTargetDomainQueuesOnlyWebmentionsFromTargetDomain() {
+    $this->_createExampleAccount();
+
+    $response = $this->webmention(['token'=>'a','source'=>'http://source.example.com/multipletest','target_domain'=>'example.com']);
+    $body = $response->getContent();
+    $this->assertEquals(201, $response->getStatusCode(), $body);
+    $data = json_decode($body);
+    $this->assertEquals(false, property_exists($data, 'error'), $body);
+    $this->assertEquals('queued', $data->status, $body);
+    $this->assertEquals(2, count($data->location), $body);
+    $this->_assertQueued('http://source.example.com/multipletest', 'http://target.example.com', $data->location[0]);
+    $this->_assertQueued('http://source.example.com/multipletest', 'http://target2.example.com', $data->location[1]);
+    $this->_assertNotQueued('http://source.example.com/multipletest', 'http://target.example.org');
+    $this->_assertNotQueued('http://source.example.com/multipletest', '/relativelink');
+    $this->_assertNotQueued('http://source.example.com/multipletest', 'http://source.example.com/relativelink');
   }
 
   public function testStatusNotFound() {
