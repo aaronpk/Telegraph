@@ -87,20 +87,16 @@ class APITest extends PHPUnit_Framework_TestCase {
   public function testInvalidURLs() {
     $this->_createExampleAccount();
 
-    $response = $this->webmention(['token'=>'a','source'=>'notaurl','target'=>'alsonotaurl']);
-    $this->assertEquals(400, $response->getStatusCode());
-    $data = json_decode($response->getContent());
-    $this->assertEquals('invalid_parameter', $data->error);
-
-    $response = $this->webmention(['token'=>'a','source'=>'http://source.example','target'=>'alsonotaurl']);
-    $this->assertEquals(400, $response->getStatusCode());
-    $data = json_decode($response->getContent());
-    $this->assertEquals('invalid_parameter', $data->error);
-
-    $response = $this->webmention(['token'=>'a','source'=>'notaurl','target'=>'http://target.example']);
-    $this->assertEquals(400, $response->getStatusCode());
-    $data = json_decode($response->getContent());
-    $this->assertEquals('invalid_parameter', $data->error);
+    foreach ([['token'=>'a','source'=>'notaurl','target'=>'alsonotaurl'],
+              ['token'=>'a','source'=>'http://source.example','target'=>'alsonotaurl'],
+              ['token'=>'a','source'=>'notaurl','target'=>'http://target.example'],
+              ['token'=>'a','source'=>'http://source.example','target'=>'http://target.example','callback'=>'notaurl']
+             ] as $params) {
+      $response = $this->webmention($params);
+      $this->assertEquals(400, $response->getStatusCode());
+      $data = json_decode($response->getContent());
+      $this->assertEquals('invalid_parameter', $data->error);
+    }
   }
 
   public function testNoLinkToSource() {
