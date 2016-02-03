@@ -102,9 +102,17 @@ class API {
     $found = [];
     foreach($xpath->query('//a[@href]') as $href) {
       $url = $href->getAttribute('href');
-      $domain = parse_url($url, PHP_URL_HOST);
-      if($url == $target || $domain == $target_domain || str_ends_with($domain, '.' . $target_domain)) {
-        $found[$url] = null;
+      if($target) {
+        # target parameter was provided
+        if($url == $target) {
+          $found[$url] = null;
+        }
+      } elseif($target_domain) {
+        # target_domain parameter was provided
+        $domain = parse_url($url, PHP_URL_HOST);
+        if($domain && ($domain == $target_domain || str_ends_with($domain, '.' . $target_domain))) {
+          $found[$url] = null;
+        }
       }
     }
 

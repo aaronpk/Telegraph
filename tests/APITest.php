@@ -169,6 +169,18 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->_assertQueued('http://source.example.com/basictest', 'http://target.example.com', $data->location);
   }
 
+  public function testTargetQueuesOnlyTargetWebmention() {
+    $this->_createExampleAccount();
+
+    $response = $this->webmention(['token'=>'a','source'=>'http://source.example.com/multipletest','target'=>'http://target.example.com']);
+    $this->assertEquals(201, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals(false, property_exists($data, 'error'));
+    $this->assertEquals('queued', $data->status);
+    $this->_assertQueued('http://source.example.com/multipletest', 'http://target.example.com', $data->location);
+    $this->_assertNotQueued('http://source.example.com/multipletest', '/relativelink');
+  }
+
   public function testTargetDomainQueuesOneWebmention() {
     $this->_createExampleAccount();
 
