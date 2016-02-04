@@ -23,9 +23,20 @@ $router->addRoute('GET', '/logout', 'Auth::logout');
 $router->addRoute('POST', '/login/start', 'Auth::login_start');
 $router->addRoute('GET', '/login/callback', 'Auth::login_callback');
 
-
-
 $dispatcher = $router->getDispatcher();
 $request = Request::createFromGlobals();
-$response = $dispatcher->dispatch($request->getMethod(), $request->getPathInfo());
-$response->send();
+
+try {
+  $response = $dispatcher->dispatch($request->getMethod(), $request->getPathInfo());
+  $response->send();
+} catch(League\Route\Http\Exception\NotFoundException $e) {
+  $response = new Response;
+  $response->setStatusCode(404);
+  $response->setContent("Not Found\n");
+  $response->send();
+} catch(League\Route\Http\Exception\MethodNotAllowedException $e) {
+  $response = new Response;
+  $response->setStatusCode(405);
+  $response->setContent("Method not allowed\n");
+  $response->send();
+}
