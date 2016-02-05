@@ -35,7 +35,6 @@ class API {
   }
 
   public function webmention(Request $request, Response $response) {
-
     # Require the token parameter
     if(!$token=$request->get('token')) {
       return $this->respond($response, 401, [
@@ -158,6 +157,49 @@ class API {
       $headers = [];
     }
     return $this->respond($response, 201, $body, $headers);
+  }
+
+  public function superfeedr_tracker(Request $request, Response $response, $args) {
+    # Require the code parameter
+    if(!$token=$args['token']) {
+      return $this->respond($response, 401, [
+        'error' => 'authentication_required',
+        'error_description' => 'A token is required to use the API'
+      ]);
+    }
+
+    # Verify the token is valid
+    $role = ORM::for_table('roles')->where('token', $token)->find_one();
+
+    if(!$role) {
+      return $this->respond($response, 401, [
+        'error' => 'invalid_token',
+        'error_description' => 'The token provided is not valid'
+      ]);
+    }
+
+    $site = ORM::for_table('sites')->where('id', $role->site_id)->find_one();
+
+    if(($items = $request->get('items'))
+      && is_array($items)
+      && array_key_exists(0, $items)
+      && ($item = $items[0])
+      && array_key_exists('permalinkUrl', $item)) {
+      $url = $item['permalinkUrl'];
+
+      $domain = parse_url($site->url, PHP_URL_HOST);
+
+      # Create a new request that looks like a request to the API with a target_domain parameter
+      $new_request = new Request(['token' => $token, 'source' => $url, 'target_domain' => $domain]);
+
+      return $this->webmention($new_request, $response);
+
+    } else {
+      return $this->respond($response, 400, [
+        'error' => 'invalid_request',
+        'error_description' => 'Could not find source URL from the superfeedr payload'
+      ]);
+    }
   }
 
   public function webmention_status(Request $request, Response $response, $args) {

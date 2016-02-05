@@ -130,6 +130,7 @@ class Auth {
       // Create a site for them with the default role
       $site = ORM::for_table('sites')->create();
       $site->name = 'My Website';
+      $site->url = $token['auth']['me'];
       $site->created_by = $user->id;
       $site->created_at = date('Y-m-d H:i:s');
       $site->save();

@@ -22,6 +22,12 @@ class APITest extends PHPUnit_Framework_TestCase {
     return $this->client->webmention($request, $response);
   }
 
+  private function superfeedr_tracker($params, $args) {
+    $request = new Request($params);
+    $response = new Response();
+    return $this->client->superfeedr_tracker($request, $response, $args);
+  }
+
   private function status($code) {
     $request = new Request();
     $response = new Response();
@@ -35,6 +41,7 @@ class APITest extends PHPUnit_Framework_TestCase {
 
     $site = ORM::for_table('sites')->create();
     $site->name = 'Example';
+    $site->url = 'http://example.com';
     $site->created_by = $user->id();
     $site->save();
 
@@ -243,6 +250,21 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(404, $response->getStatusCode());
     $data = json_decode($response->getContent());
     $this->assertEquals('not_found', $data->status);
+  }
+
+  public function testSuperfeedrTracker() {
+    $this->_createExampleAccount();
+
+    $payload = [
+      'items' => [[
+        'permalinkUrl' => 'http://source.example.com/basictest'
+      ]]
+    ];
+    $response = $this->superfeedr_tracker($payload, ['token'=>'a']);
+
+    $this->assertEquals(201, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('queued', $data->status);
   }
 
 }

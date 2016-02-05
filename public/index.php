@@ -16,6 +16,7 @@ $router->addRoute('POST', '/dashboard/get_outgoing_links.json', 'Controller::get
 $router->addRoute('POST', '/dashboard/discover_endpoint.json', 'Controller::discover_endpoint');
 
 $router->addRoute('POST', '/webmention', 'API::webmention');
+$router->addRoute('POST', '/superfeedr/{token}', 'API::superfeedr_tracker');
 $router->addRoute('GET', '/webmention/{code}', 'API::webmention_status');
 
 $router->addRoute('GET', '/login', 'Auth::login');
