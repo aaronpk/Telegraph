@@ -201,7 +201,7 @@ class API {
       return $this->webmention($new_request, $response);
 
     } else {
-      return $this->respond($response, 400, [
+      return $this->respond($response, 200, [
         'error' => 'invalid_request',
         'error_description' => 'Could not find source URL from the superfeedr payload'
       ]);
