@@ -255,11 +255,7 @@ class APITest extends PHPUnit_Framework_TestCase {
   public function testSuperfeedrTracker() {
     $this->_createExampleAccount();
 
-    $payload = [
-      'items' => [[
-        'permalinkUrl' => 'http://source.example.com/basictest'
-      ]]
-    ];
+    $payload = json_decode('{"status":{"code":200,"http":"Track feed","nextFetch":1238466305,"period":900,"lastFetch":1238466305,"lastParse":1238466305,"lastMaintenanceAt":1238466305,"feed":"http:\/\/track.superfeedr.com\/?query=indieweb"},"title":"","updated":1454695477,"id":"","items":[{"id":"http:\/\/werd.io\/2016\/im-so-used-to-posting-on-my-own-site-first","published":1454690643,"updated":1454690643,"title":"I\'m so used to posting on my own site first and syndicating to Twitter and Facebook that I\'d find it so weird to post natively.","summary":"<div class=\"\">\n    <p class=\"p-name\">I&#039;m so used to posting on my own site first and syndicating to Twitter and Facebook that I&#039;d find it so weird to post natively. <a href=\"http:\/\/werd.io\/tag\/indieweb\" class=\"p-category\" rel=\"tag\">#indieweb<\/a><\/p>\n<\/div>","permalinkUrl":"http://source.example.com/basictest","standardLinks":{"alternate":[{"title":"I\'m so used to posting on my own site first and syndicating to Twitter and Facebook that I\'d find it so weird to post natively.","rel":"alternate","href":"http:\/\/werd.io\/2016\/im-so-used-to-posting-on-my-own-site-first","type":"text\/html"}]},"actor":{"displayName":"Ben Werdm\u00fcller","id":"ben-werdm-ller"},"categories":["#indieweb"],"source":{"id":"ben-werdm-ller-2016-2-5-18","title":"Ben Werdm\u00fcller","updated":1454695469,"permalinkUrl":"http:\/\/werd.io\/content\/all","standardLinks":{"alternate":[{"title":"Ben Werdm\u00fcller","rel":"alternate","href":"http:\/\/werd.io\/content\/all","type":"text\/html"}],"hub":[{"title":"","rel":"hub","href":"http:\/\/benwerd.superfeedr.com\/","type":"text\/html"}],"self":[{"title":"Ben Werdm\u00fcller","rel":"self","href":"http:\/\/werd.io\/content\/all?_t=rss","type":"application\/rss+xml"}]},"status":{"code":200,"http":"","nextFetch":1454776929,"lastFetch":1454695477,"lastParse":1454695477,"lastMaintenanceAt":1454627737,"period":86400,"velocity":10.5,"popularity":0.97363835294308,"bozoRank":0.1,"entriesCountSinceLastMaintenance":7,"feed":"http:\/\/werd.io\/content\/all?_t=rss"}}}]}', true);
     $response = $this->superfeedr_tracker($payload, ['token'=>'a']);
 
     $this->assertEquals(201, $response->getStatusCode());
