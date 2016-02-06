@@ -2,6 +2,8 @@
 chdir('..');
 include('vendor/autoload.php');
 
+initdb();
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 $router = new League\Route\RouteCollection;

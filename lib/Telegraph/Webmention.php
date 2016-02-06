@@ -37,6 +37,8 @@ class Webmention {
   }
 
   public static function send($id, $client=false, $http=false) {
+    initdb();
+
     $webmention = ORM::for_table('webmentions')->where('id', $id)->find_one();
     if(!$webmention) {
       echo 'Webmention '.$id.' was not found'."\n";
@@ -98,7 +100,10 @@ class Webmention {
 
     $webmention->save();
 
-    return self::updateStatus($webmention, $response['code'], $status, $response['body']);
+    $result = self::updateStatus($webmention, $response['code'], $status, $response['body']);
+    $pdo = ORM::get_db();
+    $pdo = null;
+    return $result;
   }
 
 }
