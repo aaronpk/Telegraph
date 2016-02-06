@@ -162,7 +162,9 @@ class API {
   }
 
   public function superfeedr_tracker(Request $request, Response $response, $args) {
-    logger()->addInfo("Got payload from superfeedr", $request->request->all());
+    logger()->addInfo("Got payload from superfeedr: " . $request->getContent());
+
+    $input = json_decode($request->getContent(), true);
 
     # Require the code parameter
     if(!$token=$args['token']) {
@@ -184,7 +186,7 @@ class API {
 
     $site = ORM::for_table('sites')->where('id', $role->site_id)->find_one();
 
-    if(($items = $request->get('items'))
+    if(($items = $input['items'])
       && is_array($items)
       && array_key_exists(0, $items)
       && ($item = $items[0])
