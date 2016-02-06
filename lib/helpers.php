@@ -1,4 +1,7 @@
 <?php
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 date_default_timezone_set('UTC');
 
 if(array_key_exists('ENV', $_ENV)) {
@@ -11,6 +14,23 @@ function initdb() {
   ORM::configure('mysql:host=' . Config::$db['host'] . ';dbname=' . Config::$db['database']);
   ORM::configure('username', Config::$db['username']);
   ORM::configure('password', Config::$db['password']);
+}
+
+function logger() {
+  static $log;
+  if(!isset($log)) {
+    $log = new Logger('name');
+    $log->pushHandler(new StreamHandler(dirname(__FILE__).'/../logs/telegraph.log', Logger::DEBUG));
+  }
+  return $log;
+}
+
+function log_info($msg) {
+  logger()->addInfo($msg);
+}
+
+function log_warning($msg) {
+  logger()->addWarning($msg);
 }
 
 function view($template, $data=[]) {

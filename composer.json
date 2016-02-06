@@ -12,7 +12,8 @@
     "p3k/caterpillar": "0.1.*",
     "predis/predis": "1.*",
     "michelf/php-markdown": "1.6.*",
-    "camspiers/json-pretty": "1.0.*"
+    "camspiers/json-pretty": "1.0.*",
+    "monolog/monolog": "1.*"
   },
   "require-dev": {
 		"phpunit/phpunit": "*"

@@ -2,6 +2,8 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Monolog\Logger;
+
 class API {
 
   public $http;
@@ -160,6 +162,8 @@ class API {
   }
 
   public function superfeedr_tracker(Request $request, Response $response, $args) {
+    logger()->addInfo("Got payload from superfeedr", $request->request->all());
+
     # Require the code parameter
     if(!$token=$args['token']) {
       return $this->respond($response, 401, [
