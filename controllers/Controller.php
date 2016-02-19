@@ -22,7 +22,7 @@ class Controller {
     }
   }
 
-  private function _get_role(Request $request) {
+  private function _get_role(Request $request, Response $response) {
     // Default to load their first site, but let the query string override it
     $role = ORM::for_table('roles')->join('sites', 'roles.site_id = sites.id')
       ->where('user_id', session('user_id'))->order_by_asc('sites.created_at')->find_one();
@@ -199,11 +199,11 @@ class Controller {
     $source = $this->http->get($sourceURL);
     $parsed = \Mf2\parse($source['body'], $sourceURL);
 
-    $links = $client->findOutgoingLinks($parsed);
+    $links = array_values($client->findOutgoingLinks($parsed));
 
     $response->headers->set('Content-Type', 'application/json');
     $response->setContent(json_encode([
-      'links' => array_values($links)
+      'links' => $links
     ]));
     return $response;
   }
@@ -215,25 +215,39 @@ class Controller {
 
     $targetURL = $request->get('target');
 
-    // Cache the discovered result
-    $cacheKey = 'telegraph:discover_endpoint:'.$targetURL;
-    if($request->get('ignore_cache') == 'true' || (!$status = redis()->get($cacheKey))) {
-      $client = new IndieWeb\MentionClient();
-      $endpoint = $client->discoverWebmentionEndpoint($targetURL);
-      if($endpoint) {
-        $status = 'webmention';
-      } else {
-        $endpoint = $client->discoverPingbackEndpoint($targetURL);
-        if($endpoint) {
-          $status = 'pingback';
-        } else {
-          $status = 'none';
-        }
-      }
-      $cached = false;
-      redis()->setex($cacheKey, 600, $status);
+    // Reject links that are known to not accept webmentions
+    $host = str_replace('www.','',parse_url($targetURL, PHP_URL_HOST));
+
+    $unsupported = [
+      'twitter.com',
+      'instagram.com',
+      'facebook.com',
+    ];
+
+    if(!$host || in_array($host, $unsupported) || preg_match('/.+\.amazonaws\.com/', $host)) {
+      $status = 'none';
+      $cached = -1;
     } else {
-      $cached = true;
+      // Cache the discovered result
+      $cacheKey = 'telegraph:discover_endpoint:'.$targetURL;
+      if($request->get('ignore_cache') == 'true' || (!$status = redis()->get($cacheKey))) {
+        $client = new IndieWeb\MentionClient();
+        $endpoint = $client->discoverWebmentionEndpoint($targetURL);
+        if($endpoint) {
+          $status = 'webmention';
+        } else {
+          $endpoint = $client->discoverPingbackEndpoint($targetURL);
+          if($endpoint) {
+            $status = 'pingback';
+          } else {
+            $status = 'none';
+          }
+        }
+        $cached = false;
+        redis()->setex($cacheKey, 600, $status);
+      } else {
+        $cached = true;
+      }
     }
 
     $response->headers->set('Content-Type', 'application/json');

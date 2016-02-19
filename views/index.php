@@ -207,7 +207,7 @@ $menu = [
   <div class="ui vertical stripe segment">
     <div class="ui text container">
       <h3 class="ui header">We send webmentions for you</h3>
-      <p>Instead of doing the hard work of sending webmentions yourself, we have a simple API that will handle endpoint discovery, gracefully handle failures and retries, and will let you know whether a webmention was successfully sent. All you have to do is tell us the page you want to send the webmention to and we'll take it from there.</p>
+      <p>Instead of messing with the details of sending webmentions yourself, we have a simple API that will handle endpoint discovery, gracefully handle failures and retries, and will let you know whether a webmention was successfully sent. All you have to do is tell us the page you want to send the webmention to and we'll take it from there.</p>
       <a class="ui large button" href="/api">Read More</a>
       <!--
       <h4 class="ui horizontal header divider">
