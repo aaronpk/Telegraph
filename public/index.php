@@ -2,6 +2,19 @@
 chdir('..');
 include('vendor/autoload.php');
 
+use Errbit\Errbit;
+
+if(Config::$errbitHost) {
+  Errbit::instance()
+  ->configure(array(
+    'api_key' => Config::$errbitKey,
+    'host' => Config::$errbitHost,
+    'port' => 443,
+    'secure' => true
+  ))
+  ->start();
+}
+
 initdb();
 
 use Symfony\Component\HttpFoundation\Request;
