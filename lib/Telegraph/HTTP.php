@@ -3,7 +3,7 @@ namespace Telegraph;
 
 class HTTP {
 
-  public static function get($url) {
+  public function get($url) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
@@ -17,7 +17,7 @@ class HTTP {
     );
   }
 
-  public static function post($url, $body, $headers=array()) {
+  public function post($url, $body, $headers=array()) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -25,9 +25,7 @@ class HTTP {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
-    if (self::$_proxy) curl_setopt($ch, CURLOPT_PROXY, self::$_proxy);
     $response = curl_exec($ch);
-    self::_debug($response);
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     return array(
       'code' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
@@ -36,13 +34,12 @@ class HTTP {
     );
   }
 
-  public static function head($url) {
+  public function head($url) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($ch, CURLOPT_NOBODY, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    if (self::$_proxy) curl_setopt($ch, CURLOPT_PROXY, self::$_proxy);
     $response = curl_exec($ch);
     return array(
       'code' => curl_getinfo($ch, CURLINFO_HTTP_CODE),

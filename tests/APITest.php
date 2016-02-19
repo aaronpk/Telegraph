@@ -8,7 +8,7 @@ class APITest extends PHPUnit_Framework_TestCase {
 
   public function setUp() {
     $this->client = new API();
-    $this->client->http = new Telegraph\HTTPTest();
+    $this->client->http = new Telegraph\HTTPTest(dirname(__FILE__).'/data/');
     ORM::for_table('users')->raw_query('TRUNCATE users')->delete_many();
     ORM::for_table('roles')->raw_query('TRUNCATE roles')->delete_many();
     ORM::for_table('sites')->raw_query('TRUNCATE sites')->delete_many();

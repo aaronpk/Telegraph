@@ -8,7 +8,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase {
   private $api;
 
   public function setUp() {
-    $this->http = new Telegraph\HTTPTest();
+    $this->http = new Telegraph\HTTPTest(dirname(__FILE__).'/data/');
     $this->api = new API();
     $this->api->http = $this->http;
     ORM::for_table('users')->raw_query('TRUNCATE users')->delete_many();
