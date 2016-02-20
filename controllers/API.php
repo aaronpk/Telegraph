@@ -229,6 +229,8 @@ class API {
     }
 
     $data = [
+      'source' => $webmention->source,
+      'target' => $webmention->target,
       'status' => $code,
     ];
 
