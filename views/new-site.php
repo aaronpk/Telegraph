@@ -37,8 +37,13 @@
       <div class="field">
         <label>Superfeedr Webhook URL</label>
         <input type="text" readonly="" value="<?= Config::$base ?>superfeedr/<?= $role->token ?>">
-        <p>Create a <a href="https://superfeedr.com/tracker">Superfeedr tracker</a> subscription and set this URL as the web hook URL.</p>
+        <p>Create a <a href="/superfeedr">Superfeedr tracker</a> subscription and set this URL as the web hook URL.</p>
         <p>If you are using Telegraph to send webmentions as well as receive webmentions from Superfeedr, it is recommended you create a separate site for Superfeedr so you can more easily separate the two uses of the service.</p>
+      </div>
+      <div class="field">
+        <label>Superfeedr Topic URL</label>
+        <input type="text" readonly="" value="http://track.superfeedr.com/?query=link%3A<?= parse_url($site->url, PHP_URL_HOST) ?>">
+        <p>Your Superfeedr tracker subscription should have this topic URL.</p>
       </div>
     </form>
 

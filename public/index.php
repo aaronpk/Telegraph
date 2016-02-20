@@ -28,6 +28,8 @@ $router->addRoute('GET', '/site/new', 'Controller::new_site');
 $router->addRoute('GET', '/site/edit', 'Controller::new_site');
 $router->addRoute('POST', '/site/save', 'Controller::save_site');
 $router->addRoute('GET', '/api', 'Controller::api');
+$router->addRoute('GET', '/superfeedr', 'Controller::superfeedr');
+
 $router->addRoute('GET', '/webmention/{code}/details', 'Controller::webmention_details');
 $router->addRoute('GET', '/dashboard/send', 'Controller::dashboard_send');
 $router->addRoute('POST', '/dashboard/get_outgoing_links.json', 'Controller::get_outgoing_links');

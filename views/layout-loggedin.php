@@ -10,6 +10,7 @@
       <a href="/dashboard" class="item">Dashboard</a>
     <? endif; ?>
     <a href="/api" class="item">API</a>
+    <a href="/superfeedr" class="item">Superfeedr</a>
     <div class="ui right simple dropdown item">
       <? if($user): ?>
         <img class="ui mini circular image" src="<?= $user->photo ?: '/assets/default-user.jpg' ?>"> <i class="dropdown icon"></i>

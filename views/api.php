@@ -8,7 +8,7 @@ $this->layout('layout-loggedin', ['title' => $title, 'accounts' => $accounts, 'u
   <h1>Telegraph API</h1>
 
 <? ob_start(); ?>
-<h2 class="ui dividing header">Send a webmention to a specific page</h2>
+<h2 class="ui dividing header" id="send">Send a webmention to a specific page</h2>
 Post to `https://telegraph.p3k.io/webmention`
 
 * `token` - your API key obtained after signing up
@@ -73,7 +73,7 @@ Content-type: application/json
 }
 ```
 
-<h2 class="ui dividing header">Status API</h2>
+<h2 class="ui dividing header" id="status">Status API</h2>
 
 You can poll the status URL returned after queuing a webmention for more information on the progress of sending the webmention. The response will look like the following:
 
@@ -130,7 +130,7 @@ Other possible status codes are listed below.
 Other status codes may be returned depending on the receiver's status endpoint. You should only assume a webmention was successfully sent if the status is `success` or `accepted`. If the response does not contain a `location` parameter you should not continue polling the endpoint.
 
 
-<h2 class="ui dividing header">Callback Events</h2>
+<h2 class="ui dividing header" id="callbacks">Callback Events</h2>
 After Telegraph processes your request, you will receive a post to the callback URL. The initial callback you receive will be one of the status codes returned by the status API.
 
 Typically, webmention endpoints defer processing until later, so normally the first callback received will indicate that the webmention was queued. This callback will normally be sent relatively quickly after you make the initial request, typically within a few seconds.
