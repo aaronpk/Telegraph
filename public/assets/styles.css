@@ -26,7 +26,7 @@ h2.site-name:hover .edit-site {
 .status-table .urls {
   width: 495px;
   max-width: 495px;
-  overflow-x: scroll;
+  word-wrap: break-word;
 }
 
 .details-table .left {
@@ -34,5 +34,5 @@ h2.site-name:hover .edit-site {
 }
 .details-table .right {
   max-width: 620px;
-  overflow-x: scroll;
+  word-wrap: break-word;
 }
