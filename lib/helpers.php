@@ -4,8 +4,8 @@ use Monolog\Handler\StreamHandler;
 
 date_default_timezone_set('UTC');
 
-if(array_key_exists('ENV', $_ENV)) {
-  require(dirname(__FILE__).'/../config.'.$_ENV['ENV'].'.php');
+if(getenv('ENV')) {
+  require(dirname(__FILE__).'/../config.'.getenv('ENV').'.php');
 } else {
   require(dirname(__FILE__).'/../config.php');
 }

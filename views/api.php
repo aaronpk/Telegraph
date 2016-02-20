@@ -29,6 +29,7 @@ If you pass `target_domain` instead of `target`, Telegraph will find and enqueue
 * `invalid_parameter` - one or more of the parameters were invalid, e.g. the target was not a valid URL
 * `source_not_html` - the source document could not be parsed as HTML (only in extreme cases, most of the time it just accepts whatever)
 * `no_link_found` - the link to the target URL was not found on the source document
+* `not_supported` - the target URL is known to not accept webmentions, so the request is rejected before even queuing it. If you believe this is in error, please file an issue at [github.com/aaronpk/Telegraph/issues](https://github.com/aaronpk/Telegraph/issues)
 
 An error response in this case will be returned with an HTTP 400 status code an a JSON body:
 

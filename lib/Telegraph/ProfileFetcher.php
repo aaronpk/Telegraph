@@ -5,10 +5,14 @@ use ORM, Exception, Mf2;
 class ProfileFetcher {
 
   public static function fetch($id) {
+    initdb();
+
     // Fetch the user's home page and look for profile information there
     $user = ORM::for_table('users')->where_id_is($id)->find_one();
     echo "Looking for representative h-card for ".$user->url."\n";
-    $data = HTTP::get($user->url);
+
+    $client = new HTTP();
+    $data = $client->get($user->url);
     $parsed = Mf2\parse($data['body'], $user->url);
     $representative = Mf2\HCard\representative($parsed, $user->url);
     if($representative) {
