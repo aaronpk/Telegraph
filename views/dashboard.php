@@ -29,7 +29,7 @@
   </div>
 
   <? if(count($webmentions)): ?>
-  <table class="ui striped single line table">
+  <table class="ui striped table">
     <thead>
       <th>Status</th>
       <th>Date</th>
