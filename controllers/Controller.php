@@ -130,9 +130,7 @@ class Controller {
   }
 
   public function webmention_details(Request $request, Response $response, $args) {
-    if(!$this->_is_logged_in($request, $response)) {
-      return $response;
-    }
+    session_start();
 
     // Look up the webmention by its token
     $webmention = ORM::for_table('webmentions')->where('token', $args['code'])->find_one();
@@ -259,6 +257,7 @@ class Controller {
   }
 
   private function _user() {
+    if(!session('user_id')) return null;
     return ORM::for_table('users')->where_id_is(session('user_id'))->find_one();
   }
 
