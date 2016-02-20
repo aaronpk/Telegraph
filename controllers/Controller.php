@@ -213,16 +213,7 @@ class Controller {
 
     $targetURL = $request->get('target');
 
-    // Reject links that are known to not accept webmentions
-    $host = str_replace('www.','',parse_url($targetURL, PHP_URL_HOST));
-
-    $unsupported = [
-      'twitter.com',
-      'instagram.com',
-      'facebook.com',
-    ];
-
-    if(!$host || in_array($host, $unsupported) || preg_match('/.+\.amazonaws\.com/', $host)) {
+    if(!Telegraph\Webmention::isProbablySupported($targetURL)) {
       $status = 'none';
       $cached = -1;
     } else {

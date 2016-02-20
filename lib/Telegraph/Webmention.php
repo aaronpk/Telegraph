@@ -7,6 +7,28 @@ class Webmention {
 
   private static $http = false;
 
+  // Returns false if the target URL is known to not accept webmentions
+  public static function isProbablySupported($targetURL) {
+    // Reject links that are known to not accept webmentions
+    $host = str_replace('www.','',parse_url($targetURL, PHP_URL_HOST));
+
+    if(!$host) return false;
+
+    $unsupported = [
+      'twitter.com',
+      'instagram.com',
+      'facebook.com',
+    ];
+
+    if(in_array($host, $unsupported))
+      return false;
+
+    if(preg_match('/.+\.amazonaws\.com/', $host))
+      return false;
+
+    return true;
+  }
+
   private static function updateStatus($webmention, $http_code, $code, $raw=null) {
     $status = ORM::for_table('webmention_status')->create();
     $status->webmention_id = $webmention->id;

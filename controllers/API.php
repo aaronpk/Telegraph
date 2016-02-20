@@ -84,6 +84,14 @@ class API {
       ]);
     }
 
+    # Check the blacklist of domains that are known to not accept webmentions
+    if($target && !Telegraph\Webmention::isProbablySupported($target)) {
+      return $this->respond($response, 400, [
+        'error' => 'not_supported',
+        'error_description' => 'The target domain is known to not accept webmentions. If you believe this is in error, please file an issue at https://github.com/aaronpk/Telegraph/issues'
+      ]);
+    }
+
     # Synchronously check the source URL and verify that it actually contains
     # a link to the target. This way we prevent this API from sending known invalid mentions.
     $sourceData = $this->http->get($source);
