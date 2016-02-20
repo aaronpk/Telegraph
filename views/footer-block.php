@@ -4,6 +4,7 @@
       <div class="three wide column">
         <h4 class="ui inverted header">Telegraph</h4>
         <div class="ui inverted link list">
+          <a href="/api" class="item">API</a>
           <a href="https://github.com/aaronpk/Telegraph" class="item">Open Source</a>
           <a href="https://github.com/aaronpk/Telegraph/issues" class="item">Issues</a>
           <a href="http://webmention.net" class="item">About Webmention</a>

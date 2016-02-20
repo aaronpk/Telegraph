@@ -129,6 +129,68 @@ class Controller {
     return $response;
   }
 
+  public function new_site(Request $request, Response $response) {
+    if(!$this->_is_logged_in($request, $response)) {
+      return $response;
+    }
+
+    if(!$role=$this->_get_role($request, $response)) {
+      return $response;
+    }
+
+    if($request->get('account')) {
+      // permissions are checked already by _get_role
+      $site = ORM::for_table('sites')->where_id_is($request->get('account'))->find_one();
+    } else {
+      $site = null;
+    }
+
+    $response->setContent(view('new-site', [
+      'title' => 'Create New Site',
+      'user' => $this->_user(),
+      'accounts' => $this->_accounts(),
+      'role' => $role,
+      'site' => $site
+    ]));
+    return $response;    
+  }
+
+  public function save_site(Request $request, Response $response) {
+    if(!$this->_is_logged_in($request, $response)) {
+      return $response;
+    }
+
+    if(!$role=$this->_get_role($request, $response)) {
+      return $response;
+    }
+
+    if($request->get('account')) {
+      // permissions are checked already by _get_role
+      $site = ORM::for_table('sites')->where_id_is($request->get('account'))->find_one();
+      $site->name = $request->get('name');
+      $site->url = $request->get('url');
+      $site->save();
+    } else {
+      $site = ORM::for_table('sites')->create();
+      $site->created_by = session('user_id');
+      $site->created_at = date('Y-m-d H:i:s');
+      $site->name = $request->get('name');
+      $site->url = $request->get('url');
+      $site->save();
+
+      $role = ORM::for_table('roles')->create();
+      $role->site_id = $site->id;
+      $role->user_id = session('user_id');
+      $role->role = 'owner';
+      $role->token = random_string(32);
+      $role->save();
+    }
+
+    $response->setStatusCode(302);
+    $response->headers->set('Location', '/dashboard?account='.$site->id);
+    return $response;
+  }
+
   public function webmention_details(Request $request, Response $response, $args) {
     session_start();
 

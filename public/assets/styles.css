@@ -9,3 +9,10 @@
   background-color: rgba(248,246,255,1);
   font-size: 0.9em;
 }
+
+h2.site-name .edit-site {
+  visibility: hidden;
+}
+h2.site-name:hover .edit-site {
+  visibility: visible;
+}

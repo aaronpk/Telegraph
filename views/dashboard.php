@@ -2,6 +2,8 @@
 
 <div class="ui main text container" style="margin-top: 80px; margin-bottom: 40px;">
 
+  <h2 class="site-name"><?= $site->name ?> <a href="/site/edit?account=<?= $site->id ?>" class="edit-site" style="font-size: 0.8em;"><i class="setting icon"></i></a></h2>
+
   <div class="ui top attached tabular menu">
     <a class="item active" data-tab="send-from-source">Find Links</a>
     <a class="item" data-tab="send-source-target">Send Webmention</a>
@@ -61,14 +63,6 @@
   <? else: ?>
     <div class="ui message">It looks like you haven't sent any webmentions yet! Try entering one of your post URLs above and send some.</div>
   <? endif; ?>
-
-  <form class="ui form">
-    <div class="field">
-      <label>API Key</label>
-      <input type="text" readonly="" value="<?= $role->token ?>">
-    </div>
-    <p>Use this key when sending webmentions using the <a href="/api">API</a>.</p>
-  </form>
 
 </div>
 
