@@ -4,36 +4,36 @@
 
   <h2>Webmention Request</h2>
 
-  <table class="ui table single line"><tbody>
+  <table class="ui table details-table"><tbody>
     <tr>
-      <td><b>Status</b></td>
-      <td>
+      <td class="left"><b>Status</b></td>
+      <td class="right">
         <i class="circular inverted <?= $icon ?> icon"></i>
         <?= ucfirst($status) ?>
       </td>
     </tr>
     <tr>
-      <td><b>Date</b></td>
-      <td><?= date('M j, g:ia', strtotime($webmention->created_at)) ?></td>
+      <td class="left"><b>Date</b></td>
+      <td class="right"><?= date('M j, g:ia', strtotime($webmention->created_at)) ?></td>
     </tr>
     <tr>
-      <td><b>Source</b></td>
-      <td><a href="<?= $this->e($webmention->source) ?>"><?= $this->e($webmention->source) ?></a></td>
+      <td class="left"><b>Source</b></td>
+      <td class="right"><a href="<?= $this->e($webmention->source) ?>"><?= $this->e($webmention->source) ?></a></td>
     </tr>
     <tr>
-      <td><b>Target</b></td>
-      <td><a href="<?= $this->e($webmention->target) ?>"><?= $this->e($webmention->target) ?></a></td>
+      <td class="left"><b>Target</b></td>
+      <td class="right"><a href="<?= $this->e($webmention->target) ?>"><?= $this->e($webmention->target) ?></a></td>
     </tr>
     <? if($webmention->vouch): ?>
       <tr>
-        <td><b>Vouch</b></td>
-        <td><a href="<?= $this->e($webmention->vouch) ?>"><?= $this->e($webmention->vouch) ?></a></td>
+        <td class="left"><b>Vouch</b></td>
+        <td class="right"><a href="<?= $this->e($webmention->vouch) ?>"><?= $this->e($webmention->vouch) ?></a></td>
       </tr>
     <? endif; ?>
     <? if($webmention->callback): ?>
       <tr>
-        <td><b>Callback URL</b></td>
-        <td><?= $this->e($webmention->callback) ?></td>
+        <td class="left"><b>Callback URL</b></td>
+        <td class="right"><?= $this->e($webmention->callback) ?></td>
       </tr>
     <? endif; ?>
   </tbody></table>

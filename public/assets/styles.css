@@ -16,3 +16,23 @@ h2.site-name .edit-site {
 h2.site-name:hover .edit-site {
   visibility: visible;
 }
+
+.status-table .status {
+  width: 70px;
+}
+.status-table .date {
+  width: 135px;
+}
+.status-table .urls {
+  width: 495px;
+  max-width: 495px;
+  overflow-x: scroll;
+}
+
+.details-table .left {
+  width: 80px;
+}
+.details-table .right {
+  max-width: 620px;
+  overflow-x: scroll;
+}

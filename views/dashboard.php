@@ -31,7 +31,7 @@
   </div>
 
   <? if(count($webmentions)): ?>
-  <table class="ui striped table">
+  <table class="ui striped table status-table">
     <thead>
       <th>Status</th>
       <th>Date</th>
@@ -40,19 +40,19 @@
     <tbody>
     <?php foreach($webmentions as $mention): ?>
       <tr<?= $mention['status'] == 'pending' ? ' class="warning"' : '' ?>>
-        <td>
+        <td class="status">
           <div class="popup" data-content="<?= $mention['status'] ?>">
             <a href="/webmention/<?= $mention['webmention']->token ?>/details">
               <i class="circular inverted <?= $mention['icon'] ?> icon"></i>
             </a>
           </div>
         </td>
-        <td>
+        <td class="date">
           <a href="/webmention/<?= $mention['webmention']->token ?>/details">
             <?= date('M j, g:ia', strtotime($mention['webmention']->created_at)) ?>
           </a>
         </td>
-        <td>
+        <td class="urls">
           source=<a href="<?= $this->e($mention['webmention']->source) ?>"><?= $this->e($mention['webmention']->source) ?></a><br>
           target=<a href="<?= $this->e($mention['webmention']->target) ?>"><?= $this->e($mention['webmention']->target) ?></a>
         </td>
