@@ -97,7 +97,7 @@ class API {
     $sourceData = $this->http->get($source);
 
     $doc = new DOMDocument();
-    @$doc->loadHTML(self::toHtmlEntities($sourceData['body']));
+    @$doc->loadHTML(self::toHtmlEntities($sourceData['body']), LIBXML_NOWARNING|LIBXML_NOERROR);
 
     if(!$doc) {
       return $this->respond($response, 400, [
@@ -194,7 +194,8 @@ class API {
 
     $site = ORM::for_table('sites')->where('id', $role->site_id)->find_one();
 
-    if(($items = $input['items'])
+    if(array_key_exists('items', $input) 
+      && ($items = $input['items'])
       && is_array($items)
       && array_key_exists(0, $items)
       && ($item = $items[0])
