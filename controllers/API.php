@@ -112,7 +112,9 @@ class API {
     $sourceData = $this->http->get($source);
 
     $doc = new DOMDocument();
+    libxml_use_internal_errors(true); # suppress parse errors and warnings
     @$doc->loadHTML(self::toHtmlEntities($sourceData['body']), LIBXML_NOWARNING|LIBXML_NOERROR);
+    libxml_clear_errors();
 
     if(!$doc) {
       return $this->respond($response, 400, [
