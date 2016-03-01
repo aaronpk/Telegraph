@@ -74,6 +74,21 @@ class API {
       ]);
     }
 
+    # Don't send anything if the source domain matches the target domain
+    # The problem is someone pushing to Superfeedr who is also subscribed, will cause a 
+    # request to be sent with the source of one of their posts, and their own target domain.
+    # This causes a whole slew of webmentions to be queued up, almost all of which are not needed.
+    if($target_domain) {
+      $source_domain = parse_url($source, PHP_URL_HOST);
+      if($target_domain == $source_domain) {
+        # Return 200 so Superfeedr doesn't think something is broken
+        return $this->respond($response, 200, [
+          'error' => 'not_supported',
+          'error_description' => 'You cannot use the target_domain feature to send webmentions to the same domain as the source URL'
+        ]);
+      }
+    }
+
     # Verify the token is valid
     $role = ORM::for_table('roles')->where('token', $token)->find_one();
 
@@ -194,7 +209,8 @@ class API {
 
     $site = ORM::for_table('sites')->where('id', $role->site_id)->find_one();
 
-    if(array_key_exists('items', $input) 
+    if(is_array($input)
+      && array_key_exists('items', $input) 
       && ($items = $input['items'])
       && is_array($items)
       && array_key_exists(0, $items)

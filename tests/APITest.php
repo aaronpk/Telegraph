@@ -244,6 +244,16 @@ class APITest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('no_link_found', $data->error);
   }
 
+  public function testTargetDomainCantMatchSourceDomain() {
+    $this->_createExampleAccount();
+
+    $response = $this->webmention(['token'=>'a','source'=>'http://example.com/test','target_domain'=>'example.com']);
+    $body = $response->getContent();
+    $this->assertEquals(200, $response->getStatusCode());
+    $data = json_decode($response->getContent());
+    $this->assertEquals('not_supported', $data->error);
+  }
+
   public function testStatusNotFound() {
     $this->_createExampleAccount();
 
