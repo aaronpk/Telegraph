@@ -30,3 +30,10 @@ See https://telegraph.p3k.io/api
 Telegraph photo: https://www.flickr.com/photos/nostri-imago/3407786186
 
 Telegraph icon: https://thenounproject.com/search/?q=telegraph&i=22058
+
+## License
+
+Copyright 2016 by Aaron Parecki
+
+Available under the Apache 2.0 license. See [LICENSE](LICENSE).
+
