@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3d6f1de70635267d75ea090ffbb4e6a7",
-    "content-hash": "a14b6b6853bab479528698c9e03944c1",
+    "hash": "c1073e02a47a5b29ceff0e844c0d9ff7",
+    "content-hash": "ff7e305d795fe52c71dcc30cbacd9ad3",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -194,22 +194,22 @@
         },
         {
             "name": "indieauth/client",
-            "version": "0.1.13",
+            "version": "0.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/indieauth-client-php.git",
-                "reference": "d438bb03db15b4ccc6c63228be16de7870b6ab99"
+                "reference": "504ba095ee10ffaabc570682f3a93b462ba21c77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/d438bb03db15b4ccc6c63228be16de7870b6ab99",
-                "reference": "d438bb03db15b4ccc6c63228be16de7870b6ab99",
+                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/504ba095ee10ffaabc570682f3a93b462ba21c77",
+                "reference": "504ba095ee10ffaabc570682f3a93b462ba21c77",
                 "shasum": ""
             },
             "require": {
                 "barnabywalters/mf-cleaner": "0.*",
                 "indieweb/link-rel-parser": "0.1.1",
-                "mf2/mf2": "0.2.*",
+                "mf2/mf2": "~0.3",
                 "php": ">5.3.0"
             },
             "type": "library",
@@ -229,7 +229,7 @@
                 }
             ],
             "description": "IndieAuth Client Library",
-            "time": "2016-02-08 23:56:31"
+            "time": "2016-04-04 14:57:04"
         },
         {
             "name": "indieweb/link-rel-parser",
@@ -279,20 +279,20 @@
         },
         {
             "name": "indieweb/mention-client",
-            "version": "1.1.5",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/mention-client-php.git",
-                "reference": "042236b7f58f72e372ac5a7abd7961638ac612d8"
+                "reference": "eed3468f2237e9a03543a8edf14d83d4c2904667"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/042236b7f58f72e372ac5a7abd7961638ac612d8",
-                "reference": "042236b7f58f72e372ac5a7abd7961638ac612d8",
+                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/eed3468f2237e9a03543a8edf14d83d4c2904667",
+                "reference": "eed3468f2237e9a03543a8edf14d83d4c2904667",
                 "shasum": ""
             },
             "require": {
-                "mf2/mf2": "~0.2",
+                "mf2/mf2": ">=0.2",
                 "php": ">=5.4"
             },
             "require-dev": {
@@ -317,7 +317,7 @@
             ],
             "description": "Client library for sending webmention and pingback notifications",
             "homepage": "https://github.com/indieweb/mention-client-php",
-            "time": "2016-04-15 06:51:32"
+            "time": "2016-04-15 08:11:41"
         },
         {
             "name": "indieweb/representative-h-card",
@@ -634,20 +634,20 @@
         },
         {
             "name": "mf2/mf2",
-            "version": "v0.2.12",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/php-mf2.git",
-                "reference": "6701504876d6c9242eb310b35f41d40d9785ab4e"
+                "reference": "4fb2eb5365cbc0fd2e0c26ca748777d6c2539763"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/6701504876d6c9242eb310b35f41d40d9785ab4e",
-                "reference": "6701504876d6c9242eb310b35f41d40d9785ab4e",
+                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/4fb2eb5365cbc0fd2e0c26ca748777d6c2539763",
+                "reference": "4fb2eb5365cbc0fd2e0c26ca748777d6c2539763",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*"
@@ -667,7 +667,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "CC0"
             ],
             "authors": [
                 {
@@ -683,7 +683,7 @@
                 "parser",
                 "semantic"
             ],
-            "time": "2015-07-12 14:10:01"
+            "time": "2016-03-14 12:13:34"
         },
         {
             "name": "michelf/php-markdown",
