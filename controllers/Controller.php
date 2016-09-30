@@ -282,6 +282,11 @@ class Controller {
 
     $links = array_values($client->findOutgoingLinks($parsed));
 
+    // Remove the source URL from the list if present
+    $links = array_filter($links, function($link) use($sourceURL) {
+      return $link != $sourceURL;
+    });
+
     $response->headers->set('Content-Type', 'application/json');
     $response->setContent(json_encode([
       'links' => $links
