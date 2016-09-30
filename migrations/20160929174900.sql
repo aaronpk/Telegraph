@@ -1,0 +1,3 @@
+ALTER TABLE webmentions
+ADD COLUMN `code` TEXT DEFAULT NULL AFTER `vouch`,
+ADD COLUMN `realm` TEXT DEFAULT NULL AFTER `code`;

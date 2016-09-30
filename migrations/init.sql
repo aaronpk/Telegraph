@@ -10,6 +10,7 @@ CREATE TABLE `roles` (
 CREATE TABLE `sites` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `url` VARCHAR(255) DEFAULT NULL,
   `created_by` int(10) unsigned DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -46,6 +47,8 @@ CREATE TABLE `webmentions` (
   `source` varchar(255) DEFAULT NULL,
   `target` varchar(255) DEFAULT NULL,
   `vouch` varchar(255) DEFAULT NULL,
+  `code` text DEFAULT NULL,
+  `realm` text DEFAULT NULL,
   `callback` varchar(255) DEFAULT NULL,
   `webmention_endpoint` varchar(255) DEFAULT NULL,
   `webmention_status_url` varchar(255) DEFAULT NULL,

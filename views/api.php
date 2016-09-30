@@ -11,16 +11,22 @@ $this->layout('layout-loggedin', ['title' => $title, 'accounts' => $accounts, 'u
 <h2 class="ui dividing header" id="send">Send a webmention to a specific page</h2>
 Post to `https://telegraph.p3k.io/webmention`
 
+### Required
 * `token` - your API key obtained after signing up
 * `source` - the URL of your post
 * `target` OR `target_domain` - the URL or domain you linked to, respectively
-* `callback` - (optional) - a URL that will receive a web hook when new information about this webmention is available
+
+### Optional
+* `callback` - a URL that will receive a web hook when new information about this webmention is available
+* `vouch` - see <a href="https://indieweb.org/Vouch">Vouch</a>
+* `code` - see <a href="https://indieweb.org/Private-Webmention">Private Webmention</a>
+* `realm` - see <a href="https://indieweb.org/Private-Webmention">Private Webmention</a>
 
 The Telegraph API will validate the parameters and then queue the webmention for sending. If there was a problem with the request, you will get an error response immediately.
 
-The API will first make an HTTP request to the source URL, and look for a link to the target on the page. This happens synchronously so you will get this error reply immediately.
+The API will first make an HTTP request to the source URL, and look for a link to the target on the page. This happens synchronously so you will get this error reply immediately. (Note that this verification is not performed for sending private Webmentions.)
 
-If you pass `target_domain` instead of `target`, Telegraph will find and enqueue webmentions for all links to that domain.
+If you pass `target_domain` instead of `target`, Telegraph will find and enqueue webmentions for all links to that domain. However, sending a private Webmention requires that you send `target` rather than `target_domain`.
 
 #### Errors
 * `authentication_required` - the token parameter was missing

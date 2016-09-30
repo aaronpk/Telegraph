@@ -99,7 +99,13 @@ class Webmention {
     $webmention->webmention_endpoint = $endpoint;
     $webmention->save();
 
-    $response = $client->sendWebmentionToEndpoint($endpoint, $webmention->source, $webmention->target);
+    $params = [];
+    if($webmention->code) {
+      $params['code'] = $webmention->code;
+      if($webmention->realm)
+        $params['realm'] = $webmention->realm;
+    }
+    $response = $client->sendWebmentionToEndpoint($endpoint, $webmention->source, $webmention->target, $params);
 
     if(in_array($response['code'], [200,201,202])) {
       $status = 'accepted';

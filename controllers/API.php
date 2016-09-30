@@ -107,50 +107,62 @@ class API {
       ]);
     }
 
+    # If there is no code given,
     # Synchronously check the source URL and verify that it actually contains
     # a link to the target. This way we prevent this API from sending known invalid mentions.
-    $sourceData = $this->http->get($source);
+    if($request->get('code')) {
+      # target URL is required
+      if(!$target) {
+        return $this->respond($response, 400, [
+          'error' => 'not_supported',
+          'error_description' => 'The target_domain parameter is not supported for sending private webmentions'
+        ]);
+      }
 
-    $doc = new DOMDocument();
-    libxml_use_internal_errors(true); # suppress parse errors and warnings
-    @$doc->loadHTML(self::toHtmlEntities($sourceData['body']), LIBXML_NOWARNING|LIBXML_NOERROR);
-    libxml_clear_errors();
+      $found[$target] = null;
+    } else {
+      $sourceData = $this->http->get($source);
 
-    if(!$doc) {
-      return $this->respond($response, 400, [
-        'error' => 'source_not_html',
-        'error_description' => 'The source document could not be parsed as HTML'
-      ]);
-    }
+      $doc = new DOMDocument();
+      libxml_use_internal_errors(true); # suppress parse errors and warnings
+      @$doc->loadHTML(self::toHtmlEntities($sourceData['body']), LIBXML_NOWARNING|LIBXML_NOERROR);
+      libxml_clear_errors();
 
-    $xpath = new DOMXPath($doc);
+      if(!$doc) {
+        return $this->respond($response, 400, [
+          'error' => 'source_not_html',
+          'error_description' => 'The source document could not be parsed as HTML'
+        ]);
+      }
 
-    $found = [];
-    foreach($xpath->query('//a[@href]') as $href) {
-      $url = $href->getAttribute('href');
-      if($target) {
-        # target parameter was provided
-        if($url == $target) {
-          $found[$url] = null;
+      $xpath = new DOMXPath($doc);
+
+      $found = [];
+      foreach($xpath->query('//a[@href]') as $href) {
+        $url = $href->getAttribute('href');
+        if($target) {
+          # target parameter was provided
+          if($url == $target) {
+            $found[$url] = null;
+          }
+        } elseif($target_domain) {
+          # target_domain parameter was provided
+          $domain = parse_url($url, PHP_URL_HOST);
+          if($domain && ($domain == $target_domain || str_ends_with($domain, '.' . $target_domain))) {
+            $found[$url] = null;
+          }
         }
-      } elseif($target_domain) {
-        # target_domain parameter was provided
-        $domain = parse_url($url, PHP_URL_HOST);
-        if($domain && ($domain == $target_domain || str_ends_with($domain, '.' . $target_domain))) {
-          $found[$url] = null;
-        }
+      }
+
+      if(!$found) {
+        return $this->respond($response, 400, [
+          'error' => 'no_link_found',
+          'error_description' => 'The source document does not have a link to the target URL or domain'
+        ]);
       }
     }
 
-    if(!$found) {
-      return $this->respond($response, 400, [
-        'error' => 'no_link_found',
-        'error_description' => 'The source document does not have a link to the target URL or domain'
-      ]);
-    }
-
-    # Everything checked out, so write the webmention to the log and queue a job to start sending
-    # TODO: database transaction?
+    # Write the webmention to the database and queue a job to start sending
 
     $statusURLs = [];
     foreach($found as $url=>$_) {
@@ -162,6 +174,8 @@ class API {
       $w->source = $source;
       $w->target = $url;
       $w->vouch = $request->get('vouch');
+      $w->code = $request->get('code');
+      $w->realm = $request->get('realm');
       $w->callback = $callback;
       $w->save();
 

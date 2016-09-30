@@ -30,6 +30,18 @@
         <td class="right"><a href="<?= $this->e($webmention->vouch) ?>"><?= $this->e($webmention->vouch) ?></a></td>
       </tr>
     <? endif; ?>
+    <? if($webmention->code): ?>
+      <tr>
+        <td class="left"><b>Code</b></td>
+        <td class="right"><code><?= $this->e($webmention->code) ?></code></td>
+      </tr>
+    <? endif; ?>
+    <? if($webmention->realm): ?>
+      <tr>
+        <td class="left"><b>Realm</b></td>
+        <td class="right"><code><?= $this->e($webmention->realm) ?></code></td>
+      </tr>
+    <? endif; ?>
     <? if($webmention->callback): ?>
       <tr>
         <td class="left"><b>Callback URL</b></td>
@@ -48,13 +60,13 @@
       <? if($webmention->webmention_endpoint): ?>
         <tr>
           <td><b>Webmention Endpoint</b></td>
-          <td><?= $this->e($webmention->webmention_endpoint) ?></td>
+          <td><a href="<?= $this->e($webmention->webmention_endpoint) ?>"><?= $this->e($webmention->webmention_endpoint) ?></a></td>
         </tr>
       <? endif; ?>
       <? if($webmention->pingback_endpoint): ?>
         <tr>
           <td><b>Pingback Endpoint</b></td>
-          <td><?= $this->e($webmention->pingback_endpoint) ?></td>
+          <td><a href="<?= $this->e($webmention->pingback_endpoint) ?>"><?= $this->e($webmention->pingback_endpoint) ?></a></td>
         </tr>
       <? endif; ?>
       <? if($webmention->webmention_endpoint == false && $webmention->pingback_endpoint == false): ?>
@@ -66,14 +78,20 @@
       <? if($webmention->webmention_endpoint): ?>
         <tr>
           <td><b>Status URL</b></td>
-          <td><?= $webmention->webmention_status_url ? $this->e($webmention->webmention_status_url) : 'The webmention endpoint did not return a status URL' ?></td>
+          <td>
+            <? if($webmention->webmention_status_url): ?>
+              <a href="<?= $this->e($webmention->webmention_status_url) ?>"><?= $this->e($webmention->webmention_status_url) ?></a>
+            <? else: ?>
+              The webmention endpoint did not return a status URL
+            <? endif; ?>
+          </td>
         </tr>
       <? endif; ?>
     </tbody></table>
 
     <h2>Logs</h2>
 
-    <table class="ui very compact table">
+    <table class="ui very compact table logs">
       <thead>
         <tr>
           <th>Date</th>
