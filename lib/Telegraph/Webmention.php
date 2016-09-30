@@ -105,6 +105,9 @@ class Webmention {
       if($webmention->realm)
         $params['realm'] = $webmention->realm;
     }
+    if($webmention->vouch) {
+      $params['vouch'] = $webmention->vouch;
+    }
     $response = $client->sendWebmentionToEndpoint($endpoint, $webmention->source, $webmention->target, $params);
 
     if(in_array($response['code'], [200,201,202])) {
