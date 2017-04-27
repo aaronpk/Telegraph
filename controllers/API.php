@@ -121,7 +121,7 @@ class API {
 
       $found[$target] = null;
     } else {
-      $sourceData = $this->http->get($source);
+      $sourceData = $this->http->get($source, ['Accept: text/html, */*']);
 
       $doc = new DOMDocument();
       libxml_use_internal_errors(true); # suppress parse errors and warnings

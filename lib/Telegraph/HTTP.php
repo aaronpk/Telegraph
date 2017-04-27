@@ -3,9 +3,11 @@ namespace Telegraph;
 
 class HTTP {
 
-  public function get($url) {
+  public function get($url, $headers=array()) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    if(count($headers))
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $response = curl_exec($ch);

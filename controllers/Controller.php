@@ -277,7 +277,7 @@ class Controller {
     $sourceURL = $request->get('url');
 
     $client = new IndieWeb\MentionClient();
-    $source = $this->http->get($sourceURL);
+    $source = $this->http->get($sourceURL, ['Accept: text/html, */*']);
     $parsed = \Mf2\parse($source['body'], $sourceURL);
 
     $links = array_values($client->findOutgoingLinks($parsed));
