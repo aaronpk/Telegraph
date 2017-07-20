@@ -66,11 +66,11 @@ class Auth {
 
   public function login_callback(Request $request, Response $response) {
 
-    if(!$request->get('state') || !$request->get('code') || !$request->get('me')) {
+    if(!$request->get('state') || !$request->get('code')) {
       $response->setContent(view('login', [
         'title' => 'Sign In to Telegraph',
         'error' => 'Missing Parameters',
-        'error_description' => 'The auth server did not return the necessary parameters, <code>state</code> and <code>code</code> and <code>me</code>.'
+        'error_description' => 'The auth server did not return the necessary parameters, <code>state</code> and <code>code</code>.'
       ]));
       return $response;
     }
@@ -99,21 +99,21 @@ class Auth {
     // Discover the authorization endpoint from the "me" that was returned by the auth server
     // This allows the auth server to return a different URL than the user originally entered,
     // for example if the user enters multiusersite.example the auth server can return multiusersite.example/alice
-    if($state->authorization_endpoint) { // only discover the auth endpoint if one was originally found, otherwise use our fallback
-      $authorizationEndpoint = IndieAuth\Client::discoverAuthorizationEndpoint($request->get('me'));
+    if($state->authorization_endpoint) { // only use the discovered endpoint if one was originally found
+      $authorizationEndpoint = $state->authorization_endpoint;
     } else {
       $authorizationEndpoint = Config::$defaultAuthorizationEndpoint;
     }
 
     // Verify the code with the auth server
-    $token = IndieAuth\Client::verifyIndieAuthCode($authorizationEndpoint, $request->get('code'), $request->get('me'), self::_buildRedirectURI(), Config::$clientID, $request->get('state'), true);
+    $token = IndieAuth\Client::verifyIndieAuthCode($authorizationEndpoint, $request->get('code'), $state->me, self::_buildRedirectURI(), Config::$clientID, $request->get('state'), true);
 
     if(!array_key_exists('auth', $token) || !array_key_exists('me', $token['auth'])) {
       // The auth server didn't return a "me" URL
       $response->setContent(view('login', [
         'title' => 'Sign In to Telegraph',
         'error' => 'Invalid Auth Server Response',
-        'error_description' => 'The authorization server did not return a valid response:<br>'.htmlspecialchars(json_encode($token))
+        'error_description' => 'The authorization server did not return a valid response:<br><pre>'.htmlspecialchars(json_encode($token)).'</pre>'
       ]));
       return $response;
     }
