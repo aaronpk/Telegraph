@@ -18,7 +18,7 @@ class API {
       $response->headers->set($k, $v);
     }
     $response->headers->set('Content-Type', 'application/json');
-    $response->setContent(json_encode($params));
+    $response->setContent(json_encode($params, JSON_UNESCAPED_SLASHES));
     return $response;
   }
 

@@ -111,8 +111,7 @@
             <pre style="font-size: 10px;"><?
               $json = @json_decode($status->raw_response);
               if($json) {
-                $pretty = new Camspiers\JsonPretty\JsonPretty;
-                echo $this->e($pretty->prettify($json, null, "  "));
+                echo json_encode($json, JSON_UNESCAPED_SLASHES+JSON_PRETTY_PRINT);
               } else {
                 echo $this->e($status->raw_response);
               }

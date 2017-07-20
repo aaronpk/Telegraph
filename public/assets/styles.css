@@ -45,5 +45,6 @@ h2.site-name:hover .edit-site {
 }
 
 table.logs pre {
-  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
 }
