@@ -106,14 +106,14 @@ class Auth {
     }
 
     // Verify the code with the auth server
-    $token = IndieAuth\Client::verifyIndieAuthCode($authorizationEndpoint, $request->get('code'), $state->me, self::_buildRedirectURI(), Config::$clientID, $request->get('state'), true);
+    $token = IndieAuth\Client::verifyIndieAuthCode($authorizationEndpoint, $request->get('code'), $state->me, self::_buildRedirectURI(), Config::$clientID, true);
 
     if(!array_key_exists('auth', $token) || !array_key_exists('me', $token['auth'])) {
       // The auth server didn't return a "me" URL
       $response->setContent(view('login', [
         'title' => 'Sign In to Telegraph',
         'error' => 'Invalid Auth Server Response',
-        'error_description' => 'The authorization server did not return a valid response:<br><pre>'.htmlspecialchars(json_encode($token)).'</pre>'
+        'error_description' => 'The authorization server ('.$authorizationEndpoint.') did not return a valid response:<br><pre style="text-align:left; max-height: 400px; overflow: scroll;">HTTP '.$token['response_code']."\n\n".htmlspecialchars($token['response']).'</pre>'
       ]));
       return $response;
     }
