@@ -45,13 +45,19 @@ class Webmention {
       $payload = [
         'source' => $webmention->source,
         'target' => $webmention->target,
-        'status' => $code
+        'status' => $code,
       ];
       if($webmention->webmention_endpoint) {
         $payload['type'] = 'webmention';
-      }
-      if($webmention->pingback_endpoint) {
+      } elseif($webmention->pingback_endpoint) {
         $payload['type'] = 'pingback';
+      }
+
+      if($status->http_code) {
+        $payload['http_code'] = $status->http_code;
+      }
+      if($raw) {
+        $payload['http_body'] = $raw;
       }
 
       return self::$http->post($webmention->callback, $payload);

@@ -301,6 +301,9 @@ class API {
     if($status && $status->http_code)
       $data['http_code'] = (int)$status->http_code;
 
+    if($status && $status->raw_response)
+      $data['http_body'] = $status->raw_response;
+
     if($summary)
       $data['summary'] = $summary;
 
