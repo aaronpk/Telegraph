@@ -278,16 +278,16 @@
         },
         {
             "name": "indieweb/mention-client",
-            "version": "1.1.7",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/mention-client-php.git",
-                "reference": "bc45c6051ae9aa5e0905389ad9c863d738be7b03"
+                "reference": "20852ee619e43ef0f0c0be49877c6251f3a2b402"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/bc45c6051ae9aa5e0905389ad9c863d738be7b03",
-                "reference": "bc45c6051ae9aa5e0905389ad9c863d738be7b03",
+                "url": "https://api.github.com/repos/indieweb/mention-client-php/zipball/20852ee619e43ef0f0c0be49877c6251f3a2b402",
+                "reference": "20852ee619e43ef0f0c0be49877c6251f3a2b402",
                 "shasum": ""
             },
             "require": {
@@ -316,7 +316,7 @@
             ],
             "description": "Client library for sending webmention and pingback notifications",
             "homepage": "https://github.com/indieweb/mention-client-php",
-            "time": "2017-04-03T16:21:23+00:00"
+            "time": "2018-04-16T13:26:38+00:00"
         },
         {
             "name": "indieweb/representative-h-card",
