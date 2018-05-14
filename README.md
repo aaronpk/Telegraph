@@ -16,11 +16,11 @@ See https://telegraph.p3k.io/api
   for your local environment if necessary.
 * Run these commands to install the dependencies, create a local database, and
   run the tests:
-    
+
     ```sh
     $ composer install
     $ mysql [ARGS] -e 'CREATE DATABASE telegraph;'
-    $ mysql [ARGS] < schema.sql
+    $ mysql [ARGS] < migrations/schema.sql
     $ phpunit
     # Hack hack hack!
     ```
@@ -33,7 +33,7 @@ Telegraph icon: https://thenounproject.com/search/?q=telegraph&i=22058
 
 ## License
 
-Copyright 2016 by Aaron Parecki
+Copyright 2016-2018 by Aaron Parecki
 
 Available under the Apache 2.0 license. See [LICENSE](LICENSE).
 
