@@ -41,7 +41,7 @@ class API {
     # Require the token or csrf parameter
     if($csrf=$request->get('_csrf')) {
       session_start();
-      if($csrf != $_SESSION['_csrf']) {
+      if(!isset($_SESSION['_csrf']) || $csrf != $_SESSION['_csrf']) {
         return $this->respond($response, 401, [
           'error' => 'invalid_csrf_token',
           'error_description' => 'An error occurred. Make sure you have only one tab open.',
@@ -52,7 +52,7 @@ class API {
         'error' => 'authentication_required',
         'error_description' => 'A token is required to use the API'
       ]);
-
+    } else {
       # Verify the token is valid
       $role = ORM::for_table('roles')->where('token', $token)->find_one();
 
@@ -219,7 +219,14 @@ class API {
       ];
       $headers = [];
     }
-    return $this->respond($response, 201, $body, $headers);
+
+    if($request->get('_redirect') == 'true') {
+      $response->setStatusCode(302);
+      $response->headers->set('Location', $body['location'].'/details');
+      return $response;
+    } else {
+      return $this->respond($response, 201, $body, $headers);
+    }
   }
 
   public function superfeedr_tracker(Request $request, Response $response, $args) {

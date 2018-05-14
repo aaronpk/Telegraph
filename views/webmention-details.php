@@ -48,6 +48,22 @@
         <td class="right"><?= $this->e($webmention->callback) ?></td>
       </tr>
     <? endif; ?>
+
+    <?php if($role && $status != 'pending'): ?>
+    <tr>
+      <td class="left">
+      </td>
+      <td class="right">
+        <form action="/webmention" method="post">
+          <input type="hidden" name="source" value="<?= $this->e($webmention->source) ?>">
+          <input type="hidden" name="target" value="<?= $this->e($webmention->target) ?>">
+          <input type="hidden" name="token" value="<?= $this->e($role->token) ?>">
+          <input type="hidden" name="_redirect" value="true">
+          <input type="submit" class="ui tiny button" value="Send Again">
+        </form>
+      </td>
+    </tr>
+    <?php endif ?>
   </tbody></table>
 
   <h2>Details</h2>

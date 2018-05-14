@@ -242,6 +242,14 @@ class Controller {
 
     $site = ORM::for_table('sites')->where_id_is($webmention->site_id)->find_one();
 
+    // Find the user's role for this site
+    if($site && $this->_user()) {
+      $role = ORM::for_table('roles')
+        ->where('site_id', $site['id'])
+        ->where('user_id', $this->_user()['id'])
+        ->find_one();
+    }
+
     $statuses = ORM::for_table('webmention_status')->where('webmention_id', $webmention->id)->order_by_desc('created_at')->find_many();
 
     if(count($statuses) == 0) {
@@ -256,6 +264,7 @@ class Controller {
       'user' => $this->_user(),
       'accounts' => $this->_accounts(),
       'site' => $site,
+      'role' => isset($role) ? $role : false,
       'webmention' => $webmention,
       'statuses' => $statuses,
       'icon' => $icon,
