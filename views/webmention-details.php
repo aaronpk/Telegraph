@@ -53,7 +53,7 @@
   <h2>Details</h2>
 
   <? if(count($statuses) == 0): ?>
-    <p>The request is queued for processing. Check for updates again later.</p>
+    <p>The request is queued for processing. Refresh this page for updates.</p>
   <? else: ?>
 
     <table class="ui table single line"><tbody>

@@ -172,7 +172,11 @@ $menu = [
   <?php foreach($menu as $href=>$name): ?>
     <a class="item" href="<?= $href ?>"><?= $name ?></a>
   <?php endforeach; ?>
-  <a class="item" href="/login">Login</a>
+  <?php if($user): ?>
+    <a class="item" href="/dashboard">Dashboard</a>
+  <?php else: ?>
+    <a class="item" href="/login">Login</a>
+  <?php endif; ?>
 </div>
 
 
@@ -189,7 +193,11 @@ $menu = [
           <a class="item" href="<?= $href ?>"><?= $name ?></a>
         <?php endforeach; ?>
         <div class="right item">
-          <a class="ui inverted button" href="/login">Log in</a>
+          <?php if($user): ?>
+            <a class="ui inverted button" href="/dashboard">Dashboard</a>
+          <?php else: ?>
+            <a class="ui inverted button" href="/login">Log in</a>
+          <?php endif; ?>
         </div>
       </div>
     </div>

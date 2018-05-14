@@ -14,7 +14,8 @@
     "michelf/php-markdown": "1.6.*",
     "camspiers/json-pretty": "1.0.*",
     "monolog/monolog": "1.*",
-    "emgiezet/errbit-php": "1.1.*"
+    "emgiezet/errbit-php": "1.1.*",
+    "p3k/utils": "^1.2"
   },
   "require-dev": {
     "phpunit/phpunit": "*"

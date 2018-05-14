@@ -18,7 +18,7 @@ class API {
       $response->headers->set($k, $v);
     }
     $response->headers->set('Content-Type', 'application/json');
-    $response->setContent(json_encode($params, JSON_UNESCAPED_SLASHES));
+    $response->setContent(json_encode($params, JSON_UNESCAPED_SLASHES+JSON_PRETTY_PRINT));
     return $response;
   }
 
@@ -37,12 +37,31 @@ class API {
   }
 
   public function webmention(Request $request, Response $response) {
-    # Require the token parameter
-    if(!$token=$request->get('token')) {
+
+    # Require the token or csrf parameter
+    if($csrf=$request->get('_csrf')) {
+      session_start();
+      if($csrf != $_SESSION['_csrf']) {
+        return $this->respond($response, 401, [
+          'error' => 'invalid_csrf_token',
+          'error_description' => 'An error occurred. Make sure you have only one tab open.',
+        ]);
+      }
+    } else if(!$token=$request->get('token')) {
       return $this->respond($response, 401, [
         'error' => 'authentication_required',
         'error_description' => 'A token is required to use the API'
       ]);
+
+      # Verify the token is valid
+      $role = ORM::for_table('roles')->where('token', $token)->find_one();
+
+      if(!$role) {
+        return $this->respond($response, 401, [
+          'error' => 'invalid_token',
+          'error_description' => 'The token provided is not valid'
+        ]);
+      }
     }
 
     # Require source and target or target_domain parameters
@@ -60,6 +79,16 @@ class API {
       ]);
     }
 
+    # Can only use source & target if no authentication(role) is set
+    if(!isset($role)) {
+      if($target_domain) {
+        return $this->respond($response, 400, [
+          'error' => 'unauthorized',
+          'error_description' => 'Can only use the target_domain feature when providing a token from the API',
+        ]);
+      }
+    }
+
     $urlregex = '/^https?:\/\/[^ ]+\.[^ ]+$/';
     $domainregex = '/^[^ ]+$/';
 
@@ -75,7 +104,7 @@ class API {
     }
 
     # Don't send anything if the source domain matches the target domain
-    # The problem is someone pushing to Superfeedr who is also subscribed, will cause a 
+    # The problem is someone pushing to Superfeedr who is also subscribed, will cause a
     # request to be sent with the source of one of their posts, and their own target domain.
     # This causes a whole slew of webmentions to be queued up, almost all of which are not needed.
     if($target_domain) {
@@ -87,16 +116,6 @@ class API {
           'error_description' => 'You cannot use the target_domain feature to send webmentions to the same domain as the source URL'
         ]);
       }
-    }
-
-    # Verify the token is valid
-    $role = ORM::for_table('roles')->where('token', $token)->find_one();
-
-    if(!$role) {
-      return $this->respond($response, 401, [
-        'error' => 'invalid_token',
-        'error_description' => 'The token provided is not valid'
-      ]);
     }
 
     # Check the blacklist of domains that are known to not accept webmentions
@@ -138,9 +157,11 @@ class API {
       $xpath = new DOMXPath($doc);
 
       $found = [];
+      $links = [];
       foreach($xpath->query('//a[@href]') as $href) {
         $url = $href->getAttribute('href');
         if($target) {
+          $links[] = $url;
           # target parameter was provided
           if($url == $target) {
             $found[$url] = null;
@@ -157,7 +178,8 @@ class API {
       if(!$found) {
         return $this->respond($response, 400, [
           'error' => 'no_link_found',
-          'error_description' => 'The source document does not have a link to the target URL or domain'
+          'error_description' => 'The source document does not have a link to the target URL or domain',
+          'links' => $links
         ]);
       }
     }
@@ -167,8 +189,8 @@ class API {
     $statusURLs = [];
     foreach($found as $url=>$_) {
       $w = ORM::for_table('webmentions')->create();
-      $w->site_id = $role->site_id;
-      $w->created_by = $role->user_id;
+      $w->site_id = isset($role) ? $role->site_id : 0;
+      $w->created_by = isset($role) ? $role->user_id : 0;
       $w->created_at = date('Y-m-d H:i:s');
       $w->token = self::generateStatusToken();
       $w->source = $source;
@@ -184,7 +206,7 @@ class API {
       $statusURLs[] = Config::$base . 'webmention/' . $w->token;
     }
 
-    if ($target) {
+    if($target) {
       $body = [
         'status' => 'queued',
         'location' => $statusURLs[0]
@@ -226,7 +248,7 @@ class API {
     $site = ORM::for_table('sites')->where('id', $role->site_id)->find_one();
 
     if(is_array($input)
-      && array_key_exists('items', $input) 
+      && array_key_exists('items', $input)
       && ($items = $input['items'])
       && is_array($items)
       && array_key_exists(0, $items)
@@ -301,8 +323,9 @@ class API {
     if($status && $status->http_code)
       $data['http_code'] = (int)$status->http_code;
 
-    if($status && $status->raw_response)
+    if($status && $status->raw_response) {
       $data['http_body'] = $status->raw_response;
+    }
 
     if($summary)
       $data['summary'] = $summary;

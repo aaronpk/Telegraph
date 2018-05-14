@@ -41,8 +41,11 @@ class Controller {
   }
 
   public function index(Request $request, Response $response) {
+    p3k\session_setup();
+
     $response->setContent(view('index', [
-      'title' => 'Telegraph'
+      'title' => 'Telegraph',
+      'user' => $this->_user(),
     ]));
     return $response;
   }
@@ -150,6 +153,20 @@ class Controller {
     return $response;
   }
 
+  public function send_a_webmention(Request $request, Response $response) {
+    p3k\session_setup();
+
+    $_SESSION['_csrf'] = random_string(16);
+
+    $response->setContent(view('send-a-webmention', [
+      'title' => 'Send a Webmention with Telegraph',
+      'user' => $this->_user(),
+      'accounts' => $this->_accounts(),
+      'csrf' => $_SESSION['_csrf'],
+    ]));
+    return $response;
+  }
+
   public function new_site(Request $request, Response $response) {
     if(!$this->_is_logged_in($request, $response)) {
       return $response;
@@ -173,7 +190,7 @@ class Controller {
       'role' => $role,
       'site' => $site
     ]));
-    return $response;    
+    return $response;
   }
 
   public function save_site(Request $request, Response $response) {
@@ -341,6 +358,7 @@ class Controller {
   }
 
   private function _accounts() {
+    if(!session('user_id')) return [];
     return ORM::for_table('sites')->join('roles', 'roles.site_id = sites.id')
       ->where('roles.user_id', session('user_id'))
       ->find_many();
