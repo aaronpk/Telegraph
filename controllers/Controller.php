@@ -154,7 +154,7 @@ class Controller {
   }
 
   public function send_a_webmention(Request $request, Response $response) {
-    p3k\session_setup();
+    session_start();
 
     $_SESSION['_csrf'] = random_string(16);
 
