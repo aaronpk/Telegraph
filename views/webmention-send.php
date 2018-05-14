@@ -26,7 +26,7 @@ $(function(){
     url: source_url
   }, function(data) {
     if(data.links.length == 0) {
-      $("#send-table tbody tr:first td").html('<div class="ui message">No links were found from the given URL. Make sure your post is marked up with <a href="http://indiewebcamp.com/h-entry">h-entry</a> and contains some links.</div>');
+      $("#send-table tbody tr:first td").html('<div class="ui message">No links were found from the given URL. Make sure your post is marked up with <a href="https://indieweb.org/h-entry">h-entry</a> and contains some links.</div>');
       $("#send-table").removeClass("fixed").removeClass("single").removeClass("line");
       return;
     }
