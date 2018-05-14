@@ -301,6 +301,8 @@ class Controller {
 
     // Remove the source URL from the list if present
     $links = array_filter($links, function($link) use($sourceURL) {
+      // Remove URL fragment when comparing to ignore more self-links
+      $link = preg_replace('/#.+$/', '', $link);
       return $link != $sourceURL;
     });
 
