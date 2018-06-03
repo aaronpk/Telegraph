@@ -41,23 +41,14 @@ class Auth {
       return $response;
     }
 
-    $authorizationEndpoint = IndieAuth\Client::discoverAuthorizationEndpoint($me);
-
     $state = JWT::encode([
       'me' => $me,
-      'authorization_endpoint' => $authorizationEndpoint,
       'return_to' => $request->get('return_to'),
       'time' => time(),
       'exp' => time()+300 // verified by the JWT library
     ], Config::$secretKey);
 
-    if($authorizationEndpoint) {
-      // If the user specified only an authorization endpoint, use that
-      $authorizationURL = IndieAuth\Client::buildAuthorizationURL($authorizationEndpoint, $me, self::_buildRedirectURI(), Config::$clientID, $state);
-    } else {
-      // Otherwise, fall back to indieauth.com
-      $authorizationURL = IndieAuth\Client::buildAuthorizationURL(Config::$defaultAuthorizationEndpoint, $me, self::_buildRedirectURI(), Config::$clientID, $state);
-    }
+    $authorizationURL = IndieAuth\Client::buildAuthorizationURL(Config::$defaultAuthorizationEndpoint, $me, self::_buildRedirectURI(), Config::$clientID, $state);
 
     $response->setStatusCode(302);
     $response->headers->set('Location', $authorizationURL);
@@ -96,14 +87,7 @@ class Auth {
       return $response;
     }
 
-    // Discover the authorization endpoint from the "me" that was returned by the auth server
-    // This allows the auth server to return a different URL than the user originally entered,
-    // for example if the user enters multiusersite.example the auth server can return multiusersite.example/alice
-    if($state->authorization_endpoint) { // only use the discovered endpoint if one was originally found
-      $authorizationEndpoint = $state->authorization_endpoint;
-    } else {
-      $authorizationEndpoint = Config::$defaultAuthorizationEndpoint;
-    }
+    $authorizationEndpoint = Config::$defaultAuthorizationEndpoint;
 
     // Verify the code with the auth server
     $token = IndieAuth\Client::verifyIndieAuthCode($authorizationEndpoint, $request->get('code'), $state->me, self::_buildRedirectURI(), Config::$clientID, true);
