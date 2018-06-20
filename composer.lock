@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d6fecd1a81db73f245f5a818c28e8ac",
+    "content-hash": "d36cff93d0bbe63f248f5c5ad541f2c9",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -83,6 +83,108 @@
             "time": "2016-02-06T01:25:58+00:00"
         },
         {
+            "name": "cebe/markdown",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cebe/markdown.git",
+                "reference": "25b28bae8a6f185b5030673af77b32e1163d5c6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cebe/markdown/zipball/25b28bae8a6f185b5030673af77b32e1163d5c6e",
+                "reference": "25b28bae8a6f185b5030673af77b32e1163d5c6e",
+                "shasum": ""
+            },
+            "require": {
+                "lib-pcre": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "cebe/indent": "*",
+                "facebook/xhprof": "*@dev",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "bin": [
+                "bin/markdown"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "cebe\\markdown\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc",
+                    "homepage": "http://cebe.cc/",
+                    "role": "Creator"
+                }
+            ],
+            "description": "A super fast, highly extensible markdown parser for PHP",
+            "homepage": "https://github.com/cebe/markdown#readme",
+            "keywords": [
+                "extensible",
+                "fast",
+                "gfm",
+                "markdown",
+                "markdown-extra"
+            ],
+            "time": "2017-07-16T21:13:23+00:00"
+        },
+        {
+            "name": "dg/twitter-php",
+            "version": "v3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dg/twitter-php.git",
+                "reference": "dd872ad12121ff919b358989e61f7f08ba6cc7a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dg/twitter-php/zipball/dd872ad12121ff919b358989e61f7f08ba6cc7a8",
+                "reference": "dd872ad12121ff919b358989e61f7f08ba6cc7a8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                }
+            ],
+            "description": "Small and easy Twitter library for PHP",
+            "homepage": "https://github.com/dg/twitter-php",
+            "keywords": [
+                "oauth",
+                "twitter"
+            ],
+            "time": "2016-08-15T16:46:22+00:00"
+        },
+        {
             "name": "emgiezet/errbit-php",
             "version": "1.1.0",
             "source": {
@@ -147,6 +249,111 @@
                 "error tracking"
             ],
             "time": "2015-11-04T14:49:04+00:00"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "d85d39da4576a6934b72480be6978fb10c860021"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
+                "reference": "d85d39da4576a6934b72480be6978fb10c860021",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "time": "2018-02-23T01:58:20+00:00"
+        },
+        {
+            "name": "facebook/graph-sdk",
+            "version": "5.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/php-graph-sdk.git",
+                "reference": "030f8c5b9b1a6c09e71719fd638b66ea4daa2f10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/030f8c5b9b1a6c09e71719fd638b66ea4daa2f10",
+                "reference": "030f8c5b9b1a6c09e71719fd638b66ea4daa2f10",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4|^7.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "~5.0",
+                "mockery/mockery": "~0.8",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
+                "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Facebook\\": "src/Facebook/"
+                },
+                "files": [
+                    "src/Facebook/polyfills.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Facebook Platform"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/php-graph-sdk/contributors"
+                }
+            ],
+            "description": "Facebook SDK for PHP",
+            "homepage": "https://github.com/facebook/php-graph-sdk",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "time": "2018-02-14T23:24:51+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -633,26 +840,29 @@
         },
         {
             "name": "mf2/mf2",
-            "version": "v0.3.0",
+            "version": "v0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/php-mf2.git",
-                "reference": "4fb2eb5365cbc0fd2e0c26ca748777d6c2539763"
+                "reference": "5c056e81f48b71130dab98de755683bb2b7e7615"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/4fb2eb5365cbc0fd2e0c26ca748777d6c2539763",
-                "reference": "4fb2eb5365cbc0fd2e0c26ca748777d6c2539763",
+                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/5c056e81f48b71130dab98de755683bb2b7e7615",
+                "reference": "5c056e81f48b71130dab98de755683bb2b7e7615",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*"
+                "mf2/tests": "@dev",
+                "phpdocumentor/phpdocumentor": "v2.8.4",
+                "phpunit/phpunit": "4.8.*"
             },
             "suggest": {
-                "barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you"
+                "barnabywalters/mf-cleaner": "To more easily handle the canonical data php-mf2 gives you",
+                "masterminds/html5": "Alternative HTML parser for PHP, for better HTML5 support."
             },
             "bin": [
                 "bin/fetch-mf2",
@@ -666,7 +876,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "CC0"
+                "CC0-1.0"
             ],
             "authors": [
                 {
@@ -682,7 +892,7 @@
                 "parser",
                 "semantic"
             ],
-            "time": "2016-03-14T12:13:34+00:00"
+            "time": "2018-03-29T17:54:32+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -894,6 +1104,139 @@
             "time": "2015-12-21T22:52:21+00:00"
         },
         {
+            "name": "p3k/http",
+            "version": "0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aaronpk/p3k-http.git",
+                "reference": "1826647c4902a18dea5ec532f21509ba4d51210b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aaronpk/p3k-http/zipball/1826647c4902a18dea5ec532f21509ba4d51210b",
+                "reference": "1826647c4902a18dea5ec532f21509ba4d51210b",
+                "shasum": ""
+            },
+            "require": {
+                "indieweb/link-rel-parser": "0.1.*",
+                "mf2/mf2": ">=0.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "p3k\\": "src/p3k"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Parecki",
+                    "homepage": "https://aaronparecki.com"
+                }
+            ],
+            "description": "A simple wrapper API around the PHP curl functions",
+            "homepage": "https://github.com/aaronpk/p3k-http",
+            "time": "2018-03-04T15:21:58+00:00"
+        },
+        {
+            "name": "p3k/picofeed",
+            "version": "v0.1.38",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aaronpk/picoFeed.git",
+                "reference": "989c0bcf2eac016a4104abce1aadff791fc287ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aaronpk/picoFeed/zipball/989c0bcf2eac016a4104abce1aadff791fc287ab",
+                "reference": "989c0bcf2eac016a4104abce1aadff791fc287ab",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-iconv": "*",
+                "ext-libxml": "*",
+                "ext-simplexml": "*",
+                "ext-xml": "*",
+                "php": ">=5.3.0",
+                "zendframework/zendxml": "^1.0"
+            },
+            "require-dev": {
+                "phpdocumentor/reflection-docblock": "2.0.4",
+                "phpunit/phpunit": "4.8.26",
+                "symfony/yaml": "2.8.7"
+            },
+            "suggest": {
+                "ext-curl": "PicoFeed will use cURL if present"
+            },
+            "bin": [
+                "picofeed"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PicoFeed": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frédéric Guillot"
+                }
+            ],
+            "description": "Modern library to handle RSS/Atom feeds",
+            "homepage": "https://github.com/miniflux/picoFeed",
+            "time": "2017-11-30T00:16:58+00:00"
+        },
+        {
+            "name": "p3k/timezone",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aaronpk/p3k-timezone.git",
+                "reference": "68d3490d896f98cf0727dc937f0bb6b045050c83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aaronpk/p3k-timezone/zipball/68d3490d896f98cf0727dc937f0bb6b045050c83",
+                "reference": "68d3490d896f98cf0727dc937f0bb6b045050c83",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/p3k/Timezone.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Parecki",
+                    "homepage": "https://aaronparecki.com"
+                }
+            ],
+            "description": "Find the timezone of a given location",
+            "homepage": "https://github.com/aaronpk/p3k-timezone",
+            "keywords": [
+                "date",
+                "p3k",
+                "timezone"
+            ],
+            "time": "2017-01-12T17:30:08+00:00"
+        },
+        {
             "name": "p3k/utils",
             "version": "1.2.0",
             "source": {
@@ -938,6 +1281,54 @@
             "description": "Some helpful functions used by https://p3k.io projects",
             "homepage": "https://github.com/aaronpk/p3k-utils",
             "time": "2018-03-28T13:44:56+00:00"
+        },
+        {
+            "name": "p3k/xray",
+            "version": "v1.4.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aaronpk/XRay.git",
+                "reference": "6687167d5c6b920c9ac5a3109c123eb98b9a9493"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aaronpk/XRay/zipball/6687167d5c6b920c9ac5a3109c123eb98b9a9493",
+                "reference": "6687167d5c6b920c9ac5a3109c123eb98b9a9493",
+                "shasum": ""
+            },
+            "require": {
+                "cebe/markdown": "1.1.*",
+                "dg/twitter-php": "3.6.*",
+                "ezyang/htmlpurifier": "4.10.*",
+                "facebook/graph-sdk": "^5.5",
+                "indieweb/link-rel-parser": "0.1.*",
+                "mf2/mf2": ">=0.4.0",
+                "p3k/http": ">=0.1.7",
+                "p3k/picofeed": ">=0.1.38",
+                "p3k/timezone": "*"
+            },
+            "require-dev": {
+                "league/plates": "3.*",
+                "league/route": "1.*",
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "p3k\\XRay\\": "lib/XRay"
+                },
+                "files": [
+                    "lib/helpers.php",
+                    "lib/XRay.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "X-Ray returns structured data from any URL",
+            "homepage": "https://github.com/aaronpk/XRay",
+            "time": "2018-03-15T16:58:07+00:00"
         },
         {
             "name": "pda/pheanstalk",
@@ -1304,6 +1695,52 @@
                 "shim"
             ],
             "time": "2016-01-20T09:13:37+00:00"
+        },
+        {
+            "name": "zendframework/zendxml",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/ZendXml.git",
+                "reference": "267db6a2c431a08a8f8ff0f1f4c302a5ba6f5b99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/ZendXml/zipball/267db6a2c431a08a8f8ff0f1f4c302a5ba6f5b99",
+                "reference": "267db6a2c431a08a8f8ff0f1f4c302a5ba6f5b99",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.4",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev",
+                    "dev-develop": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZendXml\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Utility library for XML usage, best practices, and security in PHP",
+            "keywords": [
+                "ZendFramework",
+                "security",
+                "xml",
+                "zf"
+            ],
+            "time": "2018-04-30T15:11:04+00:00"
         }
     ],
     "packages-dev": [

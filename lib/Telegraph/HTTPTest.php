@@ -9,7 +9,7 @@ class HTTPTest extends HTTP {
     $this->_testDataPath = $testDataPath;
   }
 
-  public function get($url) {
+  public function get($url, $headers=array()) {
     return $this->_read_file($url);
   }
 

@@ -302,11 +302,15 @@ class Controller {
 
     $sourceURL = $request->get('url');
 
-    $client = new IndieWeb\MentionClient();
     $source = $this->http->get($sourceURL, ['Accept: text/html, */*']);
-    $parsed = \Mf2\parse($source['body'], $sourceURL);
+    $xray = new \p3k\XRay();
+    $parsed = $xray->parse($sourceURL, $source['body']);
 
-    $links = array_values($client->findOutgoingLinks($parsed));
+    if($parsed && isset($parsed['data'])) {
+      $links = Telegraph\FindLinks::all($parsed['data']);
+    } else {
+      $links = [];
+    }
 
     // Remove the source URL from the list if present
     $links = array_filter($links, function($link) use($sourceURL) {
