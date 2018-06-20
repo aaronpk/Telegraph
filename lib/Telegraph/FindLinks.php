@@ -33,7 +33,7 @@ class FindLinks {
    * @param $input string text block
    * @return mixed array of links in text block.
    */
-  public static function inText(string $input) {
+  public static function inText(\string $input) {
     preg_match_all('/https?:\/\/[^ ]+/', $input, $matches);
     return array_unique($matches[0]);
   }
@@ -43,7 +43,7 @@ class FindLinks {
    * @param $input string text block
    * @return mixed array of links in text block.
    */
-  public static function inHTML(string $html) {
+  public static function inHTML(\string $html) {
     $doc = new DOMDocument();
     libxml_use_internal_errors(true); # suppress parse errors and warnings
     @$doc->loadHTML(self::toHtmlEntities($html), LIBXML_NOWARNING|LIBXML_NOERROR);
