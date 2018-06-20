@@ -307,6 +307,9 @@ class Controller {
     $parsed = $xray->parse($sourceURL, $source['body']);
 
     if($parsed && isset($parsed['data'])) {
+      // Remove the author object to avoid sending webmentions to your own home page
+      if(isset($parsed['data']['author']))
+        unset($parsed['data']['author']);
       $links = Telegraph\FindLinks::all($parsed['data']);
     } else {
       $links = [];
