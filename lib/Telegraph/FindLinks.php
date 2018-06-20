@@ -45,7 +45,7 @@ class FindLinks {
    * @return mixed array of links in text block.
    */
   public static function inHTML($html) {
-    if(!is_string($input)) return [];
+    if(!is_string($html)) return [];
 
     $doc = new DOMDocument();
     libxml_use_internal_errors(true); # suppress parse errors and warnings
