@@ -60,6 +60,7 @@ class Webmention {
         $payload['http_body'] = $raw;
       }
 
+      echo "Sending result to callback URL: $webmention->callback\n";
       return self::$http->post($webmention->callback, $payload);
     }
   }
@@ -72,6 +73,8 @@ class Webmention {
       echo 'Webmention '.$id.' was not found'."\n";
       return;
     }
+    
+    echo "Processing webmention $id from ".$webmention->source."\n";
 
     if(!$client)
       $client = new MentionClient();
@@ -81,24 +84,34 @@ class Webmention {
 
     self::$http = $http;
 
+    echo "Finding webmention endpoint for $webmention->target\n";
+
     // Discover the webmention or pingback endpoint
     $endpoint = $client->discoverWebmentionEndpoint($webmention->target);
 
     if(!$endpoint) {
+      echo "No webmention endpoint, checking for pingback\n";
+      
       // If no webmention endpoint found, try to send a pingback
       $pingbackEndpoint = $client->discoverPingbackEndpoint($webmention->target);
 
       // If no pingback endpoint was found, we can't do anything else
       if(!$pingbackEndpoint) {
+        echo "No webmention or pingback endpoint found\n";
         return self::updateStatus($webmention, null, 'not_supported');
       }
 
+      echo "Found pingback endpoint $pingbackEndpoint\n";
       $webmention->pingback_endpoint = $pingbackEndpoint;
       $webmention->save();
-
+      
+      echo "Sending pingback now...\n";
       $success = $client->sendPingbackToEndpoint($pingbackEndpoint, $webmention->source, $webmention->target);
+      echo "Result: ".($success?'accepted':'error')."\n";
       return self::updateStatus($webmention, null, ($success ? 'accepted' : 'error'));
     }
+
+    echo "Found webmention endpoint $endpoint\n";
 
     // There is a webmention endpoint, send the webmention now
 
@@ -114,7 +127,12 @@ class Webmention {
     if($webmention->vouch) {
       $params['vouch'] = $webmention->vouch;
     }
+    
+    echo "Sending webmention now...\n";
+    
     $response = $client->sendWebmentionToEndpoint($endpoint, $webmention->source, $webmention->target, $params);
+
+    echo "Response code: ".$response['code']."\n";
 
     if(in_array($response['code'], [200,201,202])) {
       $status = 'accepted';
@@ -124,6 +142,7 @@ class Webmention {
       // Check if the endpoint returned a status URL
       if(array_key_exists('Location', $response['headers'])) {
         $webmention->webmention_status_url = \Mf2\resolveUrl($endpoint, $response['headers']['Location']);
+        echo "Endpoint returned a status URL: ".$webmention->webmention_status_url."\n";
         // TODO: queue a job to poll the endpoint for updates and deliver to the callback URL
       } else {
         // No status URL was returned, so we can't follow up with this later. Mark as complete.
@@ -138,6 +157,7 @@ class Webmention {
     $webmention->save();
 
     $result = self::updateStatus($webmention, $response['code'], $status, $response['body']);
+    echo "Done\n";
     $pdo = ORM::get_db();
     $pdo = null;
     return $result;
