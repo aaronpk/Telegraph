@@ -20,8 +20,11 @@ class Webmention {
       'facebook.com',
       'meetup.com',
       'eventbrite.com',
+      'eventbrite.co.uk',
       'github.com',
+      'blog.github.com',
       'gitlab.com',
+      't.co',
     ];
 
     if(in_array($host, $unsupported))
