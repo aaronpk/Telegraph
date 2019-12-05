@@ -18,6 +18,10 @@ class Webmention {
       'twitter.com',
       'instagram.com',
       'facebook.com',
+      'meetup.com',
+      'eventbrite.com',
+      'github.com',
+      'gitlab.com',
     ];
 
     if(in_array($host, $unsupported))
