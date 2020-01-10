@@ -7,6 +7,8 @@ class Webmention {
 
   private static $http = false;
 
+  private static $unsupported = null;
+
   // Returns false if the target URL is known to not accept webmentions
   public static function isProbablySupported($targetURL) {
     // Reject links that are known to not accept webmentions
@@ -14,20 +16,11 @@ class Webmention {
 
     if(!$host) return false;
 
-    $unsupported = [
-      'twitter.com',
-      'instagram.com',
-      'facebook.com',
-      'meetup.com',
-      'eventbrite.com',
-      'eventbrite.co.uk',
-      'github.com',
-      'blog.github.com',
-      'gitlab.com',
-      't.co',
-    ];
+    if(self::$unsupported === null) {
+      self::$unsupported = explode("\n", file_get_contents(__DIR__.'/../../data/unsupported-domains.txt'));
+    }
 
-    if(in_array($host, $unsupported))
+    if(in_array($host, self::$unsupported))
       return false;
 
     if(preg_match('/.+\.amazonaws\.com/', $host))
