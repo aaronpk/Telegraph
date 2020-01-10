@@ -583,7 +583,6 @@ amazon.com
 flickr.com
 pinterest.com
 # tumblr.com
-w3.org
 apple.com
 myspace.com
 vimeo.com
