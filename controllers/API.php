@@ -118,7 +118,7 @@ class API {
       }
     }
 
-    # Check the blacklist of domains that are known to not accept webmentions
+    # Check the list of domains that are known to not accept webmentions
     if($target && !Telegraph\Webmention::isProbablySupported($target)) {
       return $this->respond($response, 400, [
         'error' => 'not_supported',
