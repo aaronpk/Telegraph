@@ -4,7 +4,7 @@
     "mf2/mf2": "^0.4.3",
     "indieweb/mention-client": "~1.1",
     "indieweb/representative-h-card": "0.1.*",
-    "indieauth/client": "0.2.*",
+    "indieauth/client": "^1.0",
     "firebase/php-jwt": "~3.0",
     "league/route": "~1.2",
     "league/plates": "~3.1",

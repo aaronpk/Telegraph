@@ -41,14 +41,29 @@ class Auth {
       return $response;
     }
 
+    // Check if the user's URL defines an authorization endpoint
+    $authorizationEndpoint = IndieAuth\Client::discoverAuthorizationEndpoint($me);
+    if(!$authorizationEndpoint) {
+      $authorizationEndpoint = Config::$defaultAuthorizationEndpoint;
+    }
+
+    $codeVerifier = IndieAuth\Client::generatePKCECodeVerifier();
     $state = JWT::encode([
+      'az' => $authorizationEndpoint,
       'me' => $me,
+      'code_verifier' => $codeVerifier,
       'return_to' => $request->get('return_to'),
       'time' => time(),
       'exp' => time()+300 // verified by the JWT library
     ], Config::$secretKey);
 
-    $authorizationURL = IndieAuth\Client::buildAuthorizationURL(Config::$defaultAuthorizationEndpoint, $me, self::_buildRedirectURI(), Config::$clientID, $state);
+    $authorizationURL = IndieAuth\Client::buildAuthorizationURL($authorizationEndpoint, [
+      'me' => $me,
+      'redirect_uri' => self::_buildRedirectURI(),
+      'client_id' => Config::$clientID,
+      'state' => $state,
+      'code_verifier' => $codeVerifier,
+    ]);
 
     $response->setStatusCode(302);
     $response->headers->set('Location', $authorizationURL);
@@ -87,26 +102,46 @@ class Auth {
       return $response;
     }
 
-    $authorizationEndpoint = Config::$defaultAuthorizationEndpoint;
+    $authorizationEndpoint = $state->az;
 
     // Verify the code with the auth server
-    $token = IndieAuth\Client::verifyIndieAuthCode($authorizationEndpoint, $request->get('code'), $state->me, self::_buildRedirectURI(), Config::$clientID, true);
+    $data = IndieAuth\Client::exchangeAuthorizationCode($state->az, [
+      'code' => $request->get('code'),
+      'redirect_uri' => self::_buildRedirectURI(),
+      'client_id' => Config::$clientID,
+      'code_verifier' => $state->code_verifier,
+    ]);
 
-    if(!array_key_exists('auth', $token) || !array_key_exists('me', $token['auth'])) {
-      // The auth server didn't return a "me" URL
+    if(!isset($data['response']['me'])) {
+      // The authorization server didn't return a "me" URL
       $response->setContent(view('login', [
         'title' => 'Sign In to Telegraph',
         'error' => 'Invalid Auth Server Response',
-        'error_description' => 'The authorization server ('.$authorizationEndpoint.') did not return a valid response:<br><pre style="text-align:left; max-height: 400px; overflow: scroll;">HTTP '.$token['response_code']."\n\n".htmlspecialchars($token['response']).'</pre>'
+        'error_description' => 'The authorization server ('.$authorizationEndpoint.') did not return a valid response:<br><pre style="text-align:left; max-height: 400px; overflow: scroll;">HTTP '.$data['response_code']."\n\n".htmlspecialchars(json_encode($data)).'</pre>'
       ]));
       return $response;
     }
 
+    // Verify the authorization endpoint matches
+    if($data['response']['me'] != $state->me) {
+      $newAuthorizationEndpoint = IndieAuth\Client::discoverAuthorizationEndpoint($data['response']['me']);
+      if($newAuthorizationEndpoint != $authorizationEndpoint) {
+        $response->setContent(view('login', [
+          'title' => 'Sign In to Telegraph',
+          'error' => 'Invalid Authorization Endpoint',
+          'error_description' => 'The authorization endpoint for the returned profile URL ('.$data['response']['me'].') did not match the authorization endpoint used to begin the login.'
+        ]));
+        return $response;
+      }
+    }
+
+    $me = $data['response']['me'];
+
     // Create or load the user
-    $user = ORM::for_table('users')->where('url', $token['auth']['me'])->find_one();
+    $user = ORM::for_table('users')->where('url', $me)->find_one();
     if(!$user) {
       $user = ORM::for_table('users')->create();
-      $user->url = $token['auth']['me'];
+      $user->url = $me;
       $user->created_at = date('Y-m-d H:i:s');
       $user->last_login = date('Y-m-d H:i:s');
       $user->save();
@@ -114,7 +149,7 @@ class Auth {
       // Create a site for them with the default role
       $site = ORM::for_table('sites')->create();
       $site->name = 'My Website';
-      $site->url = $token['auth']['me'];
+      $site->url = $me;
       $site->created_by = $user->id;
       $site->created_at = date('Y-m-d H:i:s');
       $site->save();

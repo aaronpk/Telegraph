@@ -1,51 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d36cff93d0bbe63f248f5c5ad541f2c9",
+    "content-hash": "2e3a9f1ddef93aa21e064fcee6c98176",
     "packages": [
-        {
-            "name": "barnabywalters/mf-cleaner",
-            "version": "v0.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
-                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
-                "shasum": ""
-            },
-            "require-dev": {
-                "php": ">=5.3",
-                "phpunit/phpunit": "*"
-            },
-            "suggest": {
-                "mf2/mf2": "To parse microformats2 structures from (X)HTML"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/BarnabyWalters/Mf2/Functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barnaby Walters",
-                    "email": "barnaby@waterpigs.co.uk"
-                }
-            ],
-            "description": "Cleans up microformats2 array structures",
-            "time": "2014-10-06T23:11:15+00:00"
-        },
         {
             "name": "camspiers/json-pretty",
             "version": "1.0.2",
@@ -400,23 +360,26 @@
         },
         {
             "name": "indieauth/client",
-            "version": "0.2.2",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/indieauth-client-php.git",
-                "reference": "225ece31ddafaee3348eabdc915422c457498a84"
+                "reference": "d551eeb268100b87ebc7a05ae796a858550e700a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/225ece31ddafaee3348eabdc915422c457498a84",
-                "reference": "225ece31ddafaee3348eabdc915422c457498a84",
+                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/d551eeb268100b87ebc7a05ae796a858550e700a",
+                "reference": "d551eeb268100b87ebc7a05ae796a858550e700a",
                 "shasum": ""
             },
             "require": {
-                "barnabywalters/mf-cleaner": "0.*",
-                "indieweb/link-rel-parser": "0.1.*",
-                "mf2/mf2": "~0.3",
+                "indieweb/representative-h-card": "^0.1.2",
+                "mf2/mf2": ">=0.3.2",
+                "p3k/http": ">=0.1.6",
                 "php": ">5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*"
             },
             "type": "library",
             "autoload": {
@@ -426,16 +389,16 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache 2.0"
+                "Apache-2.0"
             ],
             "authors": [
                 {
                     "name": "Aaron Parecki",
-                    "homepage": "http://aaronparecki.com"
+                    "homepage": "https://aaronparecki.com"
                 }
             ],
             "description": "IndieAuth Client Library",
-            "time": "2017-07-01T15:43:45+00:00"
+            "time": "2020-11-26T19:41:45+00:00"
         },
         {
             "name": "indieweb/link-rel-parser",
@@ -1385,12 +1348,12 @@
             "version": "v1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
+                "url": "https://github.com/predis/predis.git",
                 "reference": "84060b9034d756b4d79641667d7f9efe1aeb8e04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/84060b9034d756b4d79641667d7f9efe1aeb8e04",
+                "url": "https://api.github.com/repos/predis/predis/zipball/84060b9034d756b4d79641667d7f9efe1aeb8e04",
                 "reference": "84060b9034d756b4d79641667d7f9efe1aeb8e04",
                 "shasum": ""
             },
@@ -1740,10 +1703,51 @@
                 "xml",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-xml",
             "time": "2018-04-30T15:11:04+00:00"
         }
     ],
     "packages-dev": [
+        {
+            "name": "barnabywalters/mf-cleaner",
+            "version": "v0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
+                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
+                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php": ">=5.3",
+                "phpunit/phpunit": "*"
+            },
+            "suggest": {
+                "mf2/mf2": "To parse microformats2 structures from (X)HTML"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/BarnabyWalters/Mf2/Functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barnaby Walters",
+                    "email": "barnaby@waterpigs.co.uk"
+                }
+            ],
+            "description": "Cleans up microformats2 array structures",
+            "time": "2014-10-06T23:11:15+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
@@ -2190,6 +2194,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2015-09-15T10:49:45+00:00"
         },
         {
@@ -2321,6 +2326,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2016-03-24T05:58:25+00:00"
         },
         {
@@ -2893,5 +2899,6 @@
     "platform": {
         "php": ">=5.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
