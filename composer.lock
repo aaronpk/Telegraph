@@ -1,11 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "b7ccc560a46bd68c6df0f5ebef4389f9",
-    "content-hash": "2e3a9f1ddef93aa21e064fcee6c98176",
+    "content-hash": "d4ed4db6fb1d395dd1a183802ab85ad5",
     "packages": [
         {
             "name": "camspiers/json-pretty",
@@ -41,7 +40,7 @@
                 }
             ],
             "description": "Provides support for json pretty printing",
-            "time": "2016-02-06 01:25:58"
+            "time": "2016-02-06T01:25:58+00:00"
         },
         {
             "name": "cebe/markdown",
@@ -101,7 +100,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2017-07-16 21:13:23"
+            "time": "2017-07-16T21:13:23+00:00"
         },
         {
             "name": "dg/twitter-php",
@@ -143,7 +142,7 @@
                 "oauth",
                 "twitter"
             ],
-            "time": "2016-08-15 16:46:22"
+            "time": "2016-08-15T16:46:22+00:00"
         },
         {
             "name": "emgiezet/errbit-php",
@@ -209,7 +208,7 @@
                 "errbit php",
                 "error tracking"
             ],
-            "time": "2015-11-04 14:49:04"
+            "time": "2015-11-04T14:49:04+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -256,7 +255,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2018-02-23 01:58:20"
+            "time": "2018-02-23T01:58:20+00:00"
         },
         {
             "name": "facebook/graph-sdk",
@@ -314,24 +313,30 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2018-02-14 23:24:51"
+            "time": "2018-02-14T23:24:51+00:00"
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v3.0.0",
+            "version": "v6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1"
+                "reference": "0541cba75ab108ef901985e68055a92646c73534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
-                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/0541cba75ab108ef901985e68055a92646c73534",
+                "reference": "0541cba75ab108ef901985e68055a92646c73534",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=4.8 <=9"
+            },
+            "suggest": {
+                "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
             },
             "type": "library",
             "autoload": {
@@ -357,7 +362,15 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2015-07-22 18:31:08"
+            "keywords": [
+                "jwt",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/firebase/php-jwt/issues",
+                "source": "https://github.com/firebase/php-jwt/tree/v6.0.0"
+            },
+            "time": "2022-01-24T15:18:34+00:00"
         },
         {
             "name": "indieauth/client",
@@ -399,7 +412,7 @@
                 }
             ],
             "description": "IndieAuth Client Library",
-            "time": "2020-11-26 19:41:45"
+            "time": "2020-11-26T19:41:45+00:00"
         },
         {
             "name": "indieweb/link-rel-parser",
@@ -445,7 +458,7 @@
                 "indieweb",
                 "microformats2"
             ],
-            "time": "2013-12-23 00:14:58"
+            "time": "2013-12-23T00:14:58+00:00"
         },
         {
             "name": "indieweb/mention-client",
@@ -487,7 +500,7 @@
             ],
             "description": "Client library for sending webmention and pingback notifications",
             "homepage": "https://github.com/indieweb/mention-client-php",
-            "time": "2018-04-16 13:26:38"
+            "time": "2018-04-16T13:26:38+00:00"
         },
         {
             "name": "indieweb/representative-h-card",
@@ -532,7 +545,7 @@
                 "mf2",
                 "microformats"
             ],
-            "time": "2015-12-23 18:11:19"
+            "time": "2015-12-23T18:11:19+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -574,7 +587,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-11-20 16:49:30"
+            "time": "2014-11-20T16:49:30+00:00"
         },
         {
             "name": "j4mie/idiorm",
@@ -632,7 +645,7 @@
                 "orm",
                 "query builder"
             ],
-            "time": "2014-06-23 13:08:57"
+            "time": "2014-06-23T13:08:57+00:00"
         },
         {
             "name": "league/container",
@@ -690,7 +703,7 @@
                 "injection",
                 "league"
             ],
-            "time": "2015-04-05 17:14:48"
+            "time": "2015-04-05T17:14:48+00:00"
         },
         {
             "name": "league/plates",
@@ -742,7 +755,7 @@
                 "templating",
                 "views"
             ],
-            "time": "2015-07-09 02:14:40"
+            "time": "2015-07-09T02:14:40+00:00"
         },
         {
             "name": "league/route",
@@ -800,7 +813,7 @@
                 "league",
                 "route"
             ],
-            "time": "2015-09-11 07:40:31"
+            "time": "2015-09-11T07:40:31+00:00"
         },
         {
             "name": "mf2/mf2",
@@ -856,7 +869,7 @@
                 "parser",
                 "semantic"
             ],
-            "time": "2018-03-29 17:54:32"
+            "time": "2018-03-29T17:54:32+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -907,7 +920,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2015-12-24 01:37:31"
+            "time": "2015-12-24T01:37:31+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -985,7 +998,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-04-12 18:29:35"
+            "time": "2016-04-12T18:29:35+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -1028,7 +1041,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2016-03-25 23:46:52"
+            "time": "2016-03-25T23:46:52+00:00"
         },
         {
             "name": "p3k/caterpillar",
@@ -1065,7 +1078,7 @@
                 }
             ],
             "description": "Caterpillar is a background queue manager",
-            "time": "2017-03-19 19:58:18"
+            "time": "2017-03-19T19:58:18+00:00"
         },
         {
             "name": "p3k/http",
@@ -1103,7 +1116,7 @@
             ],
             "description": "A simple wrapper API around the PHP curl functions",
             "homepage": "https://github.com/aaronpk/p3k-http",
-            "time": "2018-03-04 15:21:58"
+            "time": "2018-03-04T15:21:58+00:00"
         },
         {
             "name": "p3k/picofeed",
@@ -1156,7 +1169,7 @@
             ],
             "description": "Modern library to handle RSS/Atom feeds",
             "homepage": "https://github.com/miniflux/picoFeed",
-            "time": "2017-11-30 00:16:58"
+            "time": "2017-11-30T00:16:58+00:00"
         },
         {
             "name": "p3k/timezone",
@@ -1198,7 +1211,7 @@
                 "p3k",
                 "timezone"
             ],
-            "time": "2017-01-12 17:30:08"
+            "time": "2017-01-12T17:30:08+00:00"
         },
         {
             "name": "p3k/utils",
@@ -1244,7 +1257,7 @@
             ],
             "description": "Some helpful functions used by https://p3k.io projects",
             "homepage": "https://github.com/aaronpk/p3k-utils",
-            "time": "2018-03-28 13:44:56"
+            "time": "2018-03-28T13:44:56+00:00"
         },
         {
             "name": "p3k/xray",
@@ -1292,7 +1305,7 @@
             ],
             "description": "X-Ray returns structured data from any URL",
             "homepage": "https://github.com/aaronpk/XRay",
-            "time": "2018-03-15 16:58:07"
+            "time": "2018-03-15T16:58:07+00:00"
         },
         {
             "name": "pda/pheanstalk",
@@ -1342,7 +1355,7 @@
             "keywords": [
                 "beanstalkd"
             ],
-            "time": "2015-08-07 21:42:41"
+            "time": "2015-08-07T21:42:41+00:00"
         },
         {
             "name": "predis/predis",
@@ -1392,7 +1405,7 @@
                 "predis",
                 "redis"
             ],
-            "time": "2015-07-30 18:34:15"
+            "time": "2015-07-30T18:34:15+00:00"
         },
         {
             "name": "psr/log",
@@ -1430,7 +1443,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2012-12-21T11:40:51+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -1485,7 +1498,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-27 12:57:53"
+            "time": "2016-03-27T12:57:53+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1544,7 +1557,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-01-20T09:13:37+00:00"
         },
         {
             "name": "symfony/polyfill-php54",
@@ -1602,7 +1615,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-25 19:13:00"
+            "time": "2016-01-25T19:13:00+00:00"
         },
         {
             "name": "symfony/polyfill-php55",
@@ -1658,7 +1671,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-01-20T09:13:37+00:00"
         },
         {
             "name": "zendframework/zendxml",
@@ -1704,50 +1717,10 @@
                 "xml",
                 "zf"
             ],
-            "time": "2018-04-30 15:11:04"
+            "time": "2018-04-30T15:11:04+00:00"
         }
     ],
     "packages-dev": [
-        {
-            "name": "barnabywalters/mf-cleaner",
-            "version": "v0.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barnabywalters/php-mf-cleaner.git",
-                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barnabywalters/php-mf-cleaner/zipball/ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
-                "reference": "ef6a16628db6e8aee2b4f8bb8093d18c24b74cd4",
-                "shasum": ""
-            },
-            "require-dev": {
-                "php": ">=5.3",
-                "phpunit/phpunit": "*"
-            },
-            "suggest": {
-                "mf2/mf2": "To parse microformats2 structures from (X)HTML"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/BarnabyWalters/Mf2/Functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barnaby Walters",
-                    "email": "barnaby@waterpigs.co.uk"
-                }
-            ],
-            "description": "Cleans up microformats2 array structures",
-            "time": "2014-10-06 23:11:15"
-        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
@@ -1800,7 +1773,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-06-14 21:17:01"
+            "time": "2015-06-14T21:17:01+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1842,7 +1815,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2015-11-07 22:20:37"
+            "time": "2015-11-07T22:20:37+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1891,7 +1864,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2015-02-03 12:10:50"
+            "time": "2015-02-03T12:10:50+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1953,7 +1926,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2016-02-15 07:46:21"
+            "time": "2016-02-15T07:46:21+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2016,7 +1989,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-04-08 08:14:53"
+            "time": "2016-04-08T08:14:53+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2063,7 +2036,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2015-06-21 13:08:43"
+            "time": "2015-06-21T13:08:43+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -2104,7 +2077,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2015-06-21 13:50:34"
+            "time": "2015-06-21T13:50:34+00:00"
         },
         {
             "name": "phpunit/php-timer",
@@ -2145,7 +2118,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2015-06-21 08:01:12"
+            "time": "2015-06-21T08:01:12+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -2194,7 +2167,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2015-09-15 10:49:45"
+            "time": "2015-09-15T10:49:45+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -2269,7 +2242,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-04-12 16:20:08"
+            "time": "2016-04-12T16:20:08+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2325,7 +2298,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-03-24 05:58:25"
+            "time": "2016-03-24T05:58:25+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -2370,7 +2343,7 @@
             ],
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2016-02-13 06:45:14"
+            "time": "2016-02-13T06:45:14+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -2434,7 +2407,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2015-07-26 15:48:44"
+            "time": "2015-07-26T15:48:44+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -2486,7 +2459,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2015-12-08 07:14:41"
+            "time": "2015-12-08T07:14:41+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -2536,7 +2509,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-02-26 18:40:46"
+            "time": "2016-02-26T18:40:46+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -2602,7 +2575,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2015-06-21 07:55:53"
+            "time": "2015-06-21T07:55:53+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -2653,7 +2626,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2015-10-12 03:26:01"
+            "time": "2015-10-12T03:26:01+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -2699,7 +2672,7 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2016-01-28 13:25:10"
+            "time": "2016-01-28T13:25:10+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2752,7 +2725,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2015-11-11 19:50:13"
+            "time": "2015-11-11T19:50:13+00:00"
         },
         {
             "name": "sebastian/resource-operations",
@@ -2794,7 +2767,7 @@
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
             "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
-            "time": "2015-07-28 20:34:47"
+            "time": "2015-07-28T20:34:47+00:00"
         },
         {
             "name": "sebastian/version",
@@ -2837,7 +2810,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2016-02-04 12:56:52"
+            "time": "2016-02-04T12:56:52+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -2886,7 +2859,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-04 07:55:57"
+            "time": "2016-03-04T07:55:57+00:00"
         }
     ],
     "aliases": [],
@@ -2897,5 +2870,6 @@
     "platform": {
         "php": ">=5.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
